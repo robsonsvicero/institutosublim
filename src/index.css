@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens visuais */
+:root {
+  --color-primary: #9FFF00;
+  --color-primary-dark: #00420D;
+  --color-text: #333333;
+  --bg-neutral: #F6F7F8;
+  --footer-bg: #101828;
+  --font-titulo: 'Montserrat', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  @apply font-body text-text-dark bg-white;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.hero-bg {
+  padding-block: 6.25rem;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay {
+  background: linear-gradient(180deg, rgba(3, 7, 18, 0.45), rgba(3, 7, 18, 0.65));
+}
+
+.hero-cta {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.text-h1 {
+  font-style: normal;
+}
+
+/* CTA styles quick helpers */
+.btn-primary {
+  font-family: var(--font-body);
+  background: var(--color-primary);
+  color: var(--color-primary-dark);
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: .75rem 1.5rem;
+}
+
+.btn-primary i {
+  margin-right: 12px;
+}
+
+.btn-outline {
+  font-size: 1rem;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  padding: .75rem 1.5rem;
+  border-radius: 10px;
+}
+
+.btn-outline i {
+  margin-left: 12px;
+}
