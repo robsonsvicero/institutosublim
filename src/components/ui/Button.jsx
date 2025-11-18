@@ -17,6 +17,7 @@ export default function Button({
   secondary: 'bg-white text-primary-dark hover:bg-gray-50',
   ghost: 'text-neutral hover:bg-white hover:text-primary',
   black: 'bg-black text-white hover:bg-gray-900',
+  red: 'bg-red-500 text-white hover:bg-red-700',
 };
   
   const sizes = {

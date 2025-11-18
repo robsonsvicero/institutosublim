@@ -19,6 +19,11 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsOpen(false);
+  };
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 bg-white lg:bg-transparent shadow-sm lg:shadow-none transition-all duration-300">
@@ -39,6 +44,7 @@ export default function Header() {
               <nav className="hidden lg:flex items-center gap-8">
                 <Link
                   to="/"
+                  onClick={handleLinkClick}
                   className={`text-header transition ${isScrolled
                     ? 'text-[var(--color-text)] hover:text-[var(--color-primary)]'
                     : 'text-white/90 hover:text-white'
@@ -48,6 +54,7 @@ export default function Header() {
                 </Link>
                 <Link
                   to="/nossa-historia"
+                  onClick={handleLinkClick}
                   className={`text-header transition ${isScrolled
                     ? 'text-[var(--color-text)] hover:text-[var(--color-primary)]'
                     : 'text-white/80 hover:text-white'
@@ -57,6 +64,7 @@ export default function Header() {
                 </Link>
                 <Link
                   to="/nossos-projetos"
+                  onClick={handleLinkClick}
                   className={`text-header transition ${isScrolled
                     ? 'text-[var(--color-text)] hover:text-[var(--color-primary)]'
                     : 'text-white/80 hover:text-white'
@@ -64,17 +72,19 @@ export default function Header() {
                 >
                   Nossos Projetos
                 </Link>
-                <a
-                  href="#transparency"
+                <Link
+                  to="/transparencia"
+                  onClick={handleLinkClick}
                   className={`text-header transition ${isScrolled
                     ? 'text-[var(--color-text)] hover:text-[var(--color-primary)]'
                     : 'text-white/80 hover:text-white'
                     }`}
                 >
                   Transparência
-                </a>
+                </Link>
                 <Link
                   to="/seja-parceiro"
+                  onClick={handleLinkClick}
                   className={`text-header transition ${isScrolled
                     ? 'text-[var(--color-text)] hover:text-[var(--color-primary)]'
                     : 'text-white/80 hover:text-white'
@@ -82,22 +92,25 @@ export default function Header() {
                 >
                   Seja Parceiro
                 </Link>
-                <a
-                  href="#contact"
+                <Link
+                  to="/contato"
+                  onClick={handleLinkClick}
                   className={`text-header transition ${isScrolled
                     ? 'text-[var(--color-text)] hover:text-[var(--color-primary)]'
                     : 'text-white/80 hover:text-white'
                     }`}
                 >
                   Contato
-                </a>
+                </Link>
               </nav>
 
               {/* CTA Button - Desktop */}
               <div className="hidden lg:flex">
-                <Button variant="primary" icon="fa-regular fa-heart">
-                  QUERO AJUDAR
-                </Button>
+                <Link to="/doacao" onClick={handleLinkClick}>
+                  <Button variant="primary" icon="fa-regular fa-heart">
+                    QUERO AJUDAR
+                  </Button>
+                </Link>
               </div>
 
               {/* Mobile Menu Button */}
@@ -127,7 +140,7 @@ export default function Header() {
               <nav className="flex flex-col items-center gap-8 py-8">
                 <Link
                   to="/"
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleLinkClick}
                   className="text-xl font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition"
                 >
                   Início
@@ -135,54 +148,54 @@ export default function Header() {
 
                 <Link
                   to="/nossa-historia"
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleLinkClick}
                   className="text-xl font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition"
                 >
                   Nossa História
                 </Link>
 
-                <a
-                  href="#projects"
-                  onClick={() => setIsOpen(false)}
+                <Link
+                  to="/nossos-projetos"
+                  onClick={handleLinkClick}
                   className="text-xl font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition"
                 >
                   Nossos Projetos
-                </a>
+                </Link>
 
-                <a
-                  href="#transparency"
-                  onClick={() => setIsOpen(false)}
+                <Link
+                  to="/transparencia"
+                  onClick={handleLinkClick}
                   className="text-xl font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition"
                 >
                   Transparência
-                </a>
+                </Link>
 
                 <Link
                   to="/seja-parceiro"
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleLinkClick}
                   className="text-xl font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition"
                 >
                   Seja Parceiro
                 </Link>
 
-                <a
-                  href="#contact"
-                  onClick={() => setIsOpen(false)}
+                <Link
+                  to="/contato"
+                  onClick={handleLinkClick}
                   className="text-xl font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition"
                 >
                   Contato
-                </a>
+                </Link>
 
                 <div className="mt-8 w-full max-w-xs">
-                  <a
-                    href="#donate"
-                    onClick={() => setIsOpen(false)}
+                  <Link
+                    to="/doacao"
+                    onClick={handleLinkClick}
                     className="btn-primary w-full inline-flex items-center justify-center text-base py-4"
                   >
                     <Button variant="primary" icon="fa-regular fa-heart">
                       QUERO AJUDAR
                     </Button>
-                  </a>
+                  </Link>
                 </div>
               </nav>
             </div>

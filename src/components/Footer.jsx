@@ -1,6 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
+  const handleLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="py-16" style={{ background: '#1a202c', color: '#cbd5e1' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,19 +39,19 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">Institucional</h3>
             <ul className="space-y-3">
               <li>
-                <a href="/nossa-historia" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/nossa-historia" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Nossa História
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#transparency" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/transparencia" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Transparência
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/contato" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Contato
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#terms" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
@@ -61,24 +66,24 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">Apoie</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#donate" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/doacao" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Doar Agora
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#volunteer" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/seja-parceiro" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Seja Voluntário
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#partner" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/seja-parceiro" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Seja Parceiro
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#projects" className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/nossos-projetos" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Nossos Projetos
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -117,6 +122,15 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-75">
             <p>© 2025 Instituto Sublim. Todos os direitos reservados.</p>
             <p>CNPJ: 12.345.678/0001-90 | Utilidade Pública</p>
+            <div className='flex flex-col justify-center item-center'>
+              <p className='text-center'>Desenvolvido por</p>
+              <a 
+              href="http://robsonsvicero.com.br"
+              target="_blank"  
+              rel="noopener noreferrer">
+                <img src="/images/logo_Robson Svicero.png" alt="Robson Svicero" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

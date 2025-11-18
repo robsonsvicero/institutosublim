@@ -30,9 +30,9 @@ export default function BePartner() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Formulário enviado:', formData);
-    // Aqui você adicionaria a lógica de envio
+    // Permite que o formulário seja enviado normalmente
+    // O FormSubmit irá redirecionar automaticamente
+    console.log('Formulário sendo enviado...');
   };
 
   return (
@@ -327,7 +327,19 @@ export default function BePartner() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8">
+            <form 
+              onSubmit={handleSubmit}
+              action="https://formsubmit.co/robsonsvicero.designer@gmail.com"
+              method="POST"
+              className="bg-white rounded-2xl shadow-lg p-8"
+            >
+              {/* Hidden fields for FormSubmit configuration */}
+              <input type="hidden" name="_subject" value="Nova Proposta de Parceria - Instituto Sublim" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
+              <input type="hidden" name="_next" value="http://localhost:5173/seja-parceiro" />
+              
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="block text-sm font-medium mb-2">Nome Completo *</label>
