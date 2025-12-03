@@ -7,8 +7,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="py-16" style={{ background: '#1a202c', color: '#cbd5e1' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="pt-[50px] pb-[24px] px-[16px] lg:pt-[100px] lg:px-[204px]" style={{ background: '#1a202c', color: '#cbd5e1' }}>
+      <div className="max-w-7xl mx-auto">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Logo e Descrição */}
@@ -26,10 +26,10 @@ export default function Footer() {
                 <i className="fab fa-instagram text-lg"></i>
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition">
-                <i className="fab fa-behance text-lg"></i>
+                <i className="fa-brands fa-facebook text-lg"></i>
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition">
-                <i className="fas fa-envelope text-lg"></i>
+                <i className="fa-brands fa-whatsapp text-lg"></i>
               </a>
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/seja-parceiro" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                <Link to="/seja-voluntario" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
                   Seja Voluntário
                 </Link>
               </li>
@@ -95,7 +95,7 @@ export default function Footer() {
         {/* Contact Info */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="flex items-start gap-3">
-            <i className="fas fa-map-marker-alt text-primary mt-1"></i>
+            <i className="fas fa-map-marker-alt text-primary-500 mt-1"></i>
             <div className="text-sm">
               <p>R. Albertina Vieira da Silva Gordo, 154</p>
               <p className="opacity-75">Vila Aurora (Zona Norte), São Paulo - SP</p>
@@ -103,14 +103,14 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center gap-3">
-            <i className="fas fa-phone text-primary"></i>
+            <i className="fas fa-phone text-primary-500"></i>
             <a href="tel:+5511975911225" className="text-sm hover:text-white transition">
               (11) 97591-1225
             </a>
           </div>
 
           <div className="flex items-center gap-3">
-            <i className="fas fa-envelope text-primary"></i>
+            <i className="fas fa-envelope text-primary-500"></i>
             <a href="mailto:contato@institutosublim.org.br" className="text-sm hover:text-white transition">
               contato@institutosublim.org.br
             </a>

@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
 import Button from '../components/ui/Button';
 
-export default function BePartner() {
+export default function BeVolunteer() {
   const [formData, setFormData] = useState({
     nomeCompleto: '',
-    nomeEmpresa: '',
-    cargo: '',
     email: '',
     telefone: '',
-    tipoEmpresa: '',
-    numFuncionarios: '',
-    areaAtuacao: '',
-    tiposParceria: [],
+    idade: '',
+    profissao: '',
+    habilidades: [],
+    disponibilidade: '',
+    frequencia: '',
+    interesse: [],
+    experiencia: '',
     mensagem: ''
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     if (type === 'checkbox') {
+      const arrayName = name;
       setFormData(prev => ({
         ...prev,
-        tiposParceria: checked 
-          ? [...prev.tiposParceria, value]
-          : prev.tiposParceria.filter(item => item !== value)
+        [arrayName]: checked
+          ? [...prev[arrayName], value]
+          : prev[arrayName].filter(item => item !== value)
       }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
@@ -31,331 +33,345 @@ export default function BePartner() {
   };
 
   const handleSubmit = (e) => {
-    // Permite que o formulário seja enviado normalmente
-    // O FormSubmit irá redirecionar automaticamente
     console.log('Formulário sendo enviado...');
   };
 
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative h-[780px] pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px] bg-cover bg-center flex items-center" style={{ backgroundImage: 'url(/images/hero-parceiro.png)' }}>
+      <section className="relative h-[780px] pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px] bg-cover bg-center flex items-center" style={{ backgroundImage: 'url(/images/hero-voluntario.png)' }}>
         <div className="absolute inset-0 bg-black/50"></div>
-        
+
         <div className="container mx-auto relative z-10">
           <div className="max-w-3xl text-white">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 border-2 border-primary-500 px-4 py-2 rounded-full mb-6">
-              <i className="fas fa-handshake text-sm text-primary-500"></i>
-              <span className="text-sm font-semibold text-primary-500">Parcerias que Transformam</span>
+              <i className="fas fa-hands-helping text-sm text-primary-500"></i>
+              <span className="text-sm font-semibold text-primary-500">Seja a Mudança</span>
             </div>
 
             {/* Title */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Amplifique Seu Impacto Social
+              Transforme Vidas com Seu Talento
             </h1>
 
             {/* Description */}
             <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
-              Junte-se a empresas visionárias que escolheram o Instituto Sublim como parceiro estratégico para transformar vidas e comunidades na Zona Norte de São Paulo.
+              Junte-se a centenas de voluntários que dedicam seu tempo, talento e energia para criar oportunidades reais e transformar a realidade de famílias na Zona Norte de São Paulo.
             </p>
 
             {/* Buttons */}
-            <div className="w-full flex flex-col sm:flex-row gap-4 mb-12">
-              <a href="#partner-form" className='w-full'>
-                <Button variant="primary" size="lg" icon="fas fa-handshake" className='w-full'>
-                  Quero Ser Parceiro
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <a href="#volunteer-form" className='w-full'>
+                <Button variant="primary" size="lg" icon="fas fa-heart" className="w-full">
+                  Quero Ser Voluntário
                 </Button>
               </a>
-              <a href="/nossos-projetos" className='w-full'>
-              <Button variant="outline" size="lg" className='w-full'>
-                Ver Nosso Impacto
-              </Button>
+              <a href="#volunteer-opportunities" className='w-full'>
+                <Button variant="outline" className='w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-primary-500 font-semibold py-3 px-6 rounded-xl border border-primary-500/30 transition-colors' size="lg">
+                  Ver Oportunidades
+                </Button>
               </a>
-              
+
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8">
               <div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 text-teal-400">2.847</div>
-                <div className="text-sm opacity-90">Vidas Transformadas</div>
+                <div className="text-4xl md:text-5xl font-bold mb-2 text-primary">350+</div>
+                <div className="text-sm opacity-90">Voluntários Ativos</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-400">95%</div>
-                <div className="text-sm opacity-90">Taxa de Empregabilidade</div>
+                <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-400">12mil</div>
+                <div className="text-sm opacity-90">Horas Doadas em 2024</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 text-purple-400">45</div>
-                <div className="text-sm opacity-90">Comunidades Atendidas</div>
+                <div className="text-4xl md:text-5xl font-bold mb-2 text-pink-400">200+</div>
+                <div className="text-sm opacity-90">Famílias Impactadas</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Section */}
+      {/* Why Volunteer Section */}
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Por Que Escolher o Instituto Sublim?
+              Por Que Ser Voluntário no Instituto Sublim?
             </h2>
             <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              Nossa metodologia comprovada garante transparência total e impacto mensurável para sua estratégia ESG
+              Mais do que doar seu tempo, você se torna parte de uma comunidade que acredita no poder da transformação social
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {/* Card 1 - Transparência Total */}
+            {/* Card 1 - Impacto Real */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-shield-alt text-2xl text-white"></i>
+                <i className="fas fa-heart text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Transparência Total
+                Impacto Real e Mensurável
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Relatórios detalhados mensais com métricas de impacto e uso de recursos. Auditoria independente anual.
+                Veja o resultado direto do seu trabalho na vida das pessoas. Cada ação voluntária gera transformação visível e duradoura.
               </p>
             </div>
 
-            {/* Card 2 - ROI Social Mensurável */}
+            {/* Card 2 - Desenvolvimento Pessoal */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-chart-line text-2xl text-white"></i>
+                <i className="fas fa-user-graduate text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                ROI Social Mensurável
+                Desenvolvimento Pessoal
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Acompanhe o retorno social do investimento com indicadores claros: pessoas capacitadas, empregos gerados, famílias transformadas.
+                Aprenda novas habilidades, desenvolva competências socioemocionais e amplie sua rede de contatos com pessoas inspiradoras.
               </p>
             </div>
 
-            {/* Card 3 - Certificações ESG */}
+            {/* Card 3 - Flexibilidade */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-award text-2xl text-white"></i>
+                <i className="fas fa-clock text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Certificações ESG
+                Flexibilidade Total
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Contribua para os objetivos ESG da sua empresa com certificações reconhecidas e relatórios para stakeholders.
+                Escolha quando e como participar. Temos oportunidades presenciais, remotas, pontuais ou recorrentes que se adaptam à sua rotina.
               </p>
             </div>
 
-            {/* Card 4 - Impacto Escalável */}
-            <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-globe text-2xl text-white"></i>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Impacto Escalável
-              </h3>
-              <p className="text-gray-700 leading-relaxed">
-                Projetos estruturados para crescimento sustentável com metodologias comprovadas e resultados replicáveis.
-              </p>
-            </div>
-
-            {/* Card 5 - Engajamento da Equipe */}
+            {/* Card 4 - Comunidade */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
                 <i className="fas fa-users text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Engajamento da Equipe
+                Comunidade Engajada
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Oportunidades de voluntariado que fortalecem a cultura organizacional e desenvolvem lideranças.
+                Faça parte de uma rede de pessoas que compartilham os mesmos valores e o desejo de fazer a diferença no mundo.
               </p>
             </div>
 
-            {/* Card 6 - Visibilidade Estratégica */}
+            {/* Card 5 - Reconhecimento */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-bullseye text-2xl text-white"></i>
+                <i className="fas fa-certificate text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Visibilidade Estratégica
+                Certificação e Reconhecimento
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Associe sua marca a uma causa relevante com comunicação integrada e eventos exclusivos para stakeholders.
+                Receba certificados de participação e reconhecimento público pelas suas contribuições e dedicação ao Instituto.
+              </p>
+            </div>
+
+            {/* Card 6 - Propósito */}
+            <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
+              <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
+                <i className="fas fa-star text-2xl text-white"></i>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Vida com Propósito
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Encontre significado e satisfação pessoal ao contribuir para uma causa maior e fazer parte da mudança que o mundo precisa.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Partnership Models */}
-      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-100">
+      {/* Volunteer Opportunities */}
+      <section id='volunteer-opportunities' className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-100">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Modalidades de Parceria
+              Áreas de Atuação Voluntária
             </h2>
             <p className="text-lg text-gray-600">
-              Escolha a forma de apoio que melhor se alinha aos objetivos da sua empresa
+              Encontre a oportunidade que mais combina com suas habilidades e disponibilidade
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto auto-rows-fr">
-            {/* Card 1 - Verde */}
+            {/* Card 1 - Educação */}
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
               <div className="bg-gradient-to-br from-green-500 to-green-600 p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
+                    <i className="fas fa-chalkboard-teacher text-white text-xl"></i>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Educação e Capacitação
+                  </h3>
+                </div>
+                <p className="text-white/90 text-sm">
+                  Presencial ou Remoto
+                </p>
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <p className="text-gray-700 mb-6 text-sm">
+                  Ensine suas habilidades profissionais, dê aulas de reforço ou alfabetização de adultos
+                </p>
+                <ul className="space-y-3 mb-6 flex-1">
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Aulas de informática e digitação</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Reforço escolar para crianças</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Alfabetização de adultos</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Workshops profissionalizantes</span>
+                  </li>
+                </ul>
+                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                  <span>Quero Ensinar</span>
+                  <i className="fas fa-arrow-right text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            {/* Card 2 - Artes e Cultura */}
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
+              <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
+                    <i className="fas fa-palette text-white text-xl"></i>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Artes e Cultura
+                  </h3>
+                </div>
+                <p className="text-white/90 text-sm">
+                  Presencial
+                </p>
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <p className="text-gray-700 mb-6 text-sm">
+                  Compartilhe seu talento artístico e cultural com crianças e jovens da comunidade
+                </p>
+                <ul className="space-y-3 mb-6 flex-1">
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Oficinas de música e instrumentos</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Teatro e expressão corporal</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Artes plásticas e pintura</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Dança e movimento</span>
+                  </li>
+                </ul>
+                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                  <span>Compartilhar Arte</span>
+                  <i className="fas fa-arrow-right text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            {/* Card 3 - Gestão e Administração */}
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
                     <i className="fas fa-briefcase text-white text-xl"></i>
                   </div>
                   <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
+                    Gestão e Administração
                   </h3>
                 </div>
                 <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
+                  Remoto ou Presencial
                 </p>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
+                  Use suas habilidades profissionais para fortalecer a gestão e operação do instituto
                 </p>
                 <ul className="space-y-3 mb-6 flex-1">
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Consultoria em gestão e processos</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Apoio administrativo e financeiro</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Marketing e comunicação</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Captação de recursos</span>
                   </li>
                 </ul>
                 <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Saiba Mais</span>
+                  <span>Aplicar Expertise</span>
                   <i className="fas fa-arrow-right text-sm"></i>
                 </button>
               </div>
             </div>
 
-            {/* Card 2 - Laranja */}
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
-              <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
-                    <i className="fas fa-handshake text-white text-xl"></i>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
-                  </h3>
-                </div>
-                <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
-                </p>
-              </div>
-              <div className="p-6 flex-1 flex flex-col">
-                <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
-                </p>
-                <ul className="space-y-3 mb-6 flex-1">
-                  <li className="flex items-center gap-2 text-sm text-gray-700">
-                    <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-gray-700">
-                    <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em eventos</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-gray-700">
-                    <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Relatórios mensais</span>
-                  </li>
-                </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Saiba Mais</span>
-                  <i className="fas fa-arrow-right text-sm"></i>
-                </button>
-              </div>
-            </div>
-
-            {/* Card 3 - Roxo */}
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
-                    <i className="fas fa-graduation-cap text-white text-xl"></i>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
-                  </h3>
-                </div>
-                <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
-                </p>
-              </div>
-              <div className="p-6 flex-1 flex flex-col">
-                <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
-                </p>
-                <ul className="space-y-3 mb-6 flex-1">
-                  <li className="flex items-center gap-2 text-sm text-gray-700">
-                    <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Plano sob medida</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-gray-700">
-                    <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo sob medida</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-gray-700">
-                    <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo sob medida</span>
-                  </li>
-                </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Saiba Mais</span>
-                  <i className="fas fa-arrow-right text-sm"></i>
-                </button>
-              </div>
-            </div>
-
-            {/* Card 4 - Azul/Teal */}
+            {/* Card 4 - Eventos e Apoio */}
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
-                    <i className="fas fa-bullseye text-white text-xl"></i>
+                    <i className="fas fa-calendar-check text-white text-xl"></i>
                   </div>
                   <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
+                    Eventos e Ações Pontuais
                   </h3>
                 </div>
                 <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
+                  Presencial - Flexível
                 </p>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
+                  Participe de ações específicas e eventos especiais sem compromisso de longo prazo
                 </p>
                 <ul className="space-y-3 mb-6 flex-1">
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Plano sob medida</span>
+                    <span>Festas e celebrações comunitárias</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Acompanhamento dedicado</span>
+                    <span>Distribuição de cestas básicas</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Mutirões e reformas</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Campanhas especiais</span>
                   </li>
                 </ul>
                 <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Saiba Mais</span>
+                  <span>Participar de Eventos</span>
                   <i className="fas fa-arrow-right text-sm"></i>
                 </button>
               </div>
@@ -369,58 +385,60 @@ export default function BePartner() {
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              O Que Nossos Parceiros Dizem
+              Histórias de Quem Transforma
             </h2>
             <p className="text-lg text-gray-600">
-              Depoimentos de empresas que já transformam vidas conosco
+              Conheça voluntários que encontraram propósito ao dedicar seu tempo ao Instituto Sublim
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {[
               {
-                text: 'Nossa parceria com o Instituto Sublim transformou nossa abordagem ESG. Em 18 meses, vimos 847 pessoas capacitadas com 95% de taxa de empregabilidade. O ROI social é impressionante.',
-                name: 'Mary Jane',
-                role: 'Diretora de Sustentabilidade',
-                company: 'Parceiro 01',
-                avatar: '/images/avatar1.jpg'
+                text: 'Comecei dando aulas de informática aos sábados e vi meus alunos conseguirem emprego. A gratidão nos olhos deles não tem preço. Hoje coordeno a área de tecnologia e capacitamos 40 pessoas por mês.',
+                name: 'Carlos Silva',
+                role: 'Voluntário desde 2022',
+                area: 'Professor de Informática',
+                avatar: '/images/volunteer1.jpg'
               },
               {
-                text: 'O Instituto Sublim é um exemplo de eficiência e transparência. Nossa equipe se sente orgulhosa de fazer parte desta transformação real na Zona Norte de São Paulo.',
-                name: 'John Doe',
-                role: 'CEO',
-                company: 'Parceiro 02',
-                avatar: '/images/avatar2.jpg'
+                text: 'Sempre quis fazer diferença, mas não sabia como. No Instituto encontrei meu lugar. Ensino música para crianças e vejo como isso transforma a autoestima e abre portas para elas.',
+                name: 'Ana Paula Santos',
+                role: 'Voluntária desde 2023',
+                area: 'Professora de Música',
+                avatar: '/images/volunteer2.jpg'
               },
               {
-                text: 'Investimos R$ 50mil e acompanhamos cada centavo sendo transformado em oportunidades reais. A transparência e os resultados superaram nossas expectativas.',
-                name: 'Selina Kyle',
-                role: 'Head de Responsabilidade Social',
-                company: 'Parceiro 03',
-                avatar: '/images/avatar3.jpg'
+                text: 'Como advogada, ajudo o instituto com consultoria jurídica. É gratificante usar minha formação para garantir que essa organização incrível funcione perfeitamente e alcance mais pessoas.',
+                name: 'Mariana Costa',
+                role: 'Voluntária desde 2021',
+                area: 'Consultora Jurídica',
+                avatar: '/images/volunteer3.jpg'
               }
             ].map((testimonial, idx) => (
-              <div key={idx} className="bg-teal-50 rounded-2xl p-8 relative">
-                <div className="mb-6">
+              <div key={idx} className="bg-teal-50 rounded-2xl p-8 relative flex flex-col">
+                <div className="flex-1">
                   <svg className="w-8 h-8 text-teal-500 mb-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                   </svg>
                   <p className="text-gray-700 text-sm leading-relaxed">
                     {testimonial.text}
                   </p>
                   <svg className="w-8 h-8 text-teal-500 mt-4 ml-auto" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/>
+                    <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
                   </svg>
                 </div>
-                <div className="flex items-center gap-3 pt-6 border-t border-gray-300">
-                  <div className="w-14 h-14 rounded-full bg-gray-300 overflow-hidden">
-                    <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+                <div className="flex items-center justify-between pt-6 border-t border-gray-300">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-full bg-gray-300 overflow-hidden">
+                      <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+                    </div>
+                    <div>
+                      <div className="font-bold text-gray-900">{testimonial.name}</div>
+                      <div className="text-sm text-gray-600">{testimonial.role}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-bold text-gray-900">{testimonial.name}</div>
-                    <div className="text-sm text-gray-600">{testimonial.role}</div>
-                    <div className="text-xs text-teal-500 font-semibold mt-1">{testimonial.company}</div>
-                  </div>
+                  <div className="text-xs text-teal-500 font-semibold">{testimonial.area}</div>
                 </div>
               </div>
             ))}
@@ -428,20 +446,20 @@ export default function BePartner() {
         </div>
       </section>
 
-      {/* Contact Form */}
-      <section id='partner-form' className="pt-[50px] px-[16px] lg:pt-[100px] lg:px-[204px] pb-12 bg-gray-100">
+      {/* Volunteer Form */}
+      <section id='volunteer-form' className="pt-[50px] px-[16px] lg:pt-[100px] lg:px-[204px] pb-12 bg-gray-100">
         <div className="container mx-auto">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
               <h2 className="text-3xl lg:text-4xl font-bold mb-3 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Vamos Conversar Sobre Sua Parceria
+                Cadastre-se Como Voluntário
               </h2>
               <p className="text-base text-gray-600">
-                Preencha o formulário e nossa equipe entrará em contato em até 24 horas com uma proposta personalizada
+                Preencha o formulário e nossa equipe entrará em contato para alinhar a melhor forma de você contribuir
               </p>
             </div>
 
-            <form 
+            <form
               onSubmit={handleSubmit}
               action="https://formsubmit.co/hello@robsonsvicero.com.br"
               method="POST"
@@ -449,32 +467,20 @@ export default function BePartner() {
             >
               {/* Header do Formulário */}
               <div className="bg-gradient-to-r from-teal-500 to-blue-600 rounded-t-xl -mx-8 -mt-8 mb-8 p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Formulário de Qualificação</h3>
-                <p className="text-white/90 text-sm">Todas as informações são confidenciais e utilizadas apenas para personalizar nossa proposta</p>
+                <h3 className="text-xl font-bold text-white mb-2">Inscrição de Voluntário</h3>
+                <p className="text-white/90 text-sm">Queremos conhecer você e entender como pode contribuir com nossos projetos</p>
               </div>
 
               {/* Hidden fields for FormSubmit configuration */}
-              <input type="hidden" name="_subject" value="Nova Proposta de Parceria - Instituto Sublim" />
+              <input type="hidden" name="_subject" value="Nova Inscrição de Voluntário - Instituto Sublim" />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
               <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
-              <input type="hidden" name="_next" value="http://localhost:5173/seja-parceiro" />
-              
+              <input type="hidden" name="_next" value="http://localhost:5173/seja-voluntario" />
+
               <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">Nome da Empresa *</label>
-                  <input
-                    type="text"
-                    name="nomeEmpresa"
-                    value={formData.nomeEmpresa}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Digite seu nome..."
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">Nome de Contato *</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-900">Nome Completo *</label>
                   <input
                     type="text"
                     name="nomeCompleto"
@@ -482,14 +488,11 @@ export default function BePartner() {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Digite seu nome..."
+                    placeholder="Digite seu nome completo..."
                   />
                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">E-mail Corporativo *</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-900">E-mail *</label>
                   <input
                     type="email"
                     name="email"
@@ -497,11 +500,14 @@ export default function BePartner() {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Digite seu melhor e-mail..."
+                    placeholder="seu.email@exemplo.com"
                   />
                 </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">Telefone *</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-900">Telefone/WhatsApp *</label>
                   <input
                     type="tel"
                     name="telefone"
@@ -512,87 +518,112 @@ export default function BePartner() {
                     placeholder="(00) 00000-0000"
                   />
                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">Seu Cargo/Função</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-900">Idade</label>
                   <input
-                    type="text"
-                    name="cargo"
-                    value={formData.cargo}
+                    type="number"
+                    name="idade"
+                    value={formData.idade}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Ex: Diretor de Sustentabilidade"
+                    placeholder="Sua idade"
+                    min="16"
+                    max="100"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">Porte da Empresa</label>
-                  <select
-                    name="tipoEmpresa"
-                    value={formData.tipoEmpresa}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white"
-                  >
-                    <option value="">Selecione o porte</option>
-                    <option value="pequena">Pequena</option>
-                    <option value="media">Média</option>
-                    <option value="grande">Grande</option>
-                    <option value="multinacional">Multinacional</option>
-                  </select>
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-sm font-medium mb-2 text-gray-900">Profissão/Área de Atuação</label>
+                <input
+                  type="text"
+                  name="profissao"
+                  value={formData.profissao}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  placeholder="Ex: Professor, Designer, Engenheiro, Estudante..."
+                />
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-sm font-medium mb-3 text-gray-900">Habilidades que Gostaria de Compartilhar (selecione todas que se aplicam)</label>
+                <div className="grid md:grid-cols-2 gap-3">
+                  {[
+                    { value: 'educacao', label: 'Educação e ensino' },
+                    { value: 'tecnologia', label: 'Tecnologia e informática' },
+                    { value: 'artes', label: 'Artes e cultura' },
+                    { value: 'esportes', label: 'Esportes e recreação' },
+                    { value: 'administracao', label: 'Administração e gestão' },
+                    { value: 'marketing', label: 'Marketing e comunicação' },
+                    { value: 'financeiro', label: 'Financeiro e contabilidade' },
+                    { value: 'juridico', label: 'Jurídico' }
+                  ].map((skill) => (
+                    <label key={skill.value} className="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
+                      <input
+                        type="checkbox"
+                        name="habilidades"
+                        value={skill.value}
+                        onChange={handleChange}
+                        className="w-4 h-4 text-teal-500 focus:ring-teal-500 border-gray-300 rounded"
+                      />
+                      <span>{skill.label}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">Tipo de Parceria de Interesse</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-900">Disponibilidade</label>
                   <select
-                    name="tipoParceria"
-                    value={formData.tipoParceria || ''}
+                    name="disponibilidade"
+                    value={formData.disponibilidade}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white"
                   >
-                    <option value="">Selecione uma modalidade</option>
-                    <option value="patrocinio">Patrocínio Financeiro</option>
-                    <option value="inkind">Patrocínio in-kind</option>
-                    <option value="produtos">Doação de Produtos</option>
-                    <option value="voluntariado">Voluntariado Corporativo</option>
+                    <option value="">Selecione sua disponibilidade</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                    <option value="finais-semana">Finais de Semana</option>
+                    <option value="flexivel">Flexível</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-900">Orçamento Anual ESG</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-900">Frequência Desejada</label>
                   <select
-                    name="orcamento"
-                    value={formData.orcamento || ''}
+                    name="frequencia"
+                    value={formData.frequencia}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white"
                   >
-                    <option value="">Faixa de investimento</option>
-                    <option value="ate50k">Até R$ 50.000</option>
-                    <option value="50k-100k">R$ 50.000 - R$ 100.000</option>
-                    <option value="100k-500k">R$ 100.000 - R$ 500.000</option>
-                    <option value="500k+">Acima de R$ 500.000</option>
+                    <option value="">Selecione a frequência</option>
+                    <option value="semanal">Semanal</option>
+                    <option value="quinzenal">Quinzenal</option>
+                    <option value="mensal">Mensal</option>
+                    <option value="pontual">Pontual/Eventos</option>
+                    <option value="remoto">Remoto quando possível</option>
                   </select>
                 </div>
               </div>
 
               <div className="mb-5">
-                <label className="block text-sm font-medium mb-3 text-gray-900">Áreas de Interesse (selecione todos que se aplicam)</label>
+                <label className="block text-sm font-medium mb-3 text-gray-900">Áreas de Interesse (selecione todas que deseja atuar)</label>
                 <div className="grid md:grid-cols-2 gap-3">
                   {[
                     { value: 'capacitacao', label: 'Capacitação profissional' },
-                    { value: 'educacao', label: 'Educação Infantil' },
-                    { value: 'empreendedorismo', label: 'Empreendedorismo' },
-                    { value: 'tecnologia', label: 'Tecnologia e inclusão digital' },
-                    { value: 'musica', label: 'Música' },
-                    { value: 'meio-ambiente', label: 'Meio ambiente' },
-                    { value: 'voluntariado', label: 'Voluntariado corporativo' },
-                    { value: 'lideranca', label: 'Desenvolvimento de lideranças' }
+                    { value: 'educacao-infantil', label: 'Educação infantil' },
+                    { value: 'alfabetizacao', label: 'Alfabetização de adultos' },
+                    { value: 'oficinas-culturais', label: 'Oficinas culturais' },
+                    { value: 'eventos', label: 'Eventos e celebrações' },
+                    { value: 'gestao', label: 'Gestão e administração' },
+                    { value: 'comunicacao', label: 'Comunicação e redes sociais' },
+                    { value: 'captacao', label: 'Captação de recursos' }
                   ].map((area) => (
                     <label key={area.value} className="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
                       <input
                         type="checkbox"
-                        name="areasInteresse"
+                        name="interesse"
                         value={area.value}
                         onChange={handleChange}
                         className="w-4 h-4 text-teal-500 focus:ring-teal-500 border-gray-300 rounded"
@@ -604,30 +635,30 @@ export default function BePartner() {
               </div>
 
               <div className="mb-5">
-                <label className="block text-sm font-medium mb-2 text-gray-900">Timeline para Início da Parceria</label>
+                <label className="block text-sm font-medium mb-2 text-gray-900">Já Teve Experiência com Voluntariado?</label>
                 <select
-                  name="timeline"
-                  value={formData.timeline || ''}
+                  name="experiencia"
+                  value={formData.experiencia}
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white"
                 >
-                  <option value="">Quando gostaria de começar?</option>
-                  <option value="imediato">Imediato</option>
-                  <option value="1-3meses">1 a 3 meses</option>
-                  <option value="3-6meses">3 a 6 meses</option>
-                  <option value="6-12meses">6 a 12 meses</option>
+                  <option value="">Selecione</option>
+                  <option value="primeira-vez">Esta será minha primeira vez</option>
+                  <option value="pouca">Pouca experiência</option>
+                  <option value="moderada">Experiência moderada</option>
+                  <option value="muita">Muita experiência</option>
                 </select>
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium mb-2 text-gray-900">Mensagem Adicional</label>
+                <label className="block text-sm font-medium mb-2 text-gray-900">Conte-nos Mais Sobre Você</label>
                 <textarea
                   name="mensagem"
                   value={formData.mensagem}
                   onChange={handleChange}
                   rows="4"
                   className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="Conte-nos mais sobre seus objetivos ESG e como podemos ajudar..."
+                  placeholder="Por que você quer ser voluntário? O que espera dessa experiência? Compartilhe conosco..."
                 ></textarea>
               </div>
 
@@ -639,9 +670,9 @@ export default function BePartner() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-blue-900 mb-1">Compromisso de Privacidade:</p>
+                    <p className="text-sm font-semibold text-blue-900 mb-1">Próximos Passos:</p>
                     <p className="text-xs text-blue-800">
-                      Suas informações são tratadas com total confidencialidade conforme LGPD. Utilizamos os dados apenas para personalizar nossa proposta de parceria.
+                      Após o envio, nossa equipe analisará seu perfil e entrará em contato em até 48 horas para agendar uma conversa e apresentar as oportunidades disponíveis.
                     </p>
                   </div>
                 </div>
@@ -651,8 +682,8 @@ export default function BePartner() {
                 type="submit"
                 className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3.5 rounded-lg font-semibold transition flex items-center justify-center gap-2"
               >
-                <i className="fas fa-paper-plane"></i>
-                <span>Enviar Solicitação de Parceria</span>
+                <i className="fas fa-heart"></i>
+                <span>Quero Ser Voluntário</span>
               </button>
             </form>
           </div>
@@ -664,14 +695,14 @@ export default function BePartner() {
         <div className="container mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-3xl lg:text-4xl font-bold mb-3 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Prefere Falar Diretamente Conosco?
+              Dúvidas Sobre o Voluntariado?
             </h2>
             <p className="text-base text-gray-600">
-              Nossa equipe de parcerias está pronta para atender sua empresa
+              Entre em contato com nossa coordenação de voluntários
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-6">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-6">
             <div className="text-center">
               <div className="w-16 h-16 rounded-2xl bg-teal-500 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -679,8 +710,8 @@ export default function BePartner() {
                 </svg>
               </div>
               <h3 className="text-sm font-medium text-gray-500 mb-2">E-mail</h3>
-              <a href="mailto:parcerias@institutosublim.org.br" className="text-sm font-semibold text-gray-900 hover:text-teal-500 transition">
-                parcerias@institutosublim.org.br
+              <a href="mailto:voluntariado@institutosublim.org.br" className="text-sm font-semibold text-gray-900 hover:text-teal-500 transition">
+                voluntariado@institutosublim.org.br
               </a>
             </div>
 
@@ -690,23 +721,28 @@ export default function BePartner() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Telefone</h3>
-              <a href="tel:+551132167894" className="text-sm font-semibold text-gray-900 hover:text-blue-500 transition">
-                (11) 3216-7894
+              <h3 className="text-sm font-medium text-gray-500 mb-2">WhatsApp</h3>
+              <a href="https://wa.me/5511932167894" className="text-sm font-semibold text-gray-900 hover:text-blue-500 transition">
+                (11) 93216-7894
               </a>
             </div>
 
-            <div className="text-center">
+            {/* <div className="text-center">
               <div className="w-16 h-16 rounded-2xl bg-purple-500 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Agendamento</h3>
-              <a href="#schedule" className="text-sm font-semibold text-gray-900 hover:text-purple-500 transition">
-                Reunião Personalizada
-              </a>
-            </div>
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Redes Sociais</h3>
+              <div className="flex justify-center gap-2">
+                <a href="#" className="text-gray-900 hover:text-purple-500 transition">
+                  <i className="fab fa-instagram text-lg"></i>
+                </a>
+                <a href="#" className="text-gray-900 hover:text-purple-500 transition">
+                  <i className="fab fa-facebook text-lg"></i>
+                </a>
+              </div>
+            </div> */}
           </div>
 
           <div className="text-center">
@@ -719,25 +755,24 @@ export default function BePartner() {
 
       {/* Final CTA */}
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gradient-to-r from-green-500 via-teal-500 to-blue-600 text-white">
-        <div className="container mx-auto text-center flex flex-col items-center">
+        <div className="container mx-auto text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-            Transforme Seu ESG em Impacto Real
+            Faça Parte da Transformação
           </h2>
           <p className="text-base md:text-lg opacity-95 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Junte-se a empresas visionárias que escolheram o Instituto Sublim para multiplicar seu impacto social com transparência total e resultados mensuráveis.
+            Cada hora doada, cada talento compartilhado, cada sorriso oferecido multiplica as oportunidades de transformação. Seja voluntário e descubra o poder de fazer a diferença.
           </p>
-          <div className="lg:w-[60%] w-full flex flex-col sm:flex-row gap-4 justify-between items-center">
-            <a href="#partner-form" className='w-full'>
-              <Button variant='primary' icon='fas fa-handshake' className='w-full'>
-                QUERO SER PARCEIRO ESTRATÉGICO
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="#volunteer-form">
+              <Button variant="primary" size="lg" icon="fas fa-heart" className="bg-primary-500 hover:bg-primary-700">
+                INSCREVA-SE COMO VOLUNTÁRIO
               </Button>
             </a>
-            <a href="/transparencia" className='w-full'>
-              <Button variant='outline' icon='fas fa-arrow-right' iconPosition='right' className='w-full'>
-                Ver Nossa Transparência
-              </Button>
+            <a href="/oficinas">
+            <Button variant="outline" size="lg" icon="fas fa-arrow-right" iconPosition="right">
+              Conheça Nossos Projetos
+            </Button>
             </a>
-            
           </div>
         </div>
       </section>

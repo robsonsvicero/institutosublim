@@ -4,6 +4,7 @@ import Button from '../components/ui/Button';
 const Donation = () => {
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [donationType, setDonationType] = useState('monthly');
+  const [showDonationModal, setShowDonationModal] = useState(false);
   const [livesMudadas, setLivesMudadas] = useState(0);
   const [oficinas, setOficinas] = useState(0);
   const [familias, setFamilias] = useState(0);
@@ -53,13 +54,13 @@ const Donation = () => {
   // Counter animation effect for Trust Section (on scroll)
   useEffect(() => {
     const trustSection = document.getElementById('trust-section');
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasAnimatedTrust) {
             setHasAnimatedTrust(true);
-            
+
             const duration = 500;
             const steps = 60;
             const interval = duration / steps;
@@ -107,13 +108,13 @@ const Donation = () => {
   // Counter animation effect for Impact Numbers Section (on scroll)
   useEffect(() => {
     const impactSection = document.getElementById('impact-numbers-section');
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasAnimatedImpact) {
             setHasAnimatedImpact(true);
-            
+
             const duration = 1000;
             const steps = 60;
             const interval = duration / steps;
@@ -238,24 +239,24 @@ const Donation = () => {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section 
-        className="relative h-[764px] bg-cover bg-center"
-        style={{ backgroundImage: 'url(/images/hero_doacao.png)' }}
-      >
-        <div className="absolute inset-0 bg-black/50 flex items-center">
-          <div className="container mx-auto px-6 lg:px-12">
+      <section
+        className="relative h-[780px] bg-cover bg-center pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
+        style={{ backgroundImage: 'url(/images/hero_doacao.png)' }}>
+        <div className="absolute inset-0 bg-black/50 flex items-center pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]">
+          <div className="container mx-auto">
             <div className="max-w-3xl text-white">
-              <div className="inline-block bg-primary/20 backdrop-blur-sm border border-primary/30 rounded-full px-6 py-2 mb-6">
-                <p className="text-sm font-semibold text-white">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 border-2 border-primary-500 px-4 py-2 rounded-full mb-6">
+                <p className="text-sm font-semibold text-primary-500">
                   <i className="fa-regular fa-heart mr-2"></i> Transformando Vidas Juntos
                 </p>
               </div>
-              
+
               <h1 className="text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Sua Doação<br />
                 Salva Vidas
               </h1>
-              
+
               <p className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed">
                 Cada real doado financia oficinas, programas de inclusão e apoio direto às crianças em comunidades reais, educando-as e salvando o mundo.
               </p>
@@ -276,21 +277,25 @@ const Donation = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4">
-                <button 
+              <div className="flex flex-col lg:flex-row mt-20 gap-4">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  icon="fa-regular fa-heart"
+                  className="flex-1 font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
                   onClick={() => document.getElementById('donation-channels')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex-1 bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  <i className="fa-regular fa-heart"></i>
                   QUERO AJUDAR AGORA
-                </button>
-                
-                <button 
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="flex-1 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold"
                   onClick={() => document.getElementById('impact-section')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex-1 border-2 border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300"
                 >
                   Ver Nosso Impacto
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -298,8 +303,8 @@ const Donation = () => {
       </section>
 
       {/* Donation Channels Section */}
-      <section id="donation-channels" className="py-20 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section id="donation-channels" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Canais de Comunicação
@@ -405,8 +410,8 @@ const Donation = () => {
       </section>
 
       {/* Impact Section */}
-      <section id="impact-section" className="py-20 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section id="impact-section" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Veja Exatamente Onde Seu Dinheiro Gera Impacto
@@ -418,44 +423,44 @@ const Donation = () => {
 
           <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {[
-              { 
-                icon: 'fa-graduation-cap', 
+              {
+                icon: 'fa-graduation-cap',
                 iconColor: 'text-blue-500',
                 bgColor: 'bg-blue-50',
-                amount: 'R$ 50', 
+                amount: 'R$ 50',
                 label: 'valor do impacto',
-                title: 'Reforço escolar para 1 criança por 1 mês', 
+                title: 'Reforço escolar para 1 criança por 1 mês',
                 description: 'Material didático, acompanhamento pedagógico e lanche'
               },
-              { 
-                icon: 'fa-home', 
+              {
+                icon: 'fa-home',
                 iconColor: 'text-green-500',
                 bgColor: 'bg-green-50',
-                amount: 'R$ 100', 
+                amount: 'R$ 100',
                 label: 'valor do impacto',
-                title: 'Cesta básica completa para 1 família', 
+                title: 'Cesta básica completa para 1 família',
                 description: 'Alimentação para 30 dias + produtos de higiene'
               },
-              { 
-                icon: 'fa-briefcase', 
+              {
+                icon: 'fa-briefcase',
                 iconColor: 'text-purple-500',
                 bgColor: 'bg-purple-50',
-                amount: 'R$ 150', 
+                amount: 'R$ 150',
                 label: 'valor do impacto',
-                title: 'Curso de capacitação profissional completo', 
+                title: 'Curso de capacitação profissional completo',
                 description: 'Informática, vendas ou empreendedorismo para 1 pessoa'
               },
-              { 
-                icon: 'fa-users', 
+              {
+                icon: 'fa-users',
                 iconColor: 'text-red-500',
                 bgColor: 'bg-red-50',
-                amount: 'R$ 300', 
+                amount: 'R$ 300',
                 label: 'valor do impacto',
-                title: 'Apoio integral para 1 família por 3 meses', 
+                title: 'Apoio integral para 1 família por 3 meses',
                 description: 'Assistência social, educação e capacitação complet'
               }
             ].map((item, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all hover:-translate-y-1">
+              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all ">
                 <div className="p-8 flex flex-col justify-between h-full">
                   <div className={`${item.bgColor} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto`}>
                     <i className={`fas ${item.icon} ${item.iconColor} text-3xl`}></i>
@@ -466,9 +471,9 @@ const Donation = () => {
                   </div>
                   <h3 className="text-base font-bold text-gray-900 mb-3 text-center leading-tight">{item.title}</h3>
                   <p className="text-sm text-gray-600 text-center mb-6 leading-relaxed">{item.description}</p>
-                  <button className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                  <Button variant='primary' className='hover:-translate-y-1' onClick={() => setShowDonationModal(true)}>
                     DOAR {item.amount}
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -484,8 +489,8 @@ const Donation = () => {
       </section>
 
       {/* Transformation Stories */}
-      <section className="py-20 lg:py-32 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Histórias de Transformação
@@ -509,7 +514,7 @@ const Donation = () => {
                       <p className="text-xs text-gray-500">{story.location}</p>
                     </div>
                   </div>
-                  
+
                   <p className="text-sm text-gray-700 italic mb-6 leading-relaxed">
                     {story.text}
                   </p>
@@ -542,8 +547,8 @@ const Donation = () => {
       </section>
 
       {/* Urgent Cases Section */}
-      <section className="py-20 lg:py-32 bg-red-200">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-red-200">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <div className="inline-block bg-red-100 border border-red-300 rounded-full px-6 py-2 mb-4">
               <p className="text-sm font-bold text-red-600">
@@ -561,7 +566,7 @@ const Donation = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {urgentCases.map((item, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                 <div className="p-6 flex flex-col justify-between h-full">
+                <div className="p-6 flex flex-col justify-between h-full">
                   <div className="flex items-start gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
                       <i className="fas fa-heart text-red-500 text-xl"></i>
@@ -574,7 +579,7 @@ const Donation = () => {
                   <p className="text-gray-700 mb-6 leading-relaxed">
                     {item.description}
                   </p>
-                  
+
                   {/* Progress Bar */}
                   <div className="mb-6">
                     <div className="flex justify-between text-sm mb-2">
@@ -582,7 +587,7 @@ const Donation = () => {
                       <span className="font-bold text-gray-900">{item.progress}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                      <div 
+                      <div
                         className="bg-gradient-to-r from-red-500 to-pink-500 h-full rounded-full transition-all"
                         style={{ width: `${item.progress}%` }}
                       ></div>
@@ -600,8 +605,8 @@ const Donation = () => {
       </section>
 
       {/* Trust Section */}
-      <section id="trust-section" className="py-20 lg:py-32 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section id="trust-section" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Por Que Confiar no Instituto Sublim?
@@ -652,8 +657,8 @@ const Donation = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 lg:py-32 bg-gradient-to-r from-green-700 via-teal-600 to-blue-700">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gradient-to-r from-green-700 via-teal-600 to-blue-700">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center text-white">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               O Momento é Agora
@@ -671,7 +676,7 @@ const Donation = () => {
                 DOAÇÃO ÚNICA (Impacto Imediato)
               </button>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-8 justify-between items-center text-sm text-white/90 mb-6">
               <button className="w-full hover:underline flex items-center justify-center gap-2">
                 Ver Nossa Transparência <i className="fas fa-arrow-right"></i>
@@ -693,6 +698,83 @@ const Donation = () => {
           </div>
         </div>
       </section>
+
+      {/* Modal de Doação */}
+      {showDonationModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] p-4 sm:p-6" onClick={() => setShowDonationModal(false)}>
+          <div className="w-[520px] bg-gray-100 rounded-2xl sm:rounded-3xl relative shadow-2xl max-h-[95vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Botão Fechar */}
+            <button
+              onClick={() => setShowDonationModal(false)}
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-400 hover:bg-gray-500 text-white flex items-center justify-center text-lg sm:text-xl font-bold transition-colors z-10"
+            >
+              X
+            </button>
+
+            {/* Conteúdo do Modal */}
+            <div className="p-6 sm:p-8 flex flex-col items-center text-center">
+              {/* Logo */}
+              <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 sm:mb-6 flex items-center justify-center">
+                <img 
+                  src="/images/sublim_selo.png" 
+                  alt="Instituto Sublim" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              {/* Título e Descrição */}
+              <div className="mb-4 sm:mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                  <strong>R$ 50,00: </strong><span className="font-normal">Dignidade imediata</span>
+                </h2>
+                <p className="text-gray-700 text-xs sm:text-sm italic leading-relaxed px-2">
+                  Garante um Kit Completo de Higiene Pessoal e apoio básico para uma família vulnerável.
+                </p>
+              </div>
+
+              {/* QR Code */}
+              <div className="bg-white p-3 sm:p-4 rounded-xl mb-4 sm:mb-6">
+                <div className="w-50 h-50 flex items-center justify-center">
+                  <img 
+                    src="/images/qrcode-pix.png" 
+                    alt="QR Code PIX" 
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.parentElement.innerHTML = '<div class="w-40 h-40 sm:w-48 sm:h-48 bg-gray-200 flex items-center justify-center text-gray-500"><i class="fas fa-qrcode text-5xl sm:text-6xl"></i></div>';
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Chave PIX */}
+              <div className="font-body mb-2">
+                <p className="text-primary-dark text-xs sm:text-sm px-2">
+                  Chave Pix (CNPJ): <strong>05.111.222/0001-33</strong>
+                </p>
+              </div>
+
+              {/* Frase de Efeito */}
+              <p className="text-primary-700 font-medium text-sm text-base mb-4 sm:mb-6 italic px-2">
+                Mais que acolher, é transformar!
+              </p>
+
+              {/* Botão Copiar Chave PIX */}
+              <Button 
+                variant="primary" 
+                size="lg" 
+                className="w-full bg-[#C4FF0E] hover:bg-[#B0E60D] text-gray-900 font-bold text-base sm:text-lg py-3 sm:py-4"
+                onClick={() => {
+                  navigator.clipboard.writeText('05.111.222/0001-33');
+                  alert('Chave PIX copiada com sucesso!');
+                }}
+              >
+                COPIAR CHAVE PIX
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,704 +1,409 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '../components/ui';
 
 export default function Transparency() {
+  const [openFaq, setOpenFaq] = useState(0);
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
+  const handleLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="py-20 lg:py-32 bg-gradient-to-b from-green-50 to-white">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Transparência Financeira
+      <section
+        className="w-full hero-bg h-[780px] flex items-center relative pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
+        style={{ backgroundImage: 'url(/images/hero-transparency.jpg)' }}>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+
+        <div className="container mx-auto relative z-10">
+          <div className="max-w-3xl text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              Transparência Inspira Confiança
             </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Conheça como administramos nossos recursos para garantir maior eficiência e clareza em todas as nossas ações.
+            <p className="text-lg md:text-xl mb-8 leading-relaxed opacity-90">
+              No Instituto Sublim, acreditamos que o acesso claro e irrestrito às nossas ações e finanças é a base de um futuro sustentável e impactante. Veja como suas doações transformam vidas.
             </p>
-          </div>
-
-          {/* Financial Data Section */}
-          <div className="max-w-5xl mx-auto space-y-6 mb-16">
-            {/* Receita */}
-            <div className="flex items-center justify-between bg-white rounded-lg p-6 shadow-sm">
-              <div className="flex-1">
-                <div className="text-gray-800 font-semibold mb-2">Receita</div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-primary h-3 rounded-full" style={{ width: '85%' }}></div>
-                </div>
-              </div>
-              <div className="ml-8 text-right">
-                <div className="text-2xl font-bold text-gray-800">R$ 2.5M</div>
-              </div>
-            </div>
-
-            {/* Programa */}
-            <div className="flex items-center justify-between bg-white rounded-lg p-6 shadow-sm">
-              <div className="flex-1">
-                <div className="text-gray-800 font-semibold mb-2">Programa</div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-yellow-400 h-3 rounded-full" style={{ width: '70%' }}></div>
-                </div>
-              </div>
-              <div className="ml-8 text-right">
-                <div className="text-2xl font-bold text-gray-800">R$ 1.8M</div>
-              </div>
-            </div>
-
-            {/* Arrecadação */}
-            <div className="flex items-center justify-between bg-white rounded-lg p-6 shadow-sm">
-              <div className="flex-1">
-                <div className="text-gray-800 font-semibold mb-2">Arrecadação</div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-yellow-300 h-3 rounded-full" style={{ width: '65%' }}></div>
-                </div>
-              </div>
-              <div className="ml-8 text-right">
-                <div className="text-2xl font-bold text-gray-800">R$ 1.6M</div>
-              </div>
-            </div>
-
-            {/* Administrativo */}
-            <div className="flex items-center justify-between bg-white rounded-lg p-6 shadow-sm">
-              <div className="flex-1">
-                <div className="text-gray-800 font-semibold mb-2">Administrativo</div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-yellow-200 h-3 rounded-full" style={{ width: '40%' }}></div>
-                </div>
-              </div>
-              <div className="ml-8 text-right">
-                <div className="text-2xl font-bold text-gray-800">R$ 950K</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Info Cards Grid */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Total Doações */}
-            <div className="bg-white rounded-lg p-8 shadow-sm">
-              <div className="text-gray-600 text-sm mb-3">Total Doações</div>
-              <div className="text-4xl font-bold text-gray-800 mb-3">R$ 2.5M</div>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Recursos recebidos através de doações de pessoas físicas, jurídicas e parcerias institucionais.
-              </p>
-            </div>
-
-            {/* Documentação */}
-            <div className="bg-white rounded-lg p-8 shadow-sm">
-              <div className="text-gray-600 text-sm mb-3">Documentação</div>
-              <div className="text-4xl font-bold text-gray-800 mb-3">100%</div>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Todos os documentos fiscais e relatórios disponíveis para consulta pública a qualquer momento.
-              </p>
-            </div>
-
-            {/* Certificações */}
-            <div className="bg-white rounded-lg p-8 shadow-sm">
-              <div className="text-gray-600 text-sm mb-3">Certificações</div>
-              <div className="text-4xl font-bold text-gray-800 mb-3">5+</div>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Certificações de órgãos reguladores atestando nossa conformidade com as melhores práticas.
-              </p>
-            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link className="w-full" to="/doacao" onClick={handleLinkClick}>
+                <Button size="lg" className="w-full" variant="primary" icon="fa-regular fa-heart">
+                  DOAR AGORA
+                </Button>
+              </Link>
+              <Link className="w-full" to="/nossos-projetos" onClick={handleLinkClick}>
+                <Button size="lg" className='w-full' variant="outline" icon="fa-solid fa-arrow-right" iconPosition="right">
+                  Conheça Nossos Projetos
+                </Button>
+              </Link>
+            </div>            
           </div>
         </div>
       </section>
-
-      {/* Nossa História Section */}
-      <section className="py-20 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-6 lg:px-12">
+      {/* Transparência Financeira Section */}
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Nossa História
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Uma trajetória de compromisso, superação e impacto social na vida de milhares de pessoas.
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              Transparência Total: Nossa Credibilidade é Pública
+            </h1>
+            <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+              Mais que oferecer abrigo, geramos oportunidades e futuro sustentável para mais de 7.000 pessoas.
             </p>
           </div>
 
-          {/* Timeline */}
-          <div className="max-w-4xl mx-auto relative">
-            {/* Vertical Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-primary/20 hidden md:block"></div>
+          {/* Box Verde */}
+          <div className="bg-primary rounded-3xl p-8 md:p-12 max-w-6xl mx-auto mb-16">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              O Que Sua Doação Realizou
+            </h2>
+            <p className="text-gray-800 text-lg">
+              Veja onde 100% dos recursos foram aplicados nos últimos 12 meses, de forma clara e objetiva.
+            </p>
+          </div>
 
-            {/* Timeline Items */}
-            <div className="space-y-12">
-              {/* Item 1 - Fundação */}
-              <div className="relative">
-                <div className="md:grid md:grid-cols-2 md:gap-12 items-center">
-                  <div className="md:text-right mb-8 md:mb-0">
-                    <div className="inline-block bg-primary text-white px-6 py-2 rounded-full font-bold text-lg mb-4">
-                      2015
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      Fundação
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      O Instituto Sublim nasceu do sonho de transformar vidas através da educação e desenvolvimento comunitário na Zona Norte de São Paulo.
-                    </p>
+          {/* Grid Principal */}
+          <div className="grid items-center lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {/* Coluna Esquerda - Distribuição */}
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-8">
+                Distribuição de Recursos 2025
+              </h3>
+
+              <div className="space-y-6">
+                {/* Ações Comunitárias */}
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-800 font-medium">Ações Comunitárias</span>
+                    <span className="text-gray-800 font-bold">60%</span>
                   </div>
-                  <div className="hidden md:block"></div>
-                </div>
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg hidden md:block"></div>
-              </div>
-
-              {/* Item 2 - Primeiro Programa */}
-              <div className="relative">
-                <div className="md:grid md:grid-cols-2 md:gap-12 items-center">
-                  <div className="hidden md:block"></div>
-                  <div className="mb-8 md:mb-0">
-                    <div className="inline-block bg-primary text-white px-6 py-2 rounded-full font-bold text-lg mb-4">
-                      2016
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      Primeiro Programa
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Lançamento do nosso primeiro programa educacional, atendendo 50 crianças e adolescentes da comunidade local.
-                    </p>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="bg-primary-300 h-3 rounded-full" style={{ width: '60%' }}></div>
                   </div>
                 </div>
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg hidden md:block"></div>
-              </div>
 
-              {/* Item 3 - Expansão Nacional */}
-              <div className="relative">
-                <div className="md:grid md:grid-cols-2 md:gap-12 items-center">
-                  <div className="md:text-right mb-8 md:mb-0">
-                    <div className="inline-block bg-primary text-white px-6 py-2 rounded-full font-bold text-lg mb-4">
-                      2019
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      Expansão Nacional
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Crescimento exponencial nos levou a expandir nossas ações para outros estados, impactando mais de 2.000 vidas anualmente.
-                    </p>
+                {/* Capacitação */}
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-800 font-medium">Capacitação</span>
+                    <span className="text-gray-800 font-bold">25%</span>
                   </div>
-                  <div className="hidden md:block"></div>
-                </div>
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg hidden md:block"></div>
-              </div>
-
-              {/* Item 4 - Certificação OSCIP */}
-              <div className="relative">
-                <div className="md:grid md:grid-cols-2 md:gap-12 items-center">
-                  <div className="hidden md:block"></div>
-                  <div className="mb-8 md:mb-0">
-                    <div className="inline-block bg-primary text-white px-6 py-2 rounded-full font-bold text-lg mb-4">
-                      2021
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      Certificação OSCIP
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Reconhecimento oficial como Organização da Sociedade Civil de Interesse Público, fortalecendo nossa credibilidade.
-                    </p>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="bg-blue-500 h-3 rounded-full" style={{ width: '25%' }}></div>
                   </div>
                 </div>
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg hidden md:block"></div>
-              </div>
 
-              {/* Item 5 - Transformação Digital */}
-              <div className="relative">
-                <div className="md:grid md:grid-cols-2 md:gap-12 items-center">
-                  <div className="md:text-right mb-8 md:mb-0">
-                    <div className="inline-block bg-primary text-white px-6 py-2 rounded-full font-bold text-lg mb-4">
-                      2023
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      Transformação Digital
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Implementação de plataforma digital para ensino híbrido, alcançando estudantes em locais remotos de todo o país.
-                    </p>
+                {/* Oficinas */}
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-800 font-medium">Oficinas</span>
+                    <span className="text-gray-800 font-bold">10%</span>
                   </div>
-                  <div className="hidden md:block"></div>
-                </div>
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg hidden md:block"></div>
-              </div>
-
-              {/* Item 6 - Impacto Global */}
-              <div className="relative">
-                <div className="md:grid md:grid-cols-2 md:gap-12 items-center">
-                  <div className="hidden md:block"></div>
-                  <div className="mb-8 md:mb-0">
-                    <div className="inline-block bg-primary text-white px-6 py-2 rounded-full font-bold text-lg mb-4">
-                      2024
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      Impacto Global
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Parcerias internacionais estabelecidas, compartilhando nossa metodologia com organizações em outros países da América Latina.
-                    </p>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="bg-orange-500 h-3 rounded-full" style={{ width: '10%' }}></div>
                   </div>
                 </div>
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-lg hidden md:block"></div>
+
+                {/* Custo Operacional */}
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-800 font-medium">Custo Operacional</span>
+                    <span className="text-gray-800 font-bold">5%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="bg-gray-800 h-3 rounded-full" style={{ width: '5%' }}></div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* CTA */}
-          <div className="text-center mt-16">
-            <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
-              Faça parte dessa história de transformação
-            </p>
-            <Button variant="primary" size="lg" icon="fa-solid fa-arrow-right" iconPosition="right">
-              Junte-se a Nós
-            </Button>
+            {/* Coluna Direita - Cards */}
+            <div className="space-y-6">
+              <div className='w-full flex gap-6 justify-between'>
+                {/* Card Pessoas Impactadas */}
+                <div className="w-full bg-gray-100 rounded-2xl p-6 text-center">
+                  <div className="w-16 h-16 bg-lime-300 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i className="fas fa-users text-2xl text-gray-800"></i>
+                  </div>
+                  <div className="text-4xl font-bold text-gray-900 mb-2">2.847</div>
+                  <div className="text-gray-700 font-medium">Pessoas Impactadas</div>
+                </div>
+
+                {/* Card Projetos Ativos */}
+                <div className="w-full bg-gray-100 rounded-2xl p-6 text-center">
+                  <div className="w-16 h-16 bg-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i className="fas fa-bullseye text-2xl text-white"></i>
+                  </div>
+                  <div className="text-4xl font-bold text-gray-900 mb-2">12</div>
+                  <div className="text-gray-700 font-medium">Projetos Ativos</div>
+                </div>
+
+              </div>
+
+              {/* Botão */}
+              <Button variant="primary" size="lg" icon="fas fa-file-alt" className="w-full">
+                Entenda Nosso Custo Operacional
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Nossas Oficinas Section */}
-      <section className="py-20 lg:py-32 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
+      {/* Documentação Legal e Governança Section */}
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Nossas Oficinas
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              Documentação Legal e Governança
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Programas educacionais e de capacitação que transformam vidas através do conhecimento e desenvolvimento de habilidades.
+            <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+              Acesso rápido aos documentos essenciais para verificação de nossa credibilidade
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Oficina 1 - Educação Financeira */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div className="p-8">
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                  <i className="fas fa-graduation-cap text-3xl text-orange-500"></i>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Educação Financeira
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Aprenda a gerenciar suas finanças pessoais, fazer investimentos inteligentes e construir um futuro financeiro sólido.
-                </p>
-                <Button variant="primary" size="sm" className="w-full">
-                  Saiba Mais
-                </Button>
+          {/* Grid de Cards de Documentos */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Card 1 - Relatórios de Impacto Anual */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow flex flex-col justify-between h-full w-full">
+              <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6">
+                <i className="fas fa-file-alt text-2xl text-gray-900"></i>
               </div>
-              <div className="bg-gray-50 px-8 py-4 text-sm text-gray-600">
-                <i className="fas fa-clock mr-2"></i>
-                Duração: 8 semanas
+              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Relatórios de Impacto Anual
+              </h3>
+              <div className="mb-4">
+                <span className="inline-block text-sm font-medium text-gray-900 bg-primary-500 px-3 py-1 rounded-full mb-4">
+                  Documento Público
+                </span>
               </div>
-            </div>
-
-            {/* Oficina 2 - Desenvolvimento Pessoal */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div className="p-8">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
-                  <i className="fas fa-briefcase text-3xl text-red-500"></i>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Desenvolvimento Pessoal
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Autoconhecimento, inteligência emocional e desenvolvimento de soft skills essenciais para o sucesso profissional.
-                </p>
-                <Button variant="primary" size="sm" className="w-full">
-                  Saiba Mais
-                </Button>
-              </div>
-              <div className="bg-gray-50 px-8 py-4 text-sm text-gray-600">
-                <i className="fas fa-clock mr-2"></i>
-                Duração: 10 semanas
-              </div>
-            </div>
-
-            {/* Oficina 3 - Empreendedorismo */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div className="p-8">
-                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-6">
-                  <i className="fas fa-lightbulb text-3xl text-pink-500"></i>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Empreendedorismo
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Desenvolva seu próprio negócio desde a concepção da ideia até a execução, com mentoria especializada.
-                </p>
-                <Button variant="primary" size="sm" className="w-full">
-                  Saiba Mais
-                </Button>
-              </div>
-              <div className="bg-gray-50 px-8 py-4 text-sm text-gray-600">
-                <i className="fas fa-clock mr-2"></i>
-                Duração: 12 semanas
-              </div>
-            </div>
-
-            {/* Oficina 4 - Tecnologia & Inovação */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div className="p-8">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                  <i className="fas fa-laptop-code text-3xl text-blue-500"></i>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Tecnologia & Inovação
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Introdução à programação, desenvolvimento web e mobile, preparando você para o mercado de tecnologia.
-                </p>
-                <Button variant="primary" size="sm" className="w-full">
-                  Saiba Mais
-                </Button>
-              </div>
-              <div className="bg-gray-50 px-8 py-4 text-sm text-gray-600">
-                <i className="fas fa-clock mr-2"></i>
-                Duração: 16 semanas
-              </div>
-            </div>
-
-            {/* Oficina 5 - Saúde Mental e Bem-estar */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div className="p-8">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
-                  <i className="fas fa-heart text-3xl text-purple-500"></i>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Saúde Mental e Bem-estar
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Práticas de mindfulness, gestão do estresse e técnicas para manutenção do equilíbrio emocional.
-                </p>
-                <Button variant="primary" size="sm" className="w-full">
-                  Saiba Mais
-                </Button>
-              </div>
-              <div className="bg-gray-50 px-8 py-4 text-sm text-gray-600">
-                <i className="fas fa-clock mr-2"></i>
-                Duração: 6 semanas
-              </div>
-            </div>
-
-            {/* Oficina 6 - Cidadania e Direitos */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div className="p-8">
-                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-6">
-                  <i className="fas fa-balance-scale text-3xl text-yellow-600"></i>
-                </div>
-                <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Cidadania e Direitos
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Conhecimento sobre direitos fundamentais, participação cidadã e como exercer plenamente sua cidadania.
-                </p>
-                <Button variant="primary" size="sm" className="w-full">
-                  Saiba Mais
-                </Button>
-              </div>
-              <div className="bg-gray-50 px-8 py-4 text-sm text-gray-600">
-                <i className="fas fa-clock mr-2"></i>
-                Duração: 8 semanas
-              </div>
-            </div>
-          </div>
-
-          {/* CTA para todas as oficinas */}
-          <div className="text-center mt-16">
-            <Button variant="primary" size="lg">
-              Ver Todas as Oficinas
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Nosso Impacto Section */}
-      <section className="py-20 lg:py-32 bg-gradient-to-br from-gray-50 to-green-50">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Nosso Impacto
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Resultados concretos que demonstram nossa dedicação em transformar vidas e comunidades.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Stat 1 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-              <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="fas fa-users text-4xl text-purple-600"></i>
-              </div>
-              <div className="text-5xl font-bold text-gray-800 mb-3">15K+</div>
-              <div className="text-gray-600 font-semibold mb-2">Vidas Transformadas</div>
-              <p className="text-sm text-gray-500">
-                Pessoas beneficiadas diretamente por nossos programas desde a fundação
+              <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                Veja em detalhes o número de pessoas assistidas, resultados dos projetos e métricas de sucesso do Instituto Sublim no último ano.
               </p>
+              <div className="space-y-2 mb-6 text-sm text-gray-700">
+                <div className="flex justify-between">
+                  <span>Pessoas:</span>
+                  <span className="font-bold">2.847</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Projetos:</span>
+                  <span className="font-bold">12</span>
+                </div>
+              </div>
+              <Button variant="blue" size="md" icon="fas fa-download" >
+                Baixar Relatório 2025 (PDF)
+              </Button>
             </div>
 
-            {/* Stat 2 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="fas fa-graduation-cap text-4xl text-blue-600"></i>
+            {/* Card 2 - Prestação de Contas Financeira */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow flex flex-col justify-between h-full w-full">
+              <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6">
+                <i className="fas fa-chart-bar text-2xl text-gray-900"></i>
               </div>
-              <div className="text-5xl font-bold text-gray-800 mb-3">2.4K</div>
-              <div className="text-gray-600 font-semibold mb-2">Programas Educativos</div>
-              <p className="text-sm text-gray-500">
-                Oficinas e cursos realizados em diversas áreas do conhecimento
+              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Prestação de Contas Financeira
+              </h3>
+              <div className="mb-4">
+                <span className="inline-block text-sm font-medium text-gray-900 bg-primary-500 px-3 py-1 rounded-full mb-4">
+                  Documento Público
+                </span>
+              </div>
+              <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                Acesse as demonstrações contábeis e fiscais do Instituto. Trabalhamos com auditoria e transparência na gestão de recursos.
               </p>
+              <div className="space-y-2 mb-6 text-sm text-gray-700">
+                <div className="flex justify-between">
+                  <span>Transparência:</span>
+                  <span className="font-bold">2.847</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Projetos:</span>
+                  <span className="font-bold">12</span>
+                </div>
+              </div>
+              <Button variant="blue" size="md" icon="fas fa-download">
+                Baixar Balanço 2024 (PDF)
+              </Button>
             </div>
 
-            {/* Stat 3 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="fas fa-briefcase text-4xl text-red-600"></i>
+            {/* Card 3 - Estatutos e CNPJ */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow flex flex-col justify-between h-full w-full">
+              <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6">
+                <i className="fas fa-bookmark text-2xl text-gray-900"></i>
               </div>
-              <div className="text-5xl font-bold text-gray-800 mb-3">1.2K</div>
-              <div className="text-gray-600 font-semibold mb-2">Pessoas Empregadas</div>
-              <p className="text-sm text-gray-500">
-                Beneficiários que conquistaram emprego formal após capacitação
+              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Estatutos e CNPJ
+              </h3>
+              <div className="mb-4">
+                <span className="inline-block text-sm font-medium text-gray-900 bg-primary-500 px-3 py-1 rounded-full mb-4">
+                  Documento Público
+                </span>
+              </div>
+              <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                Conheça nossa base legal. O Estatuto Social e dados do CNPJ estão disponíveis para verificação pública.
               </p>
+              <div className="space-y-2 mb-6 text-sm text-gray-700">
+                <div className="flex justify-between">
+                  <span>CNPJ:</span>
+                  <span className="font-bold">100%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Auditoria:</span>
+                  <span className="font-bold">Anual</span>
+                </div>
+              </div>
+              <Button variant="blue" size="md" icon="fas fa-eye">
+                Ver Estatutos e CNPJ
+              </Button>
             </div>
 
-            {/* Stat 4 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="fas fa-hands-helping text-4xl text-green-600"></i>
+            {/* Card 4 - Certificações e Títulos */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow flex flex-col justify-between h-full w-full">
+              <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6">
+                <i className="fas fa-award text-2xl text-gray-900"></i>
               </div>
-              <div className="text-5xl font-bold text-gray-800 mb-3">180+</div>
-              <div className="text-gray-600 font-semibold mb-2">Comunidades Atendidas</div>
-              <p className="text-sm text-gray-500">
-                Bairros e comunidades impactadas por nossos projetos sociais
-              </p>
-            </div>
-
-            {/* Stat 5 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-              <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="fas fa-heart text-4xl text-yellow-600"></i>
+              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Certificações e Títulos
+              </h3>
+              <div className="mb-4">
+                <span className="inline-block text-sm font-medium text-gray-900 bg-primary-500 px-3 py-1 rounded-full mb-4">
+                  Documento Público
+                </span>
               </div>
-              <div className="text-5xl font-bold text-gray-800 mb-3">95%</div>
-              <div className="text-gray-600 font-semibold mb-2">Taxa de Satisfação</div>
-              <p className="text-sm text-gray-500">
-                Avaliação positiva dos beneficiários sobre nossos programas
+              <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                Consulte nossos títulos de utilidade pública e outras certificações que atestam nossa idoneidade e boa governança.
               </p>
-            </div>
-
-            {/* Stat 6 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-              <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="fas fa-chart-line text-4xl text-indigo-600"></i>
+              <div className="space-y-2 mb-6 text-sm text-gray-700">
+                <div className="flex justify-between">
+                  <span>Certificados:</span>
+                  <span className="font-bold">8</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Validade:</span>
+                  <span className="font-bold">2025</span>
+                </div>
               </div>
-              <div className="text-5xl font-bold text-gray-800 mb-3">12X</div>
-              <div className="text-gray-600 font-semibold mb-2">Sustentabilidade</div>
-              <p className="text-sm text-gray-500">
-                Retorno social sobre investimento em nossos projetos educacionais
-              </p>
+              <Button variant="blue" size="md" icon="fas fa-eye">
+                Ver Certificados
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Final Section */}
-      <section className="py-20 lg:py-24 bg-gradient-to-br from-primary to-green-500 text-white">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-4xl mx-auto text-center">
+      {/* CTA Section - A Confiança Gera Transformação */}
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-black lg:bg-white">
+        <div className="bg-black text-white container mx-auto rounded-3xl lg:p-12">
+          <div className="lg:max-w-4xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Juntos, podemos fazer ainda mais pela transformação social
+              A Confiança Gera Transformação
             </h2>
             <p className="text-lg opacity-90 mb-10 leading-relaxed">
-              Sua doação é fundamental para expandirmos nosso alcance e impactarmos ainda mais vidas. 
-              Seja parte dessa história de transformação e faça a diferença na vida de milhares de pessoas.
+              Agora que você conhece nossa transparência, junte-se a nós. Seja o elo de mudança que milhares de famílias da Zona Norte de São Paulo precisam.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button variant="secondary" size="lg" icon="fa-solid fa-heart">
-                Fazer uma Doação
+              <Button variant="primary" size="lg" icon="fas fa-heart">
+                QUERO FAZER A DIFERENÇA
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-white text-white hover:bg-white hover:text-primary"
-              >
-                Baixar Relatório Completo
+              <Button variant="ghost" size="lg" icon="fas fa-arrow-right" iconPosition="right" className="text-primary hover:bg-white/10">
+                Prefiro Parceria Corporativa
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Parceiros Section */}
-      <section className="py-20 lg:py-32 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
+      {/* FAQ Section */}
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Nossos Parceiros
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              Perguntas Frequentes
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Organizações e empresas que acreditam no nosso propósito e nos apoiam nessa jornada de transformação social.
+            <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+              Esclarecemos as principais dúvidas sobre nossa operação e transparência
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
-            {/* Parceiro 1 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100 hover:border-primary transition-colors">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                  <i className="fas fa-leaf text-2xl text-green-600"></i>
+          <div className="max-w-4xl mx-auto space-y-4">
+            {/* FAQ Item 1 */}
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+              <button 
+                onClick={() => toggleFaq(0)}
+                className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
+              >
+                <h3 className="text-lg font-bold text-gray-900 pr-8">
+                  Onde fica localizado o Instituto Sublim e qual sua área de atuação?
+                </h3>
+                <i className={`fas fa-chevron-down text-gray-600 transition-transform ${openFaq === 0 ? 'rotate-180' : ''}`}></i>
+              </button>
+              {openFaq === 0 && (
+                <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                  O Instituto Sublim está localizado na Zona Norte de São Paulo e atua principalmente nesta região, desenvolvendo projetos em comunidades carentes para promover educação, capacitação profissional e desenvolvimento social.
                 </div>
-                <h3 className="text-lg font-bold">Empresa Parceira</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Apoio institucional e financiamento de programas educacionais
-              </p>
+              )}
             </div>
 
-            {/* Parceiro 2 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100 hover:border-primary transition-colors">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                  <i className="fas fa-handshake text-2xl text-blue-600"></i>
+            {/* FAQ Item 2 */}
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+              <button 
+                onClick={() => toggleFaq(1)}
+                className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
+              >
+                <h3 className="text-lg font-bold text-gray-900 pr-8">
+                  Quem fiscaliza a aplicação dos recursos do Instituto Sublim?
+                </h3>
+                <i className={`fas fa-chevron-down text-gray-600 transition-transform ${openFaq === 1 ? 'rotate-180' : ''}`}></i>
+              </button>
+              {openFaq === 1 && (
+                <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                  Nossa gestão financeira é auditada por empresa independente e prestamos contas aos órgãos reguladores. Além disso, mantemos total transparência com nossos doadores através de relatórios periódicos e documentação pública disponível nesta página.
                 </div>
-                <h3 className="text-lg font-bold">Governo Federal</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Convênios para expansão de projetos sociais em território nacional
-              </p>
+              )}
             </div>
 
-            {/* Parceiro 3 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100 hover:border-primary transition-colors">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
-                  <i className="fas fa-university text-2xl text-purple-600"></i>
+            {/* FAQ Item 3 */}
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+              <button 
+                onClick={() => toggleFaq(2)}
+                className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
+              >
+                <h3 className="text-lg font-bold text-gray-900 pr-8">
+                  Qual é o custo operacional do Instituto?
+                </h3>
+                <i className={`fas fa-chevron-down text-gray-600 transition-transform ${openFaq === 2 ? 'rotate-180' : ''}`}></i>
+              </button>
+              {openFaq === 2 && (
+                <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                  Nosso custo operacional representa apenas 5% do total de recursos, sendo destinado à manutenção de infraestrutura, gestão administrativa e custos fixos. Os outros 95% são aplicados diretamente em ações sociais, capacitação e oficinas que beneficiam as comunidades.
                 </div>
-                <h3 className="text-lg font-bold">Fundação Social</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Parceria estratégica para desenvolvimento de metodologias educacionais
-              </p>
+              )}
             </div>
 
-            {/* Parceiro 4 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100 hover:border-primary transition-colors">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mr-4">
-                  <i className="fas fa-building text-2xl text-yellow-600"></i>
+            {/* FAQ Item 4 */}
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+              <button 
+                onClick={() => toggleFaq(3)}
+                className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
+              >
+                <h3 className="text-lg font-bold text-gray-900 pr-8">
+                  Como posso ter certeza de que o PIX vai para a conta correta?
+                </h3>
+                <i className={`fas fa-chevron-down text-gray-600 transition-transform ${openFaq === 3 ? 'rotate-180' : ''}`}></i>
+              </button>
+              {openFaq === 3 && (
+                <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                  Sempre confira se o nome do beneficiário é "Instituto Sublim" e o CNPJ corresponde ao registrado em nossos documentos públicos. Você também receberá um comprovante imediatamente após a doação e poderá entrar em contato conosco para confirmar o recebimento.
                 </div>
-                <h3 className="text-lg font-bold">Grupo Empresarial</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Patrocínio de oficinas profissionalizantes e inserção no mercado
-              </p>
+              )}
             </div>
-
-            {/* Parceiro 5 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100 hover:border-primary transition-colors">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                  <i className="fas fa-heart text-2xl text-red-600"></i>
-                </div>
-                <h3 className="text-lg font-bold">Fundação Social</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Apoio em ações de impacto social e desenvolvimento comunitário
-              </p>
-            </div>
-
-            {/* Parceiro 6 */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100 hover:border-primary transition-colors">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
-                  <i className="fas fa-globe text-2xl text-orange-600"></i>
-                </div>
-                <h3 className="text-lg font-bold">ONG Internacional</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Cooperação técnica e intercâmbio de boas práticas sociais
-              </p>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <Button variant="primary" size="lg" icon="fa-solid fa-handshake">
-              Torne-se um Parceiro
-            </Button>
           </div>
         </div>
       </section>
 
-      {/* Interesse em Parceria Section */}
-      <section className="py-20 lg:py-24 bg-gradient-to-br from-primary to-green-600 text-white">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Interessado em Parceria?
-                </h2>
-                <p className="text-lg opacity-90 mb-6 leading-relaxed">
-                  Junte-se a nós nessa missão de transformar vidas através da educação e desenvolvimento social. 
-                  Juntos, podemos fazer muito mais!
-                </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <i className="fas fa-check-circle text-2xl mr-3 mt-1"></i>
-                    <span>Visibilidade da sua marca em ações sociais</span>
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check-circle text-2xl mr-3 mt-1"></i>
-                    <span>Relatórios de impacto social mensuráveis</span>
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check-circle text-2xl mr-3 mt-1"></i>
-                    <span>Certificações e reconhecimento público</span>
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check-circle text-2xl mr-3 mt-1"></i>
-                    <span>Engajamento de colaboradores em causas sociais</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white rounded-2xl p-8 text-gray-800">
-                <h3 className="text-2xl font-bold mb-6">Entre em Contato</h3>
-                <form className="space-y-4">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Nome completo"
-                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      placeholder="E-mail corporativo"
-                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Empresa / Organização"
-                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <textarea
-                      rows="4"
-                      placeholder="Mensagem"
-                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors resize-none"
-                    ></textarea>
-                  </div>
-                  <Button variant="primary" size="lg" className="w-full">
-                    Enviar Proposta
-                  </Button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

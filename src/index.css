@@ -4,7 +4,7 @@
 
 /* Tokens visuais */
 :root {
-  --color-primary: #9FFF00;
+  --color-primary: rgb(101, 206, 82);
   --color-primary-dark: #00420D;
   --color-text: #333333;
   --bg-neutral: #F6F7F8;
@@ -14,7 +14,7 @@
 }
 
 body {
-  @apply font-body text-text-dark bg-white;
+  @apply font-body text-text-dark bg-white overflow-visible;
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
 }

@@ -52,33 +52,32 @@ export default function Contact() {
     <div className="bg-white">
       {/* Hero Section */}
       <section
-        className="w-full hero-bg min-h-[80vh] flex items-center relative"
-        style={{ backgroundImage: "url('/images/hero-contact.png')" }}
-      >
+        className="w-full hero-bg h-[780px] flex items-center relative pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
+        style={{ backgroundImage: "url('/images/hero-contact.png')" }}>
         <div className="absolute inset-0 bg-black/40 z-0"></div>
 
-        <div className="container mx-auto px-6 lg:px-12 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-3xl">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-primary/90 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
-              <i className="fas fa-headset text-white"></i>
-              <span className="text-white font-semibold text-sm">Atendimento Humanizado</span>
+            <div className="inline-flex items-center gap-2 border-2 border-primary-500 px-4 py-2 rounded-full mb-6">
+              <i className="fas fa-headset text-primary-500"></i>
+              <span className="font-semibold text-sm text-primary-500">Atendimento Humanizado</span>
             </div>
 
             {/* Title */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Estamos Aqui Para Você
             </h1>
 
             {/* Description */}
-            <p className="text-xl md:text-2xl text-white/90 mb-12 leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
               Mais de 7.000 pessoas transformadas através de nossos três pilares de atuação: Geração de Oportunidades, Cuidado e Crescimento, e Dignidade e Acolhimento.
             </p>
 
             {/* Stats */}
             <div className="flex flex-wrap gap-12">
               <div>
-                <div className="text-4xl md:text-5xl font-bold text-primary mb-2">24h</div>
+                <div className="text-4xl md:text-5xl font-bold text-teal-500 mb-2">24h</div>
                 <div className="text-white/80 text-lg">Tempo de Resposta</div>
               </div>
               <div>
@@ -91,8 +90,8 @@ export default function Contact() {
       </section>
 
       {/* Contact Channels Section */}
-      <section className="py-20 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Canais de Comunicação
@@ -123,9 +122,11 @@ export default function Contact() {
                     contato@institutosublim.org.br
                   </p>
                 </div>
-                <Button variant="primary" className="w-full">
-                  Entrar em Contato
-                </Button>
+                <a href="mailto:contato@institutosublim.org.br">
+                  <Button variant="primary" className="w-full">
+                    Entrar em Contato
+                  </Button>
+                </a>
               </div>
             </div>
 
@@ -149,9 +150,11 @@ export default function Contact() {
                     parcerias@institutosublim.org.br
                   </p>
                 </div>
-                <Button variant="primary" className="w-full">
-                  Entrar em Contato
-                </Button>
+                <a href="mailto:parcerias@institutosublim.org.br">
+                  <Button variant="primary" className="w-full">
+                    Entrar em Contato
+                  </Button>
+                </a>
               </div>
             </div>
 
@@ -172,12 +175,14 @@ export default function Contact() {
                 </p>
                 <div className="bg-gray-50 rounded-lg p-4 mb-4">
                   <p className="text-gray-800 font-semibold text-center">
-                    (11) 98765-4321
+                    (11) 97591-1225
                   </p>
                 </div>
-                <Button variant="primary" className="w-full">
-                  Entrar em Contato
-                </Button>
+                <a href="https://wa.me/5511975911225">
+                  <Button variant="primary" className="w-full">
+                    Entrar em Contato
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
@@ -185,8 +190,8 @@ export default function Contact() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-20 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -207,9 +212,9 @@ export default function Contact() {
               </div>
 
               {/* Form Content */}
-              <form 
+              <form
                 onSubmit={handleSubmit}
-                action="https://formsubmit.co/robsonsvicero.designer@gmail.com"
+                action="https://formsubmit.co/hello@robsonsvicero.com.br"
                 method="POST"
                 className="p-8 space-y-6"
               >
@@ -219,7 +224,7 @@ export default function Contact() {
                 <input type="hidden" name="_template" value="table" />
                 <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
                 <input type="hidden" name="_next" value="http://localhost:5173/contato" />
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-semibold text-gray-800 mb-2">
@@ -337,8 +342,8 @@ export default function Contact() {
       </section>
 
       {/* Map Section */}
-      <section className="py-20 lg:py-32 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Nossa Localização
@@ -357,7 +362,7 @@ export default function Contact() {
 
               {/* Endereço */}
               <div className="flex items-start gap-4 mb-8">
-                <div className="w-14 h-14 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                <div className="w-14 h-14 rounded-lg bg-teal-500 flex items-center justify-center flex-shrink-0">
                   <i className="fas fa-map-marker-alt text-2xl text-white"></i>
                 </div>
                 <div>
@@ -372,7 +377,7 @@ export default function Contact() {
 
               {/* Horário */}
               <div className="flex items-start gap-4 mb-8">
-                <div className="w-14 h-14 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-14 h-14 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0">
                   <i className="fas fa-clock text-2xl text-white"></i>
                 </div>
                 <div>
@@ -385,7 +390,7 @@ export default function Contact() {
 
               {/* Como Chegar */}
               <div className="flex items-start gap-4 mb-8">
-                <div className="w-14 h-14 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-14 h-14 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0">
                   <i className="fas fa-route text-2xl text-white"></i>
                 </div>
                 <div>
@@ -404,9 +409,11 @@ export default function Contact() {
                 <p className="text-gray-600 mb-4">
                   Agende uma visita para conhecer nossos projetos de perto. Recebemos visitantes, voluntários e possíveis parceiros.
                 </p>
-                <Button variant="primary">
-                  Agendar Visita
-                </Button>
+                <a href="https://wa.me/5511975911225">
+                  <Button variant="primary" className="w-full">
+                    Agendar Visita
+                  </Button>
+                </a>
               </div>
             </div>
 
@@ -426,13 +433,12 @@ export default function Contact() {
               </div>
 
               {/* Map Actions */}
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <button className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
-                  Ver no Google Maps
-                </button>
-                <button className="bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-600 transition-colors">
-                  Traçar Rota
-                </button>
+              <div className="mt-4">
+                <a href="https://maps.app.goo.gl/um8mw5i2FxPbA8RJ7">
+                  <Button variant="blue" className="w-full transition-colors">
+                    Ver no Google Maps
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
@@ -440,8 +446,8 @@ export default function Contact() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Perguntas Frequentes
@@ -453,7 +459,7 @@ export default function Contact() {
 
           <div className="max-w-4xl mx-auto space-y-4">
             {faqData.map((faq, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all"
               >
@@ -466,8 +472,8 @@ export default function Contact() {
                   </span>
                   <i className={`fas fa-chevron-down text-gray-600 transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`}></i>
                 </button>
-                
-                <div 
+
+                <div
                   className={`overflow-hidden transition-all duration-300 ${openFaq === index ? 'max-h-96' : 'max-h-0'}`}
                 >
                   <div className="px-6 pb-5 pt-2">
@@ -483,8 +489,8 @@ export default function Contact() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 lg:py-24 bg-gradient-to-r from-teal-400 via-blue-500 to-blue-700 text-white">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gradient-to-r from-teal-400 via-blue-500 to-blue-700 text-white">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Vamos Transformar Vidas Juntos
@@ -492,17 +498,19 @@ export default function Contact() {
             <p className="text-xl text-white/90 mb-10 leading-relaxed">
               Sua participação é fundamental para continuarmos nossa missão. Seja através de doação, parceria ou voluntariado, há sempre uma forma de fazer a diferença.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <button className="bg-white text-green-600 font-bold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
-                <i className="fas fa-heart"></i>
-                <span>Fazer Doação</span>
-              </button>
-              <button className="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white hover:text-blue-600 transition-colors flex items-center justify-center gap-2">
-                <i className="fas fa-handshake"></i>
-                <span>Ser Parceiro</span>
-              </button>
+            <div className="w-full flex flex-col sm:flex-row gap-4 mb-12">
+              <a href="/doacao" className='w-full'>
+                  <Button variant="primary" className=" font-bold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 w-full" icon="fas fa-heart" iconPosition="left">
+                    Fazer Doação
+                  </Button>
+                </a>
+              <a href="/doacao" className='w-full'>
+                  <Button variant="outline" className='w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold py-3 px-6 rounded-xl border border-white/30 transition-colors' icon="fas fa-handshake" iconPosition="left">
+                    Fazer Doação
+                  </Button>
+                </a>
             </div>
-            
+
             {/* Footer Info */}
             <div className="pt-8 border-t border-white/20">
               <p className="text-sm text-white/80">
