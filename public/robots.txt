@@ -1,0 +1,14 @@
+# robots.txt para Instituto Sublim
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://instituto-sublim.vercel.app/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow admin or private paths (se houver no futuro)
+# Disallow: /admin/
+# Disallow: /private/
