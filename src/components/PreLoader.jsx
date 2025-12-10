@@ -14,7 +14,7 @@ export default function PreLoader() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[99999] bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 z-[99999] bg-gradient-to-br from-[#FCFFF3] via-[#FBFFF0] to-[#FAFFEB] flex items-center justify-center overflow-hidden">
       {/* Círculos animados de fundo */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/10 rounded-full animate-pulse-slow"></div>
@@ -27,10 +27,10 @@ export default function PreLoader() {
         {/* Logo com animação */}
         <div className="relative">
           {/* Anel externo rotativo */}
-          <div className="absolute inset-0 w-48 h-48 border-4 border-transparent border-t-white rounded-full animate-spin"></div>
+          <div className="absolute inset-0 w-48 h-48 border-4 border-transparent border-t-primary-500 rounded-full animate-spin"></div>
           
           {/* Anel do meio rotativo reverso */}
-          <div className="absolute inset-3 w-42 h-42 border-4 border-transparent border-b-white/70 rounded-full animate-spin-reverse"></div>
+          <div className="absolute inset-3 w-42 h-42 border-4 border-transparent border-b-primary-500/70 rounded-full animate-spin-reverse"></div>
           
           {/* Logo central com animação de escala e rotação */}
           <div className="relative w-48 h-48 flex items-center justify-center">
@@ -44,15 +44,15 @@ export default function PreLoader() {
 
         {/* Texto com animação de fade */}
         <div className="text-center animate-fade-in-up">
-          <h2 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+          <h2 className="text-3xl font-bold text-primary-dark mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
             Instituto Sublim
           </h2>
-          <p className="text-white/80 text-lg">Transformando vidas...</p>
+          <p className="text-primary-dark/80 text-lg">Transformando vidas...</p>
         </div>
 
         {/* Barra de progresso */}
-        <div className="w-64 h-1.5 bg-white/20 rounded-full overflow-hidden">
-          <div className="h-full bg-white rounded-full animate-progress"></div>
+        <div className="w-64 h-1.5 bg-teal-500/20 rounded-full overflow-hidden">
+          <div className="h-full bg-teal-500 rounded-full animate-progress"></div>
         </div>
       </div>
 
