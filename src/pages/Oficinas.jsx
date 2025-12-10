@@ -1,46 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../components/ui/Button';
-
-const workshops = [
-  {
-    category: 'Tecnologia',
-    title: 'Informática e Digitação',
-    frequency: '3x por semana',
-    duration: '3 meses',
-    students: '240 formados',
-    nextClass: '15/Jan/2026',
-    icon: 'fas fa-keyboard',
-  },
-  {
-    category: 'Empreendedorismo',
-    title: 'Gestão de Pequenos Negócios',
-    frequency: '2x por semana',
-    duration: '2 meses',
-    students: '156 formados',
-    nextClass: '22/Jan/2026',
-    icon: 'fas fa-briefcase',
-  },
-  {
-    category: 'Educação',
-    title: 'Alfabetização de Adultos',
-    frequency: 'Diária',
-    duration: '6 meses',
-    students: '89 alfabetizados',
-    nextClass: '08/Fev/2026',
-    icon: 'fas fa-book-open',
-  },
-  {
-    category: 'Arte e Cultura',
-    title: 'Iniciação Musical',
-    frequency: '3x por semana',
-    duration: '6 meses',
-    students: '40 formados',
-    nextClass: '05/Mar/2026',
-    icon: 'fas fa-music',
-  },
-];
+import { supabase } from '../lib/supabaseClient';
 
 export default function Oficinas() {
+  const [workshops, setWorkshops] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchWorkshops() {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('cursos_oficinas')
+        .select('*')
+        .order('created_at', { ascending: false });
+      setWorkshops(data || []);
+      setLoading(false);
+    }
+    fetchWorkshops();
+  }, []);
+
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
@@ -73,28 +51,37 @@ export default function Oficinas() {
           <p className="text-lg text-gray-700 max-w-5xl mx-auto leading-relaxed">Dessa forma, o Instituto fortalece a atuação nas temáticas defendidas: a empregabilidade, o desenvolvimento pessoal e a capacitação de mulheres para uma reintegração eficaz no mercado de trabalho.</p>
         </div>
         <div className="max-w-7xl mx-auto py-16 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {workshops.map((workshop, idx) => (
-            <div key={workshop.title} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center gap-4">
-              <div className="mb-4">
-                <i className={`${workshop.icon} text-primary-600 text-4xl`}></i>
+          {loading ? (
+            <div className="col-span-3 text-center text-gray-500">Carregando...</div>
+          ) : workshops.length === 0 ? (
+            <div className="col-span-3 text-center text-gray-500">Nenhum curso ou oficina disponível.</div>
+          ) : (
+            workshops.map((workshop) => (
+              <div key={workshop.id} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center gap-4 relative">
+                {workshop.closed && (
+                  <span className="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">Encerrado</span>
+                )}
+                <div className="mb-4">
+                  <i className={`${workshop.icon} text-primary-600 text-4xl`}></i>
+                </div>
+                <h2 className="text-2xl font-bold mb-2 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>{workshop.title}</h2>
+                <div className="flex flex-col text-left w-full">
+                  <div className="text-sm text-primary-600 mb-2 font-semibold">{workshop.category}</div>
+                  <ul className="mb-4 text-gray-700 text-sm space-y-1">
+                    <li><strong>Frequência:</strong> {workshop.frequency}</li>
+                    <li><strong>Duração:</strong> {workshop.duration}</li>
+                    <li><strong>Alunos:</strong> {workshop.students}</li>
+                    <li><strong>Próxima turma:</strong> {workshop.next_class}</li>
+                  </ul>
+                </div>
+                <a href="/inscricao-oficinas" className="w-full">
+                  <Button variant="primary" size="md" className="w-full">
+                    Inscreva-se
+                  </Button>
+                </a>
               </div>
-              <h2 className="text-2xl font-bold mb-2 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>{workshop.title}</h2>
-              <div className="flex flex-col text-left w-full">
-                <div className="text-sm text-primary-600 mb-2 font-semibold">{workshop.category}</div>
-                <ul className="mb-4 text-gray-700 text-sm space-y-1">
-                  <li><strong>Frequência:</strong> {workshop.frequency}</li>
-                  <li><strong>Duração:</strong> {workshop.duration}</li>
-                  <li><strong>Alunos:</strong> {workshop.students}</li>
-                  <li><strong>Próxima turma:</strong> {workshop.nextClass}</li>
-                </ul>
-              </div>
-              <a href="/inscricao-oficinas" className="w-full">
-                <Button variant="primary" size="md" className="w-full">
-                  Inscreva-se
-                </Button>
-              </a>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
     </div>
