@@ -14,7 +14,7 @@ export default function OurProjects() {
   const impactSectionRef = useRef(null);
 
   // Valores finais
-  const pessoasApoiadasFinal = 7000;
+  const pessoasApoiadasFinal = 2847;
   const anosOperacaoFinal = 4;
   const taxaEmpregabilidadeFinal = 95;
   const comunidadesAtendidasFinal = 45;
@@ -222,7 +222,7 @@ export default function OurProjects() {
               Projetos que Geram Impacto
             </h1>
             <p className="text-lg md:text-xl mb-8 leading-relaxed opacity-90">
-              Mais de 7.000 pessoas transformadas através de nossos três pilares de atuação: Geração de Oportunidades, Cuidado e Crescimento, e Dignidade e Acolhimento.
+              Mais de 2.000 pessoas transformadas através de nossos três pilares de atuação: Geração de Oportunidades, Cuidado e Crescimento, e Dignidade e Acolhimento.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-12 w-full">
               <Button variant="primary" size="lg" icon="fas fa-heart" className="bg-primary-500 hover:bg-primary-dark hover:text-white w-full">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
 
-const Donation = () => {
+const TransformLivesDonation = () => {
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [donationType, setDonationType] = useState('monthly');
   const [showDonationModal, setShowDonationModal] = useState(false);
@@ -66,7 +66,7 @@ const Donation = () => {
             const interval = duration / steps;
 
             const targets = {
-              transformed: 7000,
+              transformed: 2000,
               resources: 95,
               transparency: 100
             };
@@ -409,13 +409,13 @@ const Donation = () => {
         </div>
       </section>
 
-      {/* Impact Section */}
+      {/* Donation Section */}
       <section id="impact-section" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Veja Exatamente Onde Seu Dinheiro Gera Impacto
-            </h2>
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Ajude a Transformar Vidas
+              </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Transparência total: cada real se transforma em resultado concreto
             </p>
@@ -480,7 +480,7 @@ const Donation = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Button variant="primary" size="lg" className="bg-primary hover:bg-primary-dark">
+            <Button variant="primary" size="lg" >
               <i className="fas fa-dollar-sign mr-2"></i>
               ESCOLHER OUTRO VALOR
             </Button>
@@ -779,4 +779,4 @@ const Donation = () => {
   );
 };
 
-export default Donation;
+export default TransformLivesDonation;

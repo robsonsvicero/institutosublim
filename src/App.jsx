@@ -10,7 +10,7 @@ import BeVolunteer from './pages/BeVolunteer'
 import OurProjects from './pages/OurProjects'
 import Transparency from './pages/Transparency'
 import Contact from './pages/Contact'
-import Donation from './pages/Donation'
+import TransformLivesDonation from './pages/Donation'
 import InscricaoOficinas from './pages/InscricaoOficinas';
 import Oficinas from './pages/Oficinas';
 
@@ -28,7 +28,7 @@ function AppContent() {
         <Route path="/nossos-projetos" element={<OurProjects />} />
         <Route path="/transparencia" element={<Transparency />} />
         <Route path="/contato" element={<Contact />} />
-        <Route path="/doacao" element={<Donation />} />
+        <Route path="/doacao" element={<TransformLivesDonation />} />
         <Route path="/inscricao-oficinas" element={<InscricaoOficinas />} />
         <Route path="/oficinas" element={<Oficinas />} />
       </Routes>
