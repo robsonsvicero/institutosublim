@@ -26,7 +26,7 @@ export default function CartaoVisitaDigital() {
       </div>
 
       {/* Conteúdo */}
-      <div className="w-full max-w-xl flex flex-col items-center px-2 md:px-4 py-8">
+      <div className="w-full max-w-xl flex flex-col items-center px-2 md:px-4 pt-4 pb-8">
         <h2 className="text-lg md:text-2xl font-semibold text-gray-800 mb-2 text-center">
           Fale Conosco e Conecte-se à Nossa Missão
         </h2>
