@@ -4,7 +4,7 @@ const whatsappLink = 'https://wa.me/5511975911225?text=Ol%C3%A1!%20Gostaria%20de
 
 export default function CartaoVisitaDigital() {
   const [copied, setCopied] = useState(false);
-  const pixKey = '05.111.222/0001-33';
+  const pixKey = '39.976.495/0001-24';
 
   const handleCopyPix = () => {
     navigator.clipboard.writeText(pixKey);
@@ -15,7 +15,7 @@ export default function CartaoVisitaDigital() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-start bg-[#FCFFF3] rounded-none md:rounded-[24px] overflow-hidden px-0 md:px-4">
       {/* Topo verde e logo */}
-      <div className="w-full bg-[#06591C] flex flex-col items-center pt-12 pb-8 rounded-none">
+      <div className="w-full bg-[#06591C] flex flex-col items-center pt-8 pb-8 rounded-none">
         <img
           src="/images/sublim_selo 2.png"
           alt="Instituto Sublim"

@@ -750,7 +750,7 @@ const TransformLivesDonation = () => {
               {/* Chave PIX */}
               <div className="font-body mb-2">
                 <p className="text-primary-dark text-xs sm:text-sm px-2">
-                  Chave Pix (CNPJ): <strong>05.111.222/0001-33</strong>
+                  Chave Pix (CNPJ): <strong>39.976.495/0001-24</strong>
                 </p>
               </div>
 
@@ -765,7 +765,7 @@ const TransformLivesDonation = () => {
                 size="lg" 
                 className="w-full bg-[#C4FF0E] hover:bg-[#B0E60D] text-gray-900 font-bold text-base sm:text-lg py-3 sm:py-4"
                 onClick={() => {
-                  navigator.clipboard.writeText('05.111.222/0001-33');
+                  navigator.clipboard.writeText('39.976.495/0001-24');
                   alert('Chave PIX copiada com sucesso!');
                 }}
               >
