@@ -31,7 +31,7 @@ export default function CartaoVisitaDigital() {
           Fale Conosco e Conecte-se à Nossa Missão
         </h2>
 
-        <div className="mb-2 text-center">
+        <div className="mb-4 text-center">
           <button
             onClick={handleCopyPix}
             className="block text-sm md:text-base font-semibold text-[#1CC29F] hover:underline focus:outline-none focus:ring-2 focus:ring-[#1CC29F] px-2 py-1 rounded"
