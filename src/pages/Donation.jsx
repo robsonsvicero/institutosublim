@@ -755,7 +755,7 @@ const TransformLivesDonation = () => {
               </div>
 
               {/* Frase de Efeito */}
-              <p className="text-primary-700 font-medium text-sm text-base mb-4 sm:mb-6 italic px-2">
+              <p className="text-primary-700 font-medium text-base mb-4 sm:mb-6 italic px-2">
                 Mais que acolher, é transformar!
               </p>
 

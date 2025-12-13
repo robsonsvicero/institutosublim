@@ -17,7 +17,7 @@ export default function CartaoVisitaDigital() {
       {/* Topo verde e logo */}
       <div className="w-full bg-[#06591C] flex flex-col items-center pt-12 pb-8 rounded-none">
         <img
-          src="/images/sublim_simbolo.png"
+          src="/images/sublim_selo 2.png"
           alt="Instituto Sublim"
           className="w-32 h-32 md:w-40 md:h-40 mb-4 border-4 border-lime-300 rounded-full bg-white"
         />
