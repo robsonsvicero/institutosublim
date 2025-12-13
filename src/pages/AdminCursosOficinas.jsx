@@ -1,11 +1,17 @@
 
+
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import { supabase } from '../lib/supabaseClient';
+import { useAuth } from '../hooks/useAuth';
+
 
 
 export default function AdminCursosOficinas() {
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
@@ -18,6 +24,13 @@ export default function AdminCursosOficinas() {
     icon: '',
     closed: false
   });
+
+  // Redireciona se não estiver logado
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/login');
+    }
+  }, [authLoading, user, navigate]);
 
   // Buscar cursos/oficinas ao carregar
   useEffect(() => {

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PreLoader from '../components/PreLoader.jsx';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui';
 
@@ -261,12 +262,22 @@ const SectionTitle = ({ children, subtitle }) => (
 );
 
 export default function Home() {
+  const [showPreLoader, setShowPreLoader] = useState(false);
+
+  useEffect(() => {
+    if (!sessionStorage.getItem('preloaderShown')) {
+      setShowPreLoader(true);
+      sessionStorage.setItem('preloaderShown', 'true');
+    }
+  }, []);
   const handleLinkClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="bg-white">
+    <>
+      {showPreLoader && <PreLoader onFinish={() => setShowPreLoader(false)} />}
+      <div className="bg-white">
       {/* Hero Section */}
       <section
         id="home"
@@ -438,6 +449,7 @@ export default function Home() {
         </div>
       </section>
 
-    </div>
+      </div>
+    </>
   );
 }

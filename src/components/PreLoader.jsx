@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-export default function PreLoader() {
+export default function PreLoader({ onFinish }) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
+      if (onFinish) onFinish();
     }, 3000);
-
     return () => clearTimeout(timer);
-  }, []);
+  }, [onFinish]);
 
   if (!isVisible) return null;
 
