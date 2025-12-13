@@ -27,9 +27,22 @@ export default function CartaoVisitaDigital() {
 
       {/* Conteúdo */}
       <div className="w-full max-w-xl flex flex-col items-center px-2 md:px-4 py-8">
-        <h2 className="text-lg md:text-2xl font-semibold text-gray-800 mb-8 text-center">
+        <h2 className="text-lg md:text-2xl font-semibold text-gray-800 mb-2 text-center">
           Fale Conosco e Conecte-se à Nossa Missão
         </h2>
+
+        <div className="mb-2 text-center">
+          <button
+            onClick={handleCopyPix}
+            className="block text-sm md:text-base font-semibold text-[#1CC29F] hover:underline focus:outline-none focus:ring-2 focus:ring-[#1CC29F] px-2 py-1 rounded"
+            title="Clique para copiar a chave PIX"
+          >
+            PIX (Chave CNPJ): <span className="font-normal text-[#1CC29F]">{pixKey}</span>
+          </button>
+          {copied && (
+            <span className="block text-xs text-green-600 mt-1 animate-pulse">Chave copiada!</span>
+          )}
+        </div>
         <div className="flex flex-col gap-4 md:gap-5 w-full">
           <a
             href={whatsappLink}
@@ -70,18 +83,7 @@ export default function CartaoVisitaDigital() {
             E-mail de Contato
           </a>
         </div>
-        <div className="mt-12 md:mt-16 text-center">
-          <button
-            onClick={handleCopyPix}
-            className="block text-sm md:text-base font-semibold text-[#1CC29F] hover:underline focus:outline-none focus:ring-2 focus:ring-[#1CC29F] px-2 py-1 rounded"
-            title="Clique para copiar a chave PIX"
-          >
-            PIX (Chave CNPJ): <span className="font-normal text-[#1CC29F]">{pixKey}</span>
-          </button>
-          {copied && (
-            <span className="block text-xs text-green-600 mt-1 animate-pulse">Chave copiada!</span>
-          )}
-        </div>
+        
       </div>
     </div>
   );
