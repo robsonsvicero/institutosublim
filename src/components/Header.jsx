@@ -198,7 +198,7 @@ export default function Header({ fixed = true, textColor }) {
                   Seja Parceiro
                 </Link>
 
-                <Link to="/workshops-info" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">
+                <Link to="/oficinas" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">
                   Oficinas e Capacitações
                 </Link>
 
