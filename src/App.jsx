@@ -15,7 +15,9 @@ import InscricaoOficinas from './pages/InscricaoOficinas';
 import Oficinas from './pages/Oficinas';
 import AdminCursosOficinas from './pages/AdminCursosOficinas';
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 import AdminUsuarios from './pages/AdminUsuarios';
+import AdminAprovacaoUsuarios from './pages/AdminAprovacaoUsuarios';
 import AlterarSenha from './pages/AlterarSenha';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminDepoimentos from './pages/AdminDepoimentos';
@@ -42,8 +44,10 @@ function AppContent() {
         <Route path="/oficinas" element={<Oficinas />} />
         <Route path="/admin/cursos-oficinas" element={<AdminCursosOficinas />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+        <Route path="/admin/aprovacao-usuarios" element={<AdminAprovacaoUsuarios />} />
         <Route path="/admin/depoimentos" element={<AdminDepoimentos />} />
         <Route path="/alterar-senha" element={<AlterarSenha />} />
         <Route path="/cartao" element={<CartaoVisitaDigital />} />

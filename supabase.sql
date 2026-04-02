@@ -105,3 +105,33 @@ create table if not exists cursos_oficinas (
   closed boolean default false,
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
+
+-- Criação da tabela de usuários (para controle de aprovação)
+create table if not exists usuarios (
+  id uuid primary key default gen_random_uuid(),
+  auth_id uuid unique references auth.users(id) on delete cascade,
+  email text unique not null,
+  nome text,
+  aprovado boolean default false,
+  criado_em timestamp with time zone default timezone('utc'::text, now()),
+  aprovado_em timestamp with time zone
+);
+
+create index if not exists usuarios_email_idx on usuarios(email);
+create index if not exists usuarios_aprovado_idx on usuarios(aprovado);
+
+-- RLS para usuários
+alter table usuarios enable row level security;
+
+drop policy if exists "Usuários podem ver seu próprio perfil" on usuarios;
+create policy "Usuários podem ver seu próprio perfil" on usuarios
+  for select using (auth.uid() = auth_id);
+
+drop policy if exists "Admin pode tudo em usuarios" on usuarios;
+create policy "Admin pode tudo em usuarios" on usuarios
+  for all using (auth.email() = 'hello@svicerostudio.com.br');
+
+drop policy if exists "Usuário pode atualizar seu próprio email/nome" on usuarios;
+create policy "Usuário pode atualizar seu próprio email/nome" on usuarios
+  for update using (auth.uid() = auth_id) 
+  with check (auth.uid() = auth_id);

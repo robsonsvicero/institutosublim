@@ -45,17 +45,17 @@ export default function Header({ fixed = true, textColor }) {
       <Link to="/seja-parceiro" onClick={handleLinkClick} className={linkClass}>Seja Parceiro</Link>
       <Link to="/oficinas" onClick={handleLinkClick} className={linkClass}>Oficinas e Capacitações</Link>
       <Link to="/contato" onClick={handleLinkClick} className={linkClass}>Contato</Link>
+      <Link to="/doacao" onClick={handleLinkClick}>
+        <Button variant="primary" icon="fas fa-heart" >DOE AGORA</Button>
+      </Link>
       <Link
-        to="/admin"
+        to="/login"
         onClick={handleLinkClick}
-        aria-label="Ir para Admin"
-        title="Admin"
+        aria-label="Ir para Login"
+        title="Login"
         className={`${linkClass} opacity-70 hover:opacity-100`}
       >
         <i className="fas fa-cog text-base"></i>
-      </Link>
-      <Link to="/doacao" onClick={handleLinkClick}>
-        <Button variant="primary" icon="fas fa-heart" >DOE AGORA</Button>
       </Link>
     </nav>
   );
@@ -79,20 +79,21 @@ export default function Header({ fixed = true, textColor }) {
           <Link to="/seja-parceiro" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Seja Parceiro</Link>
           <Link to="/oficinas" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Oficinas e Capacitações</Link>
           <Link to="/contato" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Contato</Link>
-          <Link
-            to="/admin"
-            onClick={handleLinkClick}
-            aria-label="Ir para Admin"
-            title="Admin"
-            className="text-[#8B8B8B] hover:text-primary-dark transition opacity-70 hover:opacity-100"
-          >
-            <i className="fas fa-cog text-xl"></i>
-          </Link>
+          
           <div className="mt-8 w-full max-w-xs">
             <Link to="/doacao" onClick={handleLinkClick} className="w-full inline-flex items-center justify-center text-base py-4">
               <Button variant="primary" icon="fas fa-heart">DOE AGORA</Button>
             </Link>
           </div>
+          <Link
+            to="/login"
+            onClick={handleLinkClick}
+            aria-label="Ir para Login"
+            title="Login"
+            className="text-[#8B8B8B] hover:text-primary-dark transition opacity-70 hover:opacity-100"
+          >
+            <i className="fas fa-cog text-xl"></i>
+          </Link>
         </nav>
       </div>
     </div>

@@ -7,7 +7,8 @@
     "api:dev": "node api/users.js",
     "start": "node api/users.js",
     "build": "vite build && node scripts/build-post.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "create-admin": "node scripts/create-admin.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
