@@ -720,8 +720,8 @@ export default function BePartner() {
                 </svg>
               </div>
               <h3 className="text-sm font-medium text-gray-500 mb-2">E-mail</h3>
-              <a href="mailto:parcerias@institutosublim.org.br" className="text-sm font-semibold text-gray-900 hover:text-teal-500 transition">
-                parcerias@institutosublim.org.br
+              <a href="mailto:parcerias@institutosublim.org" className="text-sm font-semibold text-gray-900 hover:text-teal-500 transition">
+                parcerias@institutosublim.org
               </a>
             </div>
 

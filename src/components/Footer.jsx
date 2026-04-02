@@ -111,8 +111,8 @@ export default function Footer() {
 
           <div className="flex items-center gap-3">
             <i className="fas fa-envelope text-primary-500"></i>
-            <a href="mailto:contato@institutosublim.org.br" className="text-sm hover:text-white transition">
-              contato@institutosublim.org.br
+            <a href="mailto:contato@institutosublim.org" className="text-sm hover:text-white transition">
+              contato@institutosublim.org
             </a>
           </div>
         </div>

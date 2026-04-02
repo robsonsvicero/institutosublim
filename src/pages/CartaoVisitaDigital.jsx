@@ -53,7 +53,7 @@ export default function CartaoVisitaDigital() {
             Quero Ajudar
           </a>
           <a
-            href="https://institutosublim.org.br"
+            href="https://institutosublim.org"
             target="_blank"
             rel="noopener noreferrer"
             className="block w-full py-3 md:py-4 rounded-xl bg-lime-300 text-center text-base md:text-lg font-semibold text-[#06591C] hover:bg-lime-400 transition"
@@ -77,7 +77,7 @@ export default function CartaoVisitaDigital() {
             Acompanhe o Sublim (Instagram)
           </a>
           <a
-            href="mailto:contato@institutosublim.org.br"
+            href="mailto:contato@institutosublim.org"
             className="block w-full py-3 md:py-4 rounded-xl bg-lime-300 text-center text-base md:text-lg font-semibold text-[#06591C] hover:bg-lime-400 transition"
           >
             E-mail de Contato
