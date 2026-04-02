@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "api:dev": "node api/users.js",
+    "start": "node api/users.js",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -11,7 +13,9 @@
     "@emailjs/browser": "^4.4.1",
     "@supabase/supabase-js": "^2.87.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
     "express": "^5.2.1",
+    "mongoose": "^8.23.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.9.6"

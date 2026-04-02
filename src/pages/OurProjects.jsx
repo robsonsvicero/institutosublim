@@ -1,8 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Card, Modal } from '../components/ui';
+import { supabase } from '../lib/supabaseClient';
 
 export default function OurProjects() {
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const [transformationStories, setTransformationStories] = useState([]);
+  const [loadingStories, setLoadingStories] = useState(true);
+  const [erroStories, setErroStories] = useState(false);
+
+  const carregarHistorias = async () => {
+    setLoadingStories(true);
+    setErroStories(false);
+
+    const { data, error } = await supabase
+      .from('depoimentos')
+      .select('*')
+      .eq('tipo', 'beneficiado')
+      .eq('ativo', true)
+      .order('ordem', { ascending: true });
+
+    if (error) {
+      setErroStories(true);
+      setTransformationStories([]);
+    } else {
+      setTransformationStories(data || []);
+    }
+
+    setLoadingStories(false);
+  };
+
+  useEffect(() => {
+    carregarHistorias();
+  }, []);
 
   // Estados para animação dos números
   const [pessoasApoiadas, setPessoasApoiadas] = useState(0);
@@ -14,9 +44,9 @@ export default function OurProjects() {
   const impactSectionRef = useRef(null);
 
   // Valores finais
-  const pessoasApoiadasFinal = 2847;
+  const pessoasApoiadasFinal = 9000;
   const anosOperacaoFinal = 4;
-  const taxaEmpregabilidadeFinal = 95;
+  const taxaEmpregabilidadeFinal = 200;
   const comunidadesAtendidasFinal = 45;
 
   useEffect(() => {
@@ -123,41 +153,6 @@ export default function OurProjects() {
     }
   ];
 
-  const transformationStories = [
-    {
-      name: 'John Doe',
-      age: 37,
-      location: 'Mandaqui, SP',
-      transformation: 'Desempregado → Operador de Telemarketing',
-      quote: '"O curso de informática mudou minha vida. Consegui meu primeiro emprego em uma empresa de telemarketing e hoje sustento minha família com dignidade."',
-      image: '/images/volunteer1.jpg'
-    },
-    {
-      name: 'Mary Jane',
-      age: 34,
-      location: 'Vila Penteado, SP',
-      transformation: 'Desempregada → Operadora de Telemarketing',
-      quote: '"O curso de informática mudou minha vida. Consegui meu primeiro emprego em uma empresa de telemarketing e hoje sustento minha família com dignidade."',
-      image: '/images/volunteer2.jpg'
-    },
-    {
-      name: 'John Doe',
-      age: 37,
-      location: 'Mandaqui, SP',
-      transformation: 'Desempregado → Operador de Telemarketing',
-      quote: '"O curso de informática mudou minha vida. Consegui meu primeiro emprego em uma empresa de telemarketing e hoje sustento minha família com dignidade."',
-      image: '/images/volunteer1.jpg'
-    },
-    {
-      name: 'Mary Jane',
-      age: 34,
-      location: 'Vila Penteado, SP',
-      transformation: 'Desempregada → Operadora de Telemarketing',
-      quote: '"O curso de informática mudou minha vida. Consegui meu primeiro emprego em uma empresa de telemarketing e hoje sustento minha família com dignidade."',
-      image: '/images/volunteer2.jpg'
-    }
-  ];
-
   const workshops = [
     {
       category: 'Tecnologia',
@@ -236,8 +231,8 @@ export default function OurProjects() {
             {/* Stats Card */}
             <div className="w-[366px] bg-white/95 backdrop-blur-sm rounded-2xl p-6 inline-block shadow-xl mt-4">
               <div className="flex flex-col items-center gap-3">
-                <div className="text-4xl font-bold text-teal-500">+2.847</div>
-                <div className="text-gray-900 font-semibold">Vidas Transformadas</div>
+                <div className="text-4xl font-bold text-teal-500">+9000</div>
+                <div className="text-gray-900 font-semibold">Famílias Impactadas</div>
               </div>
             </div>
           </div>
@@ -263,7 +258,7 @@ export default function OurProjects() {
                 <i className="fas fa-users text-3xl text-teal-600"></i>
               </div>
               <div className="text-5xl font-bold text-teal-600 mb-3">+{pessoasApoiadas.toLocaleString('pt-BR')}</div>
-              <div className="text-gray-900 font-semibold text-base">Pessoas Apoiadas</div>
+              <div className="text-gray-900 font-semibold text-base">Famílias Impactadas</div>
             </div>
 
             {/* Card 2 - Anos de Operação */}
@@ -280,8 +275,8 @@ export default function OurProjects() {
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
                 <i className="fas fa-bullseye text-3xl text-primary-dark"></i>
               </div>
-              <div className="text-5xl font-bold text-primary-dark mb-3">{taxaEmpregabilidade}%</div>
-              <div className="text-gray-900 font-semibold text-base">Taxa de Empregabilidade</div>
+              <div className="text-5xl font-bold text-primary-dark mb-3">{taxaEmpregabilidade}</div>
+              <div className="text-gray-900 font-semibold text-base">Cestas Básicas em 2025</div>
             </div>
 
             {/* Card 4 - Comunidades Atendidas */}
@@ -420,7 +415,7 @@ export default function OurProjects() {
                   <div className="text-sm text-white/80">Crianças Assistidas</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold mb-1">18</div>
+                  <div className="text-3xl font-bold mb-1">45</div>
                   <div className="text-sm text-white/80">Comunidades Atendidas</div>
                 </div>
                 <div>
@@ -454,7 +449,7 @@ export default function OurProjects() {
                   <div className="text-sm text-white/80">Famílias Cadastradas</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold mb-1">18</div>
+                  <div className="text-3xl font-bold mb-1">45</div>
                   <div className="text-sm text-white/80">Comunidades Atendidas</div>
                 </div>
                 <div>
@@ -496,51 +491,70 @@ export default function OurProjects() {
         </div>
       </section>
 
-      {/* Transformation Stories */}
+      {/* Histórias de Transformação */}
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Histórias de Transformação
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Pessoas reais cujas vidas foram transformadas pelos nossos projetos
+              Depoimentos reais de pessoas beneficiadas pelos nossos projetos
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {transformationStories.map((story, idx) => (
-              <div key={idx} className="bg-teal-50 rounded-2xl shadow-md p-6 flex flex-col items-center text-center">
-                {/* Foto Circular */}
-                <div className="w-20 h-20 rounded-full bg-gray-300 mb-4 overflow-hidden flex items-center justify-center">
-                  <img src={story.image} alt={story.name} className="w-full h-full object-cover" />
+          {loadingStories ? (
+            <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+              {[1, 2].map((item) => (
+                <div key={item} className="bg-teal-50 rounded-2xl p-6 border border-teal-100 animate-pulse">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-14 h-14 rounded-full bg-teal-100"></div>
+                    <div className="flex-1">
+                      <div className="h-3 w-1/2 bg-teal-100 rounded mb-2"></div>
+                      <div className="h-3 w-2/3 bg-teal-100 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="h-3 w-full bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-11/12 bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-10/12 bg-teal-100 rounded"></div>
                 </div>
-
-                {/* Nome */}
-                <h4 className="font-bold text-lg text-gray-900 mb-1">{story.name}</h4>
-
-                {/* Idade e Local */}
-                <p className="text-sm text-gray-600 mb-4">
-                  {story.age} anos
-                  <br />
-                  {story.location}
-                </p>
-
-                {/* Tag Transformação */}
-                <div className="bg-lime-200 rounded-lg px-4 py-2 mb-4 w-full">
-                  <p className="text-xs font-semibold text-gray-800">Transformação</p>
-                  <p className="text-sm text-gray-700 mt-1">{story.transformation}</p>
+              ))}
+            </div>
+          ) : erroStories ? (
+            <div className="text-center">
+              <p className="text-gray-500 mb-4">Nao foi possivel carregar os depoimentos no momento.</p>
+              <button
+                type="button"
+                onClick={carregarHistorias}
+                className="bg-teal-500 hover:bg-teal-600 text-white px-5 py-2 rounded-lg font-semibold transition"
+              >
+                Tentar novamente
+              </button>
+            </div>
+          ) : transformationStories.length === 0 ? (
+            <p className="text-center text-gray-500">Ainda não há depoimentos publicados.</p>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+              {transformationStories.map((story) => (
+                <div key={story.id} className="bg-teal-50 rounded-2xl p-6 border border-teal-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-14 h-14 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
+                      {story.avatar_url ? (
+                        <img src={story.avatar_url} alt={story.nome} className="w-full h-full object-cover" onError={(e) => (e.target.style.display = 'none')} />
+                      ) : (
+                        <i className="fas fa-user text-gray-400 text-xl"></i>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-bold text-gray-900">{story.nome}</p>
+                      <p className="text-sm text-gray-600">{story.idade} {story.localizacao ? `- ${story.localizacao}` : ''}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 italic">{story.texto}</p>
                 </div>
-
-                {/* Citação */}
-                <blockquote className="text-sm text-gray-700 italic leading-relaxed">
-                  {story.quote}
-                </blockquote>
-              </div>
-            ))}
-          </div>
-
-
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -663,21 +677,21 @@ export default function OurProjects() {
 
               <div className="space-y-2 mb-8">
                 <div className="flex items-start justify-between text-sm">
-                  <span className="font-semibold">R$ 50</span>
+                  <span className="font-semibold">R$ 30</span>
                   <span className="text-white/90 flex items-center gap-2">
                     <i className="fas fa-arrow-right text-xs"></i>
                     1 mês de reforço escolar
                   </span>
                 </div>
                 <div className="flex items-start justify-between text-sm">
-                  <span className="font-semibold">R$ 150</span>
+                  <span className="font-semibold">R$ 50</span>
                   <span className="text-white/90 flex items-center gap-2">
                     <i className="fas fa-arrow-right text-xs"></i>
                     Curso completo de informática
                   </span>
                 </div>
                 <div className="flex items-start justify-between text-sm">
-                  <span className="font-semibold">R$ 300</span>
+                  <span className="font-semibold">R$ 100</span>
                   <span className="text-white/90 flex items-center gap-2">
                     <i className="fas fa-arrow-right text-xs"></i>
                     1 família assistida por 3 meses

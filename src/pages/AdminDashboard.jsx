@@ -14,6 +14,9 @@ export default function AdminDashboard() {
         <Button variant="outline" size="lg" onClick={() => navigate('/admin/usuarios')}>
           Gerenciar Usuários
         </Button>
+        <Button variant="outline" size="lg" onClick={() => navigate('/admin/depoimentos')}>
+          Gerenciar Depoimentos
+        </Button>
       </div>
     </div>
   );

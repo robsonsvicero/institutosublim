@@ -2,11 +2,25 @@ import React, { useState, useEffect, useRef } from 'react';
 import Button from '../components/ui/Button';
 
 export default function OurStory() {
-  // Valores finais
-  const pessoasTransformadasFinal = 2847;
-  const taxaEmpregabilidadeFinal = 95;
-  const certificacoesFinal = 8;
-  const comunidadesFinal = 45;
+  // Dados reais fornecidos pelo Instituto Sublim
+  const familiasImpactadasFinal = 9000;
+  const brigadaIncendioFormadas = 20;
+  const capacitacaoOnlineFormadas = 30;
+  const mentoriasJovens = 10;
+  const asMarasFormadas = 50;
+  const oficinasMusica = 40;
+  const oficinasTecnologia = 40;
+  const culturaParaTodos = 100;
+  const oficinasRecreacao = 40;
+  const cestasBasicas2025 = 200;
+  const natalSolidario2025 = 450;
+  const cacauShow2025 = 800;
+  const empresasParceiras = [
+    'Fundação Everis', 'Gerando Falcões', 'Brigada Solidária', 'Vertem', 'Sebrae', 'New Scool', 'Cruz Vermelha', 'Caça Fome', 'Fagotti Sociedade de Advogados', 'Mutirão do Bem', 'Corredores da Zona Norte', 'Deluxe – Perfumaria e Presentes', 'La Villette', 'Cri Amar', 'Projeto Formigueiro', 'UBS Vila Aurora', 'Rosa do Saron', 'Instituto Cacau Show', 'Associação Irmãos da Vila', 'Instituto Vidart', 'Pela rua pelo Reino'
+  ];
+  const bairrosAtendidos = [
+    'Vila Aurora', 'Comunidade da Paz', 'São João', 'Corisco', 'Filhos da Terra', 'Jaçanã', 'Vila Albertina', 'Cachoeira', 'Tremembé', 'Jardim Brasil', 'Vila Ede', 'Imirim', 'Pery', 'Sucupira', 'Vila Nova Galvão', 'Pery Alto', 'Casa Verde', 'Boi Malhado', 'Santana', 'Tucuruvi', 'Mandaqui'
+  ];
 
   // Estados para animação
   const [pessoasTransformadas, setPessoasTransformadas] = useState(0);
@@ -75,7 +89,7 @@ export default function OurStory() {
           <div className="container mx-auto">
             <div className="max-w-3xl text-white">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                A Determinação de Uma História que Transforma Milhares de Futuros
+                Uma História Real de Impacto Social
               </h1>
               <p className="text-lg md:text-xl opacity-90 leading-relaxed">
                 Conheça a história de Carol Andrade, que transformou sua existência através da esperança em um propósito real de desenvolver crianças, jovens e comunidades.
@@ -145,7 +159,7 @@ export default function OurStory() {
                 <p className="text-gray-700 leading-relaxed text-base">
                   O <strong>Instituto Sublim</strong> nasceu com a missão de <strong>amparar seres humanos para promover uma transformação positiva e sustentável na sociedade</strong>, orientando crianças e adolescentes e capacitando mulheres. É a determinação de uma história que constrói um futuro onde as oportunidades se estendam a todos.
                 </p>
-                
+
               </div>
               <div className="md:w-1/2 order-1 md:order-2">
                 <img src="/images/sonho.png" alt="Sonho" className="rounded-2xl w-full h-64 sm:h-72 md:h-80 object-cover shadow-xl" />
@@ -264,7 +278,7 @@ export default function OurStory() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Missão</h3>
               <p className="text-gray-700 leading-relaxed text-sm">
-                Transformar vidas através da educação, capacitação profissional e fortalecimento comunitário, oferecendo oportunidades reais de desenvolvimento social e econômico para famílias em situação de vulnerabilidade.
+                Nossa missão é oferecer suporte social às crianças, adolescentes e suas famílias, residentes da zona norte da cidade de São Paulo, através de oficinas, workshops, mentorias e levando comida a quem mais precisa.
               </p>
             </div>
 
@@ -275,7 +289,7 @@ export default function OurStory() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Visão</h3>
               <p className="text-gray-700 leading-relaxed text-sm">
-                Ser referência nacional em transformação social, criando um modelo replicável de desenvolvimento comunitário que inspire outras organizações e gere impacto positivo duradouro.
+                Ser a ONG referência da zona norte de São Paulo gerenciada por uma mulher negra e ex-abrigada, transformando vidas e gerando uma sociedade mais justa e digna.
               </p>
             </div>
 
@@ -286,7 +300,7 @@ export default function OurStory() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Valores</h3>
               <p className="text-gray-700 leading-relaxed text-sm">
-                Transparência total, respeito pela dignidade humana, inovação social, colaboração comunitária e compromisso com resultados mensuráveis que gerem transformação real.
+                Transparência nas ações, solidariedade no cuidado com as pessoas, respeito em cada relação construída e compromisso verdadeiro com aquilo que assumimos e entregamos.
               </p>
             </div>
           </div>

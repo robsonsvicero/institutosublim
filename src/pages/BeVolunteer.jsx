@@ -1,7 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
+import { supabase } from '../lib/supabaseClient';
 
 export default function BeVolunteer() {
+  const [depoimentos, setDepoimentos] = useState([]);
+  const [loadingDepoimentos, setLoadingDepoimentos] = useState(true);
+  const [erroDepoimentos, setErroDepoimentos] = useState(false);
+
+  const carregarDepoimentos = async () => {
+    setLoadingDepoimentos(true);
+    setErroDepoimentos(false);
+
+    const { data, error } = await supabase
+      .from('depoimentos')
+      .select('*')
+      .eq('tipo', 'voluntario')
+      .eq('ativo', true)
+      .order('ordem', { ascending: true });
+
+    if (error) {
+      setErroDepoimentos(true);
+      setDepoimentos([]);
+    } else {
+      setDepoimentos(data || []);
+    }
+
+    setLoadingDepoimentos(false);
+  };
+
+  useEffect(() => {
+    carregarDepoimentos();
+  }, []);
+
   const [formData, setFormData] = useState({
     nomeCompleto: '',
     email: '',
@@ -57,9 +87,8 @@ export default function BeVolunteer() {
 
             {/* Description */}
             <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
-              Junte-se a centenas de voluntários que dedicam seu tempo, talento e energia para criar oportunidades reais e transformar a realidade de famílias na Zona Norte de São Paulo.
+              Junte-se ao nosso time de voluntários que dedicam seu tempo, talento e energia para criar oportunidades reais e transformar a realidade de famílias na Zona Norte de São Paulo.<br />
             </p>
-
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <a href="#volunteer-form" className='w-full'>
@@ -392,37 +421,47 @@ export default function BeVolunteer() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {[
-              {
-                text: 'Comecei dando aulas de informática aos sábados e vi meus alunos conseguirem emprego. A gratidão nos olhos deles não tem preço. Hoje coordeno a área de tecnologia e capacitamos 40 pessoas por mês.',
-                name: 'Carlos Silva',
-                role: 'Voluntário desde 2022',
-                area: 'Professor de Informática',
-                avatar: '/images/volunteer1.jpg'
-              },
-              {
-                text: 'Sempre quis fazer diferença, mas não sabia como. No Instituto encontrei meu lugar. Ensino música para crianças e vejo como isso transforma a autoestima e abre portas para elas.',
-                name: 'Ana Paula Santos',
-                role: 'Voluntária desde 2023',
-                area: 'Professora de Música',
-                avatar: '/images/volunteer2.jpg'
-              },
-              {
-                text: 'Como advogada, ajudo o instituto com consultoria jurídica. É gratificante usar minha formação para garantir que essa organização incrível funcione perfeitamente e alcance mais pessoas.',
-                name: 'Mariana Costa',
-                role: 'Voluntária desde 2021',
-                area: 'Consultora Jurídica',
-                avatar: '/images/volunteer3.jpg'
-              }
-            ].map((testimonial, idx) => (
+          {loadingDepoimentos ? (
+            <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="bg-teal-50 rounded-2xl p-8 animate-pulse">
+                  <div className="h-4 w-20 bg-teal-200 rounded mb-4"></div>
+                  <div className="h-3 w-full bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-11/12 bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-10/12 bg-teal-100 rounded mb-6"></div>
+                  <div className="pt-6 border-t border-gray-300 flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-full bg-teal-100"></div>
+                    <div className="flex-1">
+                      <div className="h-3 w-2/3 bg-teal-100 rounded mb-2"></div>
+                      <div className="h-3 w-1/2 bg-teal-100 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : erroDepoimentos ? (
+            <div className="text-center">
+              <p className="text-gray-500 mb-4">Nao foi possivel carregar os depoimentos no momento.</p>
+              <button
+                type="button"
+                onClick={carregarDepoimentos}
+                className="bg-teal-500 hover:bg-teal-600 text-white px-5 py-2 rounded-lg font-semibold transition"
+              >
+                Tentar novamente
+              </button>
+            </div>
+          ) : depoimentos.length === 0 ? (
+            <p className="text-center text-gray-500">Ainda nao ha depoimentos de voluntarios publicados.</p>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {depoimentos.map((testimonial, idx) => (
               <div key={idx} className="bg-teal-50 rounded-2xl p-8 relative flex flex-col">
                 <div className="flex-1">
                   <svg className="w-8 h-8 text-teal-500 mb-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                   </svg>
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    {testimonial.text}
+                    {testimonial.texto}
                   </p>
                   <svg className="w-8 h-8 text-teal-500 mt-4 ml-auto" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
@@ -431,10 +470,10 @@ export default function BeVolunteer() {
                 <div className="flex items-center justify-between pt-6 border-t border-gray-300">
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 rounded-full bg-gray-300 overflow-hidden">
-                      <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+                      <img src={testimonial.avatar_url} alt={testimonial.nome} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
                     </div>
                     <div>
-                      <div className="font-bold text-gray-900">{testimonial.name}</div>
+                      <div className="font-bold text-gray-900">{testimonial.nome}</div>
                       <div className="text-sm text-gray-600">{testimonial.role}</div>
                     </div>
                   </div>
@@ -442,7 +481,8 @@ export default function BeVolunteer() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 

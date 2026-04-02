@@ -1,7 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
+import { supabase } from '../lib/supabaseClient';
 
 export default function BePartner() {
+  const [depoimentosParceiros, setDepoimentosParceiros] = useState([]);
+  const [loadingDepoimentos, setLoadingDepoimentos] = useState(true);
+  const [erroDepoimentos, setErroDepoimentos] = useState(false);
+
+  const carregarDepoimentos = async () => {
+    setLoadingDepoimentos(true);
+    setErroDepoimentos(false);
+
+    const { data, error } = await supabase
+      .from('depoimentos')
+      .select('*')
+      .eq('tipo', 'parceiro')
+      .eq('ativo', true)
+      .order('ordem', { ascending: true });
+
+    if (error) {
+      setErroDepoimentos(true);
+      setDepoimentosParceiros([]);
+    } else {
+      setDepoimentosParceiros(data || []);
+    }
+
+    setLoadingDepoimentos(false);
+  };
+
+  useEffect(() => {
+    carregarDepoimentos();
+  }, []);
+
   const [formData, setFormData] = useState({
     nomeCompleto: '',
     nomeEmpresa: '',
@@ -78,16 +108,16 @@ export default function BePartner() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8">
               <div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 text-teal-400">2.847</div>
-                <div className="text-sm opacity-90">Vidas Transformadas</div>
+                <div className="text-4xl md:text-5xl font-bold mb-2 text-teal-400">9.000</div>
+                <div className="text-sm opacity-90">Famílias Impactadas</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-400">95%</div>
-                <div className="text-sm opacity-90">Taxa de Empregabilidade</div>
+                <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-400">200</div>
+                <div className="text-sm opacity-90">Cestas Básicas 2025</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 text-purple-400">45</div>
-                <div className="text-sm opacity-90">Comunidades Atendidas</div>
+                <div className="text-4xl md:text-5xl font-bold mb-2 text-purple-400">450</div>
+                <div className="text-sm opacity-90">Famílias Natal Solidário 2025</div>
               </div>
             </div>
           </div>
@@ -201,41 +231,37 @@ export default function BePartner() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto auto-rows-fr">
-            {/* Card 1 - Verde */}
+            {/* Card 1 - Patrocínio Financeiro */}
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
               <div className="bg-gradient-to-br from-green-500 to-green-600 p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
-                    <i className="fas fa-briefcase text-white text-xl"></i>
+                    <i className="fas fa-money-bill-wave text-white text-xl"></i>
                   </div>
                   <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
+                    Patrocínio Financeiro
                   </h3>
                 </div>
                 <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
+                  A partir de R$ 8.000/mês
                 </p>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
+                  Contribua diretamente para projetos sociais, garantindo visibilidade da sua marca e relatórios de impacto.
                 </p>
                 <ul className="space-y-3 mb-6 flex-1">
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Logo em materiais e eventos</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Relatórios mensais de impacto</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-gray-700">
-                    <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Participação em eventos exclusivos</span>
                   </li>
                 </ul>
                 <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
@@ -245,37 +271,37 @@ export default function BePartner() {
               </div>
             </div>
 
-            {/* Card 2 - Laranja */}
+            {/* Card 2 - Patrocínio In-kind */}
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
               <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
-                    <i className="fas fa-handshake text-white text-xl"></i>
+                    <i className="fas fa-hand-holding-heart text-white text-xl"></i>
                   </div>
                   <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
+                    Patrocínio In-kind
                   </h3>
                 </div>
                 <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
+                  Doação de produtos ou serviços
                 </p>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
+                  Apoie com produtos, serviços ou expertise, agregando valor direto às ações do Instituto.
                 </p>
                 <ul className="space-y-3 mb-6 flex-1">
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em materiais</span>
+                    <span>Reconhecimento institucional</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo em eventos</span>
+                    <span>Participação em ações sociais</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Relatórios mensais</span>
+                    <span>Certificado de parceria</span>
                   </li>
                 </ul>
                 <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
@@ -285,37 +311,37 @@ export default function BePartner() {
               </div>
             </div>
 
-            {/* Card 3 - Roxo */}
+            {/* Card 3 - Voluntariado Corporativo */}
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
               <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
-                    <i className="fas fa-graduation-cap text-white text-xl"></i>
+                    <i className="fas fa-users text-white text-xl"></i>
                   </div>
                   <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
+                    Voluntariado Corporativo
                   </h3>
                 </div>
                 <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
+                  Engajamento da equipe
                 </p>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
+                  Incentive sua equipe a participar de ações voluntárias, fortalecendo a cultura e o propósito corporativo.
                 </p>
                 <ul className="space-y-3 mb-6 flex-1">
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Plano sob medida</span>
+                    <span>Programas de voluntariado</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo sob medida</span>
+                    <span>Desenvolvimento de lideranças</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Logo sob medida</span>
+                    <span>Reconhecimento público</span>
                   </li>
                 </ul>
                 <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
@@ -325,33 +351,37 @@ export default function BePartner() {
               </div>
             </div>
 
-            {/* Card 4 - Azul/Teal */}
+            {/* Card 4 - Doação de Produtos */}
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full bg-white/30 flex items-center justify-center">
-                    <i className="fas fa-bullseye text-white text-xl"></i>
+                    <i className="fas fa-box text-white text-xl"></i>
                   </div>
                   <h3 className="text-2xl font-bold text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Patrocínio Estratégico
+                    Doação de Produtos
                   </h3>
                 </div>
                 <p className="text-white/90 text-sm">
-                  A partir de R$ 10.000/mês
+                  Qualquer valor
                 </p>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <p className="text-gray-700 mb-6 text-sm">
-                  Apoio financeiro direto aos projetos com visibilidade de marca em todas as ações
+                  Doe produtos para ações sociais, campanhas e oficinas, ajudando diretamente famílias e crianças.
                 </p>
                 <ul className="space-y-3 mb-6 flex-1">
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Plano sob medida</span>
+                    <span>Entrega direta às famílias</span>
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-700">
                     <i className="fas fa-check-circle text-teal-500"></i>
-                    <span>Acompanhamento dedicado</span>
+                    <span>Visibilidade em campanhas</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-700">
+                    <i className="fas fa-check-circle text-teal-500"></i>
+                    <span>Certificado de agradecimento</span>
                   </li>
                 </ul>
                 <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
@@ -376,37 +406,47 @@ export default function BePartner() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {[
-              {
-                text: 'Nossa parceria com o Instituto Sublim transformou nossa abordagem ESG. Em 18 meses, vimos 847 pessoas capacitadas com 95% de taxa de empregabilidade. O ROI social é impressionante.',
-                name: 'Mary Jane',
-                role: 'Diretora de Sustentabilidade',
-                company: 'Parceiro 01',
-                avatar: '/images/avatar1.jpg'
-              },
-              {
-                text: 'O Instituto Sublim é um exemplo de eficiência e transparência. Nossa equipe se sente orgulhosa de fazer parte desta transformação real na Zona Norte de São Paulo.',
-                name: 'John Doe',
-                role: 'CEO',
-                company: 'Parceiro 02',
-                avatar: '/images/avatar2.jpg'
-              },
-              {
-                text: 'Investimos R$ 50mil e acompanhamos cada centavo sendo transformado em oportunidades reais. A transparência e os resultados superaram nossas expectativas.',
-                name: 'Selina Kyle',
-                role: 'Head de Responsabilidade Social',
-                company: 'Parceiro 03',
-                avatar: '/images/avatar3.jpg'
-              }
-            ].map((testimonial, idx) => (
-              <div key={idx} className="bg-teal-50 rounded-2xl p-8 relative">
+          {loadingDepoimentos ? (
+            <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="bg-teal-50 rounded-2xl p-8 animate-pulse">
+                  <div className="h-4 w-20 bg-teal-200 rounded mb-4"></div>
+                  <div className="h-3 w-full bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-11/12 bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-10/12 bg-teal-100 rounded mb-6"></div>
+                  <div className="pt-6 border-t border-gray-300 flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-full bg-teal-100"></div>
+                    <div className="flex-1">
+                      <div className="h-3 w-2/3 bg-teal-100 rounded mb-2"></div>
+                      <div className="h-3 w-1/2 bg-teal-100 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : erroDepoimentos ? (
+            <div className="text-center">
+              <p className="text-gray-500 mb-4">Nao foi possivel carregar os depoimentos no momento.</p>
+              <button
+                type="button"
+                onClick={carregarDepoimentos}
+                className="bg-teal-500 hover:bg-teal-600 text-white px-5 py-2 rounded-lg font-semibold transition"
+              >
+                Tentar novamente
+              </button>
+            </div>
+          ) : depoimentosParceiros.length === 0 ? (
+            <p className="text-center text-gray-500">Ainda não há depoimentos de parceiros publicados.</p>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+              {depoimentosParceiros.map((testimonial) => (
+              <div key={testimonial.id} className="bg-teal-50 rounded-2xl p-8 relative">
                 <div className="mb-6">
                   <svg className="w-8 h-8 text-teal-500 mb-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
                   </svg>
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    {testimonial.text}
+                    {testimonial.texto}
                   </p>
                   <svg className="w-8 h-8 text-teal-500 mt-4 ml-auto" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/>
@@ -414,17 +454,18 @@ export default function BePartner() {
                 </div>
                 <div className="flex items-center gap-3 pt-6 border-t border-gray-300">
                   <div className="w-14 h-14 rounded-full bg-gray-300 overflow-hidden">
-                    <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+                    <img src={testimonial.avatar_url} alt={testimonial.nome} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900">{testimonial.name}</div>
+                    <div className="font-bold text-gray-900">{testimonial.nome}</div>
                     <div className="text-sm text-gray-600">{testimonial.role}</div>
-                    <div className="text-xs text-teal-500 font-semibold mt-1">{testimonial.company}</div>
+                    <div className="text-xs text-teal-500 font-semibold mt-1">{testimonial.area}</div>
                   </div>
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 

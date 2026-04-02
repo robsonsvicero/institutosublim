@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
 import Button from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
 import { sendEmail } from '../lib/sendEmail';
@@ -10,6 +9,8 @@ function gerarSenhaTemporaria() {
 
 export default function AdminUsuarios() {
   const { user } = useAuth();
+  const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+  const usersApiUrl = `${apiBaseUrl}/api/users`;
   const [usuarios, setUsuarios] = useState([]);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,11 +22,17 @@ export default function AdminUsuarios() {
 
   useEffect(() => {
     async function fetchUsers() {
-      const { data, error } = await supabase.auth.admin.listUsers();
-      if (!error) setUsuarios(data?.users || []);
+      try {
+        const response = await fetch(usersApiUrl);
+        const result = await response.json().catch(() => ({}));
+        if (response.ok) setUsuarios(result.users || []);
+        else setError('Erro ao carregar usuários.');
+      } catch {
+        setError('Nao foi possivel conectar com a API.');
+      }
     }
     if (isAdmin) fetchUsers();
-  }, [isAdmin]);
+  }, [isAdmin, usersApiUrl]);
 
   async function handleAddUser(e) {
     e.preventDefault();
@@ -34,12 +41,12 @@ export default function AdminUsuarios() {
     setSuccess('');
     const senhaTemp = gerarSenhaTemporaria();
     try {
-      const response = await fetch('http://localhost:4000/api/users', {
+      const response = await fetch(usersApiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password: senhaTemp })
       });
-      const result = await response.json();
+      const result = await response.json().catch(() => ({}));
       if (!response.ok) {
         setError('Erro ao cadastrar usuário: ' + (result.error || 'Erro desconhecido.'));
         setLoading(false);
@@ -64,9 +71,19 @@ export default function AdminUsuarios() {
   async function handleDeleteUser(id) {
     if (!window.confirm('Tem certeza que deseja excluir este usuário?')) return;
     setLoading(true);
-    await supabase.auth.admin.deleteUser(id);
+    setError('');
+    try {
+      const response = await fetch(`${usersApiUrl}/${id}`, { method: 'DELETE' });
+      const result = await response.json().catch(() => ({}));
+      if (response.ok) {
+        setUsuarios(usuarios.filter(u => (u.supabaseId || u.id) !== id));
+      } else {
+        setError('Erro ao excluir: ' + (result.error || 'Erro desconhecido.'));
+      }
+    } catch {
+      setError('Nao foi possivel conectar com a API.');
+    }
     setLoading(false);
-    setUsuarios(usuarios.filter(u => u.id !== id));
   }
 
   return (
@@ -91,10 +108,10 @@ export default function AdminUsuarios() {
           {success && <div className="text-green-500 mb-2">{success}</div>}
           <ul className="divide-y">
             {usuarios.map(u => (
-              <li key={u.id} className="py-2 flex items-center justify-between">
+              <li key={u.supabaseId || u.id} className="py-2 flex items-center justify-between">
                 <span>{u.email}</span>
                 {u.email !== 'robsonsvicero@outlook.com' && (
-                  <Button variant="outline" size="sm" onClick={() => handleDeleteUser(u.id)}>
+                  <Button variant="outline" size="sm" onClick={() => handleDeleteUser(u.supabaseId || u.id)}>
                     Excluir
                   </Button>
                 )}

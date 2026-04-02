@@ -18,16 +18,16 @@ import Login from './pages/Login';
 import AdminUsuarios from './pages/AdminUsuarios';
 import AlterarSenha from './pages/AlterarSenha';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminDepoimentos from './pages/AdminDepoimentos';
 import CartaoVisitaDigital from './pages/CartaoVisitaDigital';
 
 function AppContent() {
   const location = useLocation();
-  const isInscricaoOficinas = location.pathname === '/inscricao-oficinas';
   const isCartao = location.pathname === '/cartao';
   return (
     <div className="w-full">
       {!isCartao && (
-        <Header fixed={!isInscricaoOficinas} textColor={isInscricaoOficinas ? '#8B8B8B' : undefined} />
+        <Header fixed={true} />
       )}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -44,6 +44,7 @@ function AppContent() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+        <Route path="/admin/depoimentos" element={<AdminDepoimentos />} />
         <Route path="/alterar-senha" element={<AlterarSenha />} />
         <Route path="/cartao" element={<CartaoVisitaDigital />} />
       </Routes>

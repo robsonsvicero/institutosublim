@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
+import { supabase } from '../lib/supabaseClient';
 
 const TransformLivesDonation = () => {
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -169,48 +170,34 @@ const TransformLivesDonation = () => {
     { value: 500, label: 'R$ 500' }
   ];
 
-  const transformationStories = [
-    {
-      name: 'Mary Jane',
-      age: '34 anos',
-      location: 'Vila Penteado, SP',
-      avatar: '/images/avatar-1.jpg',
-      text: '"A doação mensal de R$ 150 por mês durante 6 meses me permitiu fazer o curso de informática e hoje trabalho em uma empresa de tecnologia. Minha vida mudou completamente."',
-      from: 'Desempregada',
-      to: 'Analista de Sistemas Jr',
-      donation: 'R$ 150 por 6 meses'
-    },
-    {
-      name: 'Mary Jane',
-      age: '34 anos',
-      location: 'Vila Penteado, SP',
-      avatar: '/images/avatar-2.jpg',
-      text: '"A doação mensal de R$ 150 por mês durante 6 meses me permitiu fazer o curso de informática e hoje trabalho em uma empresa de tecnologia. Minha vida mudou completamente."',
-      from: 'Desempregada',
-      to: 'Analista de Sistemas Jr',
-      donation: 'R$ 150 por 6 meses'
-    },
-    {
-      name: 'Mary Jane',
-      age: '34 anos',
-      location: 'Vila Penteado, SP',
-      avatar: '/images/avatar-3.jpg',
-      text: '"A doação mensal de R$ 150 por mês durante 6 meses me permitiu fazer o curso de informática e hoje trabalho em uma empresa de tecnologia. Minha vida mudou completamente."',
-      from: 'Desempregada',
-      to: 'Analista de Sistemas Jr',
-      donation: 'R$ 150 por 6 meses'
-    },
-    {
-      name: 'Mary Jane',
-      age: '34 anos',
-      location: 'Vila Penteado, SP',
-      avatar: '/images/avatar-4.jpg',
-      text: '"A doação mensal de R$ 150 por mês durante 6 meses me permitiu fazer o curso de informática e hoje trabalho em uma empresa de tecnologia. Minha vida mudou completamente."',
-      from: 'Desempregada',
-      to: 'Analista de Sistemas Jr',
-      donation: 'R$ 150 por 6 meses'
+  const [transformationStories, setTransformationStories] = useState([]);
+  const [loadingStories, setLoadingStories] = useState(true);
+  const [erroStories, setErroStories] = useState(false);
+
+  const carregarHistorias = async () => {
+    setLoadingStories(true);
+    setErroStories(false);
+
+    const { data, error } = await supabase
+      .from('depoimentos')
+      .select('*')
+      .eq('tipo', 'beneficiado')
+      .eq('ativo', true)
+      .order('ordem', { ascending: true });
+
+    if (error) {
+      setErroStories(true);
+      setTransformationStories([]);
+    } else {
+      setTransformationStories(data || []);
     }
-  ];
+
+    setLoadingStories(false);
+  };
+
+  useEffect(() => {
+    carregarHistorias();
+  }, []);
 
   const urgentCases = [
     {
@@ -500,6 +487,38 @@ const TransformLivesDonation = () => {
             </p>
           </div>
 
+          {loadingStories ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+              {[1, 2, 3, 4].map((item) => (
+                <div key={item} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 p-6 animate-pulse">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-14 h-14 rounded-full bg-teal-100 flex-shrink-0"></div>
+                    <div className="flex-1">
+                      <div className="h-3 w-2/3 bg-teal-100 rounded mb-2"></div>
+                      <div className="h-3 w-1/3 bg-teal-100 rounded mb-2"></div>
+                      <div className="h-3 w-1/2 bg-teal-100 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="h-3 w-full bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-11/12 bg-teal-100 rounded mb-2"></div>
+                  <div className="h-3 w-10/12 bg-teal-100 rounded"></div>
+                </div>
+              ))}
+            </div>
+          ) : erroStories ? (
+            <div className="text-center">
+              <p className="text-gray-500 mb-4">Nao foi possivel carregar as historias no momento.</p>
+              <button
+                type="button"
+                onClick={carregarHistorias}
+                className="bg-teal-500 hover:bg-teal-600 text-white px-5 py-2 rounded-lg font-semibold transition"
+              >
+                Tentar novamente
+              </button>
+            </div>
+          ) : transformationStories.length === 0 ? (
+            <p className="text-center text-gray-500">Ainda nao ha historias publicadas.</p>
+          ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {transformationStories.map((story, index) => (
               <div key={index} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
@@ -509,33 +528,38 @@ const TransformLivesDonation = () => {
                       <i className="fas fa-user text-gray-600 text-xl"></i>
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900 text-base">{story.name}</h4>
-                      <p className="text-sm text-gray-600">{story.age}</p>
-                      <p className="text-xs text-gray-500">{story.location}</p>
+                      <h4 className="font-bold text-gray-900 text-base">{story.nome}</h4>
+                      <p className="text-sm text-gray-600">{story.idade}</p>
+                      <p className="text-xs text-gray-500">{story.localizacao}</p>
                     </div>
                   </div>
 
                   <p className="text-sm text-gray-700 italic mb-6 leading-relaxed">
-                    {story.text}
+                    {story.texto}
                   </p>
 
-                  <div className="bg-green-50 rounded-lg p-4 mb-4">
-                    <p className="text-xs font-semibold text-green-700 mb-2">Transformação</p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-700">{story.from}</span>
-                      <i className="fas fa-arrow-right text-green-600 mx-2"></i>
-                      <span className="text-green-700 font-semibold">{story.to}</span>
+                  {(story.transformacao_de || story.transformacao_para) && (
+                    <div className="bg-green-50 rounded-lg p-4 mb-4">
+                      <p className="text-xs font-semibold text-green-700 mb-2">Transformação</p>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-700">{story.transformacao_de || '-'}</span>
+                        <i className="fas fa-arrow-right text-green-600 mx-2"></i>
+                        <span className="text-green-700 font-semibold">{story.transformacao_para || '-'}</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="bg-blue-50 rounded-lg p-4">
-                    <p className="text-xs font-semibold text-blue-700 mb-1">Doação Mensal:</p>
-                    <p className="text-sm font-bold text-blue-900">{story.donation}</p>
-                  </div>
+                  {story.doacao && (
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <p className="text-xs font-semibold text-blue-700 mb-1">Doação Mensal:</p>
+                      <p className="text-sm font-bold text-blue-900">{story.doacao}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
           </div>
+          )}
 
           <div className="text-center mt-12">
             <Button variant="primary" size="lg" className="text-white bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700">

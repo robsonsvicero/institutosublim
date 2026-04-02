@@ -9,31 +9,25 @@ const TRANSPARENCY_CARDS = [
     icon: 'fas fa-users',
     iconColor: 'text-white/90',
     bgColor: 'from-green-500 to-green-600',
-    value: '200',
-    label: 'Famílias Cadastradas',
+    value: '9.000',
+    label: 'Famílias Impactadas',
     type: 'stat'
   },
   {
-    icon: 'fas fa-download',
-    iconColor: 'text-blue-600',
-    bgColor: 'white',
-    title: 'Relatório de Impacto 2024',
-    description: 'Dados completos de nossas ações',
-    buttonText: 'Baixar PDF',
-    buttonIcon: 'far fa-file-pdf',
-    buttonColor: 'bg-blue-600 hover:bg-blue-700',
-    type: 'action'
+    icon: 'fas fa-box',
+    iconColor: 'text-yellow-500',
+    bgColor: 'from-yellow-400 to-yellow-500',
+    value: '200',
+    label: 'Cestas Básicas em 2025',
+    type: 'stat'
   },
   {
-    icon: 'fas fa-check-circle',
-    iconColor: 'text-green-600',
-    bgColor: 'white',
-    title: 'CNPJ e Certificações',
-    description: 'Documentação oficial e legal',
-    buttonText: 'Ver Documentos',
-    buttonIcon: 'fas fa-award',
-    buttonColor: 'bg-green-600 hover:bg-green-700',
-    type: 'action'
+    icon: 'fas fa-gift',
+    iconColor: 'text-pink-500',
+    bgColor: 'from-pink-400 to-pink-500',
+    value: '450',
+    label: 'Famílias Natal Solidário',
+    type: 'stat'
   }
 ];
 
@@ -229,11 +223,6 @@ const ImpactProjectCard = ({ project }) => (
         <div className="text-3xl font-bold text-teal-600 mb-1">{project.stat}</div>
         <div className="text-sm text-gray-600">{project.statLabel}</div>
       </div>
-
-      {/* <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2">
-        <span>Saiba Mais</span>
-        <i className="fas fa-arrow-right" aria-hidden="true"></i>
-      </button> */}
     </div>
   </div>
 );
@@ -278,7 +267,7 @@ export default function Home() {
     <>
       {showPreLoader && <PreLoader onFinish={() => setShowPreLoader(false)} />}
       <div className="bg-white">
-      {/* Hero Section */}
+      {/* Hero Section Otimizada */}
       <section
         id="home"
         className="w-full hero-bg h-[780px] flex items-center relative pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
@@ -289,19 +278,19 @@ export default function Home() {
         <div className="container mx-auto mt-24 relative">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Transformando vidas, <br />
-              <span className="text-white/90">construindo um futuro</span><br />
-              <span className="text-primary">sustentável</span>
+              Sua doação transforma a Zona Norte.<br />
+              <span className="text-white/90">Ajude o Instituto Sublim a mudar vidas.</span>
             </h1>
             <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
-              Conectamos o poder da solidariedade à <strong>determinação </strong>de mais de <strong>200 famílias </strong>
-              na Zona Norte de SP, promovendo o desenvolvimento comunitário e a chance de um futuro digno.
+              Já impactamos <strong>9.000 famílias</strong> com necessidades básicas.<br />
+              Em 2025, entregamos <strong>200 cestas básicas</strong> e assistimos <strong>450 famílias</strong> no Natal Solidário.<br />
+              <span className="text-pink-200 font-bold">PIX: 12345678900</span> <button className="ml-2 px-3 py-1 mt-8 bg-pink-600 text-white rounded" onClick={() => {navigator.clipboard.writeText('12345678900')}}>Copiar</button>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link className="w-full" to="/doacao" onClick={handleLinkClick}>
                 <Button size="lg" className="w-full" variant="primary" icon="fa-regular fa-heart">
-                  DOAR AGORA
+                  DOE AGORA
                 </Button>
               </Link>
               <Link className="w-full" to="/nossos-projetos" onClick={handleLinkClick}>
@@ -393,6 +382,46 @@ export default function Home() {
             {IMPACT_PROJECTS.map((project, idx) => (
               <ImpactProjectCard key={idx} project={project} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Onde Atuamos Section */}
+      <section id="onde-atuamos" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+        <div className="container mx-auto">
+          <SectionTitle subtitle="Veja os bairros da Zona Norte de São Paulo onde o Instituto Sublim atua e transforma vidas.">
+            Onde Atuamos
+          </SectionTitle>
+          <div className="flex flex-col lg:flex-row gap-12 items-center">
+            <div className="w-full lg:w-1/2">
+              <img src="/images/mapa-zona-norte.png" alt="Mapa Zona Norte" className="rounded-xl shadow-xl w-full" />
+            </div>
+            <div className="w-full lg:w-1/2">
+              <h3 className="text-2xl font-bold mb-4 text-primary">Bairros Atendidos:</h3>
+              <ul className="grid grid-cols-2 gap-2 text-lg text-gray-700">
+                <li>Vila Aurora</li>
+                <li>Comunidade da Paz</li>
+                <li>São João</li>
+                <li>Corisco</li>
+                <li>Filhos da Terra</li>
+                <li>Jaçanã</li>
+                <li>Vila Albertina</li>
+                <li>Cachoeira</li>
+                <li>Tremembé</li>
+                <li>Jardim Brasil</li>
+                <li>Vila Ede</li>
+                <li>Imirim</li>
+                <li>Pery</li>
+                <li>Sucupira</li>
+                <li>Vila Nova Galvão</li>
+                <li>Pery Alto</li>
+                <li>Casa Verde</li>
+                <li>Boi Malhado</li>
+                <li>Santana</li>
+                <li>Tucuruvi</li>
+                <li>Mandaqui</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
