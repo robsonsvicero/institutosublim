@@ -81,7 +81,7 @@ export default function Login({ onLogin }) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-[#D1D1D1]">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md flex flex-col gap-4">
         {!showReset ? (
           <>
