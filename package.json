@@ -6,7 +6,7 @@
     "dev": "vite",
     "api:dev": "node api/users.js",
     "start": "node api/users.js",
-    "build": "vite build",
+    "build": "vite build && node scripts/build-post.js",
     "preview": "vite preview"
   },
   "dependencies": {
