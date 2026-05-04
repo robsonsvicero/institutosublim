@@ -57,26 +57,37 @@ export default function Oficinas() {
             <div className="col-span-3 text-center text-gray-500">Nenhum curso ou oficina disponível.</div>
           ) : (
             workshops.map((workshop) => (
-              <div key={workshop.id} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center gap-4 relative">
+              <div key={workshop.id} className="flex flex-col justify-between bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-200 relative">
                 {workshop.closed && (
                   <span className="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">Encerrado</span>
                 )}
-                <div className="mb-4">
-                  <i className={`${workshop.icon} text-primary-600 text-4xl`}></i>
-                </div>
-                <h2 className="text-2xl font-bold mb-2 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>{workshop.title}</h2>
-                <div className="flex flex-col text-left w-full">
-                  <div className="text-sm text-primary-600 mb-2 font-semibold">{workshop.category}</div>
-                  <ul className="mb-4 text-gray-700 text-sm space-y-1">
-                    <li><strong>Frequência:</strong> {workshop.frequency}</li>
-                    <li><strong>Duração:</strong> {workshop.duration}</li>
-                    <li><strong>Alunos:</strong> {workshop.students}</li>
-                    <li><strong>Próxima turma:</strong> {workshop.next_class}</li>
-                  </ul>
+                <div>
+                  <div className="mb-4">
+                    <span className="text-sm font-semibold text-teal-500">{workshop.category}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-primary-dark mb-6">{workshop.title}</h3>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Frequência:</span>
+                      <span className="font-semibold text-gray-900">{workshop.frequency}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Duração:</span>
+                      <span className="font-semibold text-gray-900">{workshop.duration}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Alunos:</span>
+                      <span className="font-semibold text-teal-700">{workshop.students}</span>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-3 mb-4">
+                    <p className="text-xs text-gray-600 mb-1">Próxima Turma</p>
+                    <p className="text-sm font-bold text-gray-900">{workshop.next_class}</p>
+                  </div>
                 </div>
                 <a href="/inscricao-oficinas" className="w-full">
-                  <Button variant="primary" size="md" className="w-full">
-                    Inscreva-se
+                  <Button variant="secondary" className="w-full">
+                    Inscrições Abertas
                   </Button>
                 </a>
               </div>

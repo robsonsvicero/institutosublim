@@ -8,6 +8,7 @@ export default function OurProjects() {
   const [transformationStories, setTransformationStories] = useState([]);
   const [loadingStories, setLoadingStories] = useState(true);
   const [erroStories, setErroStories] = useState(false);
+  const [workshops, setWorkshops] = useState([]);
 
   const carregarHistorias = async () => {
     setLoadingStories(true);
@@ -32,6 +33,18 @@ export default function OurProjects() {
 
   useEffect(() => {
     carregarHistorias();
+  }, []);
+
+  useEffect(() => {
+    async function fetchWorkshops() {
+      const { data } = await supabase
+        .from('cursos_oficinas')
+        .select('*')
+        .eq('closed', false)
+        .order('created_at', { ascending: false });
+      setWorkshops(data || []);
+    }
+    fetchWorkshops();
   }, []);
 
   // Estados para animação dos números
@@ -153,40 +166,6 @@ export default function OurProjects() {
     }
   ];
 
-  const workshops = [
-    {
-      category: 'Tecnologia',
-      title: 'Informática e Digitação',
-      frequency: '3x por semana',
-      duration: '3 meses',
-      students: '240 formados',
-      nextClass: '15/Jan/2026'
-    },
-    {
-      category: 'Empreendedorismo',
-      title: 'Gestão de Pequenos Negócios',
-      frequency: '2x por semana',
-      duration: '2 meses',
-      students: '156 formados',
-      nextClass: '22/Jan/2026'
-    },
-    {
-      category: 'Educação',
-      title: 'Alfabetização de Adultos',
-      frequency: 'Diária',
-      duration: '6 meses',
-      students: '89 alfabetizados',
-      nextClass: '08/Fev/2026'
-    },
-    {
-      category: 'Arte e Cultura',
-      title: 'Iniciação Musical',
-      frequency: '3x por semana',
-      duration: '6 meses',
-      students: '40 formados',
-      nextClass: '05/Mar/2026'
-    }
-  ];
 
   const partners = [
     { name: 'Gerando Falcões', category: 'ONGs', logo: '/images/partners/gerando-falcoes.png' },
@@ -602,7 +581,7 @@ export default function OurProjects() {
                 {/* Próxima Turma */}
                 <div className="bg-gray-50 rounded-lg p-4 mb-4">
                   <p className="text-xs text-gray-600 mb-1">Próxima Turma</p>
-                  <p className="font-bold text-gray-900 text-base">{workshop.nextClass}</p>
+                  <p className="font-bold text-gray-900 text-base">{workshop.next_class}</p>
                 </div>
 
                 {/* Botão */}

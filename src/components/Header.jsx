@@ -22,9 +22,11 @@ export default function Header({ fixed = true, textColor }) {
     setSubmenuOpen(false);
   };
 
-  const linkClass = isScrolled
-    ? 'text-[#8B8B8B] hover:text-primary-dark transition'
-    : 'text-white hover:text-primary-200 transition';
+  const linkClass = textColor === 'admin'
+    ? 'text-primary-dark hover:opacity-60 transition'
+    : isScrolled
+      ? 'text-[#8B8B8B] hover:text-primary-dark transition'
+      : 'text-white hover:text-primary-200 transition';
 
   const desktopMenu = (
     <nav className="hidden lg:flex items-center gap-8">

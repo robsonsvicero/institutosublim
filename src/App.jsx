@@ -26,10 +26,12 @@ import CartaoVisitaDigital from './pages/CartaoVisitaDigital';
 function AppContent() {
   const location = useLocation();
   const isCartao = location.pathname === '/cartao';
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/alterar-senha';
+  
   return (
     <div className="w-full">
       {!isCartao && (
-        <Header fixed={true} />
+        <Header fixed={!isAdminRoute} textColor={isAdminRoute ? 'admin' : undefined} />
       )}
       <Routes>
         <Route path="/" element={<Home />} />

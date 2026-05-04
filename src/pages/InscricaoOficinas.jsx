@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../components/ui/Button';
-
-const workshopOptions = [
-  'Informática e Digitação',
-  'Gestão de Pequenos Negócios',
-  'Alfabetização de Adultos',
-  'Iniciação Musical',
-];
+import { supabase } from '../lib/supabaseClient';
 
 export default function InscricaoOficinas() {
+  const [workshopOptions, setWorkshopOptions] = useState([]);
   const [form, setForm] = useState({
     name: '',
     email: '',
     phone: '',
-    workshop: workshopOptions[0],
+    workshop: '',
   });
   const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    async function fetchWorkshopOptions() {
+      const { data } = await supabase
+        .from('cursos_oficinas')
+        .select('title, closed')
+        .order('title', { ascending: true });
+
+      const activeOptions = Array.from(
+        new Set((data || []).filter((item) => !item.closed).map((item) => item.title).filter(Boolean))
+      );
+
+      setWorkshopOptions(activeOptions);
+      setForm((prev) => ({
+        ...prev,
+        workshop: activeOptions[0] || '',
+      }));
+    }
+
+    fetchWorkshopOptions();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +42,12 @@ export default function InscricaoOficinas() {
     e.preventDefault();
     // Aqui você pode integrar com backend ou serviço de e-mail
     setShowToast(true);
-    setForm({ name: '', email: '', phone: '', workshop: workshopOptions[0] });
+    setForm({
+      name: '',
+      email: '',
+      phone: '',
+      workshop: workshopOptions[0] || '',
+    });
     setTimeout(() => setShowToast(false), 4000);
   };
 
@@ -127,8 +148,12 @@ export default function InscricaoOficinas() {
                   value={form.workshop}
                   onChange={handleChange}
                   required
+                  disabled={workshopOptions.length === 0}
                   className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white"
                 >
+                  {workshopOptions.length === 0 && (
+                    <option value="">Nenhum curso/oficina em aberto no momento</option>
+                  )}
                   {workshopOptions.map((option) => (
                     <option key={option} value={option}>{option}</option>
                   ))}

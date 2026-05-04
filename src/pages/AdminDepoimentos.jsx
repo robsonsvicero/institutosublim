@@ -170,13 +170,13 @@ export default function AdminDepoimentos() {
     : depoimentos.filter((d) => d.tipo === filtroTipo);
 
   return (
-    <div className="bg-gray-50 min-h-screen p-6 lg:p-10">
+    <div className="bg-gray-50 min-h-screen p-6 lg:p-10 pt-20">
       <div className="max-w-5xl mx-auto">
+        <button onClick={() => navigate('/admin')} className="text-black hover:opacity-60 transition text-sm flex items-center gap-1 mb-4">
+          <i className="fas fa-arrow-left text-xs"></i> Voltar ao painel
+        </button>
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Gerenciar Depoimentos</h1>
-          <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
-            ← Voltar ao painel
-          </Button>
         </div>
 
         {feedback.mensagem && (

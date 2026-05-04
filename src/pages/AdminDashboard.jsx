@@ -9,7 +9,12 @@ export default function AdminDashboard() {
   const isAdmin = user?.email === 'hello@svicerostudio.com.br';
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-8 bg-gray-50 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center gap-8 bg-gray-50 p-4 pt-20">
+      <div className="w-full max-w-xs">
+        <button onClick={() => navigate('/')} className="text-black hover:opacity-60 transition text-sm flex items-center gap-1">
+          <i className="fas fa-arrow-left text-xs"></i> Voltar ao site
+        </button>
+      </div>
       <h1 className="text-3xl font-bold mb-8">Painel Administrativo</h1>
       <div className="flex flex-col gap-4 w-full max-w-xs">
         <Button variant="primary" size="lg" onClick={() => navigate('/admin/cursos-oficinas')}>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
 import { sendEmail } from '../lib/sendEmail';
@@ -8,6 +9,7 @@ function gerarSenhaTemporaria() {
 }
 
 export default function AdminUsuarios() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
   const usersApiUrl = `${apiBaseUrl}/api/users`;
@@ -87,8 +89,13 @@ export default function AdminUsuarios() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-8">
-      <h2 className="text-2xl font-bold mb-6">Gestão de Usuários</h2>
+    <div className="max-w-2xl mx-auto p-8 pt-20">
+      <button onClick={() => navigate('/admin')} className="text-black hover:opacity-60 transition text-sm flex items-center gap-1 mb-4">
+        <i className="fas fa-arrow-left text-xs"></i> Voltar ao painel
+      </button>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold">Gestão de Usuários</h2>
+      </div>
       {!isAdmin ? (
         <div className="text-red-500">Acesso restrito ao administrador.</div>
       ) : (
@@ -108,12 +115,15 @@ export default function AdminUsuarios() {
           {success && <div className="text-green-500 mb-2">{success}</div>}
           <ul className="divide-y">
             {usuarios.map(u => (
-              <li key={u.supabaseId || u.id} className="py-2 flex items-center justify-between">
-                <span>{u.email}</span>
+              <li key={u.supabaseId || u.id} className="py-3 flex items-center justify-between gap-4">
+                <span className="text-sm text-gray-800 truncate">{u.email}</span>
                 {u.email !== 'robsonsvicero@outlook.com' && (
-                  <Button variant="outline" size="sm" onClick={() => handleDeleteUser(u.supabaseId || u.id)}>
-                    Excluir
-                  </Button>
+                  <button
+                    onClick={() => handleDeleteUser(u.supabaseId || u.id)}
+                    className="shrink-0 text-sm border border-red-200 rounded-lg py-1.5 px-3 hover:bg-red-50 transition text-red-600 font-medium"
+                  >
+                    <i className="fas fa-trash mr-1 text-xs"></i> Excluir
+                  </button>
                 )}
               </li>
             ))}

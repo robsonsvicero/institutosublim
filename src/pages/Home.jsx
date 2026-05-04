@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PreLoader from '../components/PreLoader.jsx';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui';
+import { supabase } from '../lib/supabaseClient';
 
 // Dados das seções
 const TRANSPARENCY_CARDS = [
@@ -31,40 +32,7 @@ const TRANSPARENCY_CARDS = [
   }
 ];
 
-const WORKSHOPS = [
-  {
-    category: 'Empreendedorismo',
-    title: 'Gestão de Pequenos Negócios',
-    frequency: '2x por semana',
-    duration: '2 meses',
-    graduates: '156 formados',
-    nextClass: '22/Jan/2026'
-  },
-  {
-    category: 'Tecnologia',
-    title: 'Manutenção de Computadores',
-    frequency: '2x por semana',
-    duration: '3 meses',
-    graduates: 'NOVA OFICINA',
-    nextClass: '15/Fev/2026'
-  },
-  {
-    category: 'Educação',
-    title: 'Alfabetização de Adultos',
-    frequency: 'Diária',
-    duration: '6 meses',
-    graduates: '89 alfabetizados',
-    nextClass: '08/Fev/2026'
-  },
-  {
-    category: 'Arte e Cultura',
-    title: 'Iniciação Musical',
-    frequency: '3x por semana',
-    duration: '6 meses',
-    graduates: '40 formados',
-    nextClass: '05/Mar/2026'
-  }
-];
+
 
 const IMPACT_PROJECTS = [
   {
@@ -175,14 +143,14 @@ const WorkshopCard = ({ workshop }) => (
         <span className="font-semibold text-gray-900">{workshop.duration}</span>
       </div>
       <div className="flex justify-between text-sm">
-        <span className="text-gray-600">Formados:</span>
-        <span className="font-semibold text-teal-700">{workshop.graduates}</span>
+        <span className="text-gray-600">Alunos:</span>
+        <span className="font-semibold text-teal-700">{workshop.students}</span>
       </div>
     </div>
 
     <div className="bg-gray-50 rounded-lg p-3 mb-4">
       <p className="text-xs text-gray-600 mb-1">Próxima Turma</p>
-      <p className="text-sm font-bold text-gray-900">{workshop.nextClass}</p>
+      <p className="text-sm font-bold text-gray-900">{workshop.next_class}</p>
     </div>
     <a href="/inscricao-oficinas">
       <Button variant="secondary" className="w-full">
@@ -252,12 +220,25 @@ const SectionTitle = ({ children, subtitle }) => (
 
 export default function Home() {
   const [showPreLoader, setShowPreLoader] = useState(false);
+  const [workshops, setWorkshops] = useState([]);
 
   useEffect(() => {
     if (!sessionStorage.getItem('preloaderShown')) {
       setShowPreLoader(true);
       sessionStorage.setItem('preloaderShown', 'true');
     }
+  }, []);
+
+  useEffect(() => {
+    async function fetchWorkshops() {
+      const { data } = await supabase
+        .from('cursos_oficinas')
+        .select('*')
+        .eq('closed', false)
+        .order('created_at', { ascending: false });
+      setWorkshops(data || []);
+    }
+    fetchWorkshops();
   }, []);
   const handleLinkClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -364,8 +345,8 @@ export default function Home() {
           </SectionTitle>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            {WORKSHOPS.map((workshop, idx) => (
-              <WorkshopCard key={idx} workshop={workshop} />
+            {workshops.map((workshop) => (
+              <WorkshopCard key={workshop.id} workshop={workshop} />
             ))}
           </div>
         </div>

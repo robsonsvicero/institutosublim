@@ -104,8 +104,13 @@ export default function AdminAprovacaoUsuarios() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-      <h2 className="text-3xl font-bold mb-6">Aprovação de Usuários</h2>
+    <div className="max-w-4xl mx-auto p-8 pt-20">
+      <button onClick={() => navigate('/admin')} className="text-black hover:opacity-60 transition text-sm flex items-center gap-1 mb-4">
+        <i className="fas fa-arrow-left text-xs"></i> Voltar ao painel
+      </button>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl font-bold">Aprovação de Usuários</h2>
+      </div>
 
       {feedback && (
         <div className={`p-4 rounded mb-4 ${feedback.includes('Erro') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
