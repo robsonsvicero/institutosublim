@@ -307,56 +307,6 @@ export default function OurStory() {
         </div>
       </section>
 
-      {/* Nosso Impacto em Números Section */}
-      <section ref={sectionRef} id="impact-numbers-section" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-[#F5F3E8]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-            Nosso Impacto em Números
-          </h2>
-          <p className="text-center text-gray-700 mb-16 text-base sm:text-lg">
-            Resultados concretos de nossa missão
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 max-w-6xl mx-auto">
-            {/* Stat 1 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6">
-                <i className="fas fa-users text-3xl text-primary-dark"></i>
-              </div>
-              <div className="text-5xl md:text-6xl font-bold text-primary-dark mb-3">{pessoasTransformadas.toLocaleString('pt-BR')}</div>
-              <p className="text-gray-600 font-semibold text-base">Pessoas Transformadas</p>
-            </div>
-
-            {/* Stat 2 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6">
-                <i className="fas fa-bullseye text-3xl text-primary-dark"></i>
-              </div>
-              <div className="text-5xl md:text-6xl font-bold text-primary-dark mb-3">{taxaEmpregabilidade}%</div>
-              <p className="text-gray-600 font-semibold text-base">Taxa de Empregabilidade</p>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6">
-                <i className="fas fa-award text-3xl text-primary-dark"></i>
-              </div>
-              <div className="text-5xl md:text-6xl font-bold text-primary-dark mb-3">{certificacoes}</div>
-              <p className="text-gray-600 font-semibold text-base">Certificações Conquistadas</p>
-            </div>
-
-            {/* Stat 4 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6">
-                <i className="fas fa-map-marker-alt text-3xl text-primary-dark"></i>
-              </div>
-              <div className="text-5xl md:text-6xl font-bold text-primary-dark mb-3">{comunidades}</div>
-              <p className="text-gray-600 font-semibold text-base">Comunidades Atendidas</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Parcerias Estratégicas Section */}
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
         <div className="max-w-7xl mx-auto">

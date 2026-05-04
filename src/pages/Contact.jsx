@@ -214,7 +214,7 @@ export default function Contact() {
               {/* Form Content */}
               <form
                 onSubmit={handleSubmit}
-                action="https://formsubmit.co/hello@robsonsvicero.com.br"
+                action="https://formsubmit.co/contato@institutosublim.org"
                 method="POST"
                 className="p-8 space-y-6"
               >

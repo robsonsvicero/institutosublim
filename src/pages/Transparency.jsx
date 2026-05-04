@@ -166,7 +166,7 @@ export default function Transparency() {
           </div>
 
           {/* Grid de Cards de Documentos */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Card 1 - Relatórios de Impacto Anual */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow flex flex-col justify-between h-full w-full">
               <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6">
@@ -193,9 +193,11 @@ export default function Transparency() {
                   <span className="font-bold">12</span>
                 </div>
               </div>
-              <Button variant="blue" size="md" icon="fas fa-download" >
-                Baixar Relatório 2025 (PDF)
-              </Button>
+              <a href="/docs/RELATÓRIO DE ATIVIDADES 2025.pdf" target="_blank" rel="noopener noreferrer" download>
+                <Button variant="blue" size="md" icon="fas fa-download" className="w-full">
+                  Baixar Relatório 2025 (PDF)
+                </Button>
+              </a>
             </div>
 
             {/* Card 2 - Prestação de Contas Financeira */}
@@ -225,7 +227,7 @@ export default function Transparency() {
                 </div>
               </div>
               <Button variant="blue" size="md" icon="fas fa-download">
-                Baixar Balanço 2024 (PDF)
+                Baixar Balanço 2025 (PDF)
               </Button>
             </div>
 
@@ -255,40 +257,11 @@ export default function Transparency() {
                   <span className="font-bold">Anual</span>
                 </div>
               </div>
-              <Button variant="blue" size="md" icon="fas fa-eye">
-                Ver Estatutos e CNPJ
-              </Button>
-            </div>
-
-            {/* Card 4 - Certificações e Títulos */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow flex flex-col justify-between h-full w-full">
-              <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-award text-2xl text-gray-900"></i>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Certificações e Títulos
-              </h3>
-              <div className="mb-4">
-                <span className="inline-block text-sm font-medium text-gray-900 bg-primary-500 px-3 py-1 rounded-full mb-4">
-                  Documento Público
-                </span>
-              </div>
-              <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                Consulte nossos títulos de utilidade pública e outras certificações que atestam nossa idoneidade e boa governança.
-              </p>
-              <div className="space-y-2 mb-6 text-sm text-gray-700">
-                <div className="flex justify-between">
-                  <span>Certificados:</span>
-                  <span className="font-bold">8</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Validade:</span>
-                  <span className="font-bold">2025</span>
-                </div>
-              </div>
-              <Button variant="blue" size="md" icon="fas fa-eye">
-                Ver Certificados
-              </Button>
+              <a href="/docs/ATA-ESTATUTO SUBLIM.pdf" target="_blank" rel="noopener noreferrer" download>
+                <Button variant="blue" size="md" icon="fas fa-download" className="w-full">
+                  Ver Estatuto
+                </Button>
+              </a>
             </div>
           </div>
         </div>

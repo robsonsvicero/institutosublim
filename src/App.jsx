@@ -22,15 +22,17 @@ import AlterarSenha from './pages/AlterarSenha';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminDepoimentos from './pages/AdminDepoimentos';
 import CartaoVisitaDigital from './pages/CartaoVisitaDigital';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function AppContent() {
   const location = useLocation();
   const isCartao = location.pathname === '/cartao';
+  const isAuthRoute = location.pathname === '/login' || location.pathname === '/signup';
   const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/alterar-senha';
   
   return (
     <div className="w-full">
-      {!isCartao && (
+      {!isCartao && !isAuthRoute && (
         <Header fixed={!isAdminRoute} textColor={isAdminRoute ? 'admin' : undefined} />
       )}
       <Routes>
@@ -44,15 +46,20 @@ function AppContent() {
         <Route path="/doacao" element={<TransformLivesDonation />} />
         <Route path="/inscricao-oficinas" element={<InscricaoOficinas />} />
         <Route path="/oficinas" element={<Oficinas />} />
-        <Route path="/admin/cursos-oficinas" element={<AdminCursosOficinas />} />
+        
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/usuarios" element={<AdminUsuarios />} />
-        <Route path="/admin/aprovacao-usuarios" element={<AdminAprovacaoUsuarios />} />
-        <Route path="/admin/depoimentos" element={<AdminDepoimentos />} />
-        <Route path="/alterar-senha" element={<AlterarSenha />} />
         <Route path="/cartao" element={<CartaoVisitaDigital />} />
+
+        {/* Rotas protegidas (Administrador ou Voluntário) */}
+        <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/cursos-oficinas" element={<ProtectedRoute><AdminCursosOficinas /></ProtectedRoute>} />
+        <Route path="/admin/depoimentos" element={<ProtectedRoute><AdminDepoimentos /></ProtectedRoute>} />
+        <Route path="/alterar-senha" element={<ProtectedRoute><AlterarSenha /></ProtectedRoute>} />
+
+        {/* Rotas protegidas exclusivas para Administradores */}
+        <Route path="/admin/usuarios" element={<ProtectedRoute requireAdmin={true}><AdminUsuarios /></ProtectedRoute>} />
+        <Route path="/admin/aprovacao-usuarios" element={<ProtectedRoute requireAdmin={true}><AdminAprovacaoUsuarios /></ProtectedRoute>} />
       </Routes>
       {!isCartao && <Footer />}
     </div>

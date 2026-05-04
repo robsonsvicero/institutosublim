@@ -122,37 +122,47 @@ const TransparencyCard = ({ card }) => {
 };
 
 const WorkshopCard = ({ workshop }) => (
-  <div className="flex flex-col justify-between bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-200">
-    <div className="mb-4">
-      <span className="text-sm font-semibold text-teal-500">
-        {workshop.category}
-      </span>
-    </div>
-
-    <h3 className="text-xl font-bold text-primary-dark mb-6">
-      {workshop.title}
-    </h3>
-
-    <div className="space-y-3 mb-6">
-      <div className="flex justify-between text-sm">
-        <span className="text-gray-600">Frequência:</span>
-        <span className="font-semibold text-gray-900">{workshop.frequency}</span>
+  <div className="flex flex-col justify-between bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-200 relative">
+    {workshop.closed && (
+      <span className="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">Encerrado</span>
+    )}
+    <div>
+      <div className="mb-4">
+        <span className="bg-teal-100 text-teal-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          {workshop.category}
+        </span>
       </div>
-      <div className="flex justify-between text-sm">
-        <span className="text-gray-600">Duração:</span>
-        <span className="font-semibold text-gray-900">{workshop.duration}</span>
+      
+      <div className="flex items-center gap-3 mb-6">
+        {workshop.icon && (
+          <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0">
+            <i className={`${workshop.icon} text-lg`}></i>
+          </div>
+        )}
+        <h3 className="text-xl font-bold text-primary-dark">{workshop.title}</h3>
       </div>
-      <div className="flex justify-between text-sm">
-        <span className="text-gray-600">Alunos:</span>
-        <span className="font-semibold text-teal-700">{workshop.students}</span>
-      </div>
-    </div>
 
-    <div className="bg-gray-50 rounded-lg p-3 mb-4">
-      <p className="text-xs text-gray-600 mb-1">Próxima Turma</p>
-      <p className="text-sm font-bold text-gray-900">{workshop.next_class}</p>
+      <div className="space-y-3 mb-6">
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Frequência:</span>
+          <span className="font-semibold text-gray-900">{workshop.frequency}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Duração:</span>
+          <span className="font-semibold text-gray-900">{workshop.duration}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Alunos:</span>
+          <span className="font-semibold text-teal-700">{workshop.students}</span>
+        </div>
+      </div>
+
+      <div className="bg-gray-50 rounded-lg p-3 mb-4">
+        <p className="text-xs text-gray-600 mb-1">Próxima Turma</p>
+        <p className="text-sm font-bold text-gray-900">{workshop.next_class}</p>
+      </div>
     </div>
-    <a href="/inscricao-oficinas">
+    <a href="/inscricao-oficinas" className="w-full">
       <Button variant="secondary" className="w-full">
         Inscrições Abertas
       </Button>
@@ -265,7 +275,6 @@ export default function Home() {
             <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
               Já impactamos <strong>9.000 famílias</strong> com necessidades básicas.<br />
               Em 2025, entregamos <strong>200 cestas básicas</strong> e assistimos <strong>450 famílias</strong> no Natal Solidário.<br />
-              <span className="text-pink-200 font-bold">PIX: 12345678900</span> <button className="ml-2 px-3 py-1 mt-8 bg-pink-600 text-white rounded" onClick={() => {navigator.clipboard.writeText('12345678900')}}>Copiar</button>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -344,7 +353,7 @@ export default function Home() {
             Oficinas e Capacitações
           </SectionTitle>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {workshops.map((workshop) => (
               <WorkshopCard key={workshop.id} workshop={workshop} />
             ))}
@@ -423,13 +432,13 @@ export default function Home() {
           <div className="text-center mb-8">
             <Link className="w-full" to="/seja-parceiro" onClick={handleLinkClick}>
               <Button className='w-full lg:w-[30%]' variant="primary" icon="fas fa-handshake" iconPosition="left">
-                Fale com o Departamento de Parcerias
+                Venha ser Nosso Parceiro
               </Button>
             </Link>
           </div>
 
           <p className="text-center text-gray-600 text-sm">
-            Entre em contato e descubra como sua empresa pode fazer a diferença
+            Junte-se a empresas visionárias que escolheram o Instituto Sublim para multiplicar seu impacto social com transparência total e resultados mensuráveis.
           </p>
         </div>
       </section>

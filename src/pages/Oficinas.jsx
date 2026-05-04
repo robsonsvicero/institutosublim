@@ -63,9 +63,19 @@ export default function Oficinas() {
                 )}
                 <div>
                   <div className="mb-4">
-                    <span className="text-sm font-semibold text-teal-500">{workshop.category}</span>
+                    <span className="bg-teal-100 text-teal-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                      {workshop.category}
+                    </span>
                   </div>
-                  <h3 className="text-xl font-bold text-primary-dark mb-6">{workshop.title}</h3>
+                  
+                  <div className="flex items-center gap-3 mb-6">
+                    {workshop.icon && (
+                      <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0">
+                        <i className={`${workshop.icon} text-lg`}></i>
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold text-primary-dark">{workshop.title}</h3>
+                  </div>
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Frequência:</span>

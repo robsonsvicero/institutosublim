@@ -1,6 +1,0 @@
-{
-  "apiVersion": "v1",
-  "configVersion": 2,
-  "buildCommand": "npm install",
-  "startCommand": "node api/users.js"
-}

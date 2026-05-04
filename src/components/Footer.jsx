@@ -14,7 +14,9 @@ export default function Footer() {
           {/* Logo e Descrição */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src="/images/sublim_horizontal 1.png" alt="Instituto Sublim" className="h-24" />
+              <Link to="/" className="flex items-center gap-2 relative z-50">
+                <img src="/images/sublim_horizontal 1.png" alt="Instituto Sublim" className="h-20" />
+              </Link>
 
             </div>
             <p className="text-sm opacity-75 mb-6">

@@ -106,12 +106,13 @@ create table if not exists cursos_oficinas (
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 
--- Criação da tabela de usuários (para controle de aprovação)
+-- Criação da tabela de usuários (para controle de aprovação e perfis)
 create table if not exists usuarios (
   id uuid primary key default gen_random_uuid(),
   auth_id uuid unique references auth.users(id) on delete cascade,
   email text unique not null,
   nome text,
+  role text default 'voluntario', -- 'admin' ou 'voluntario'
   aprovado boolean default false,
   criado_em timestamp with time zone default timezone('utc'::text, now()),
   aprovado_em timestamp with time zone
@@ -129,9 +130,40 @@ create policy "Usuários podem ver seu próprio perfil" on usuarios
 
 drop policy if exists "Admin pode tudo em usuarios" on usuarios;
 create policy "Admin pode tudo em usuarios" on usuarios
-  for all using (auth.email() = 'hello@svicerostudio.com.br');
+  for all using (
+    auth.email() = 'hello@svicerostudio.com.br' OR
+    auth.email() = 'robsonsvicero@outlook.com' OR
+    (select role from usuarios where auth_id = auth.uid()) = 'admin'
+  );
 
 drop policy if exists "Usuário pode atualizar seu próprio email/nome" on usuarios;
 create policy "Usuário pode atualizar seu próprio email/nome" on usuarios
   for update using (auth.uid() = auth_id) 
   with check (auth.uid() = auth_id);
+
+-- Função RPC para administradores deletarem usuários (evita uso da service_role na API Node)
+create or replace function delete_user_admin(user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  is_admin boolean;
+begin
+  -- Verifica se quem está chamando a função é um admin
+  select (role = 'admin') into is_admin from public.usuarios where auth_id = auth.uid();
+  
+  if auth.email() = 'hello@svicerostudio.com.br' or auth.email() = 'robsonsvicero@outlook.com' then
+    is_admin := true;
+  end if;
+
+  if not is_admin then
+    raise exception 'Unauthorized: Only admins can delete users';
+  end if;
+
+  -- Deleta o usuário da tabela auth.users. 
+  -- Como a tabela public.usuarios tem 'on delete cascade', o registro público também será apagado.
+  delete from auth.users where id = user_id;
+end;
+$$;

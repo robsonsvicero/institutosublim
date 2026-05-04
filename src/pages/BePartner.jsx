@@ -137,81 +137,81 @@ export default function BePartner() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {/* Card 1 - Transparência Total */}
+            {/* Card 1 - Transformação Social */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-shield-alt text-2xl text-white"></i>
+                <i className="fas fa-hands-helping text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Transparência Total
+                Transformação Social
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Relatórios detalhados mensais com métricas de impacto e uso de recursos. Auditoria independente anual.
+                Faça parte de um movimento que gera oportunidades reais de educação e desenvolvimento para famílias em situação de vulnerabilidade.
               </p>
             </div>
 
-            {/* Card 2 - ROI Social Mensurável */}
+            {/* Card 2 - Responsabilidade Social */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-chart-line text-2xl text-white"></i>
+                <i className="fas fa-heart text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                ROI Social Mensurável
+                Responsabilidade Social
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Acompanhe o retorno social do investimento com indicadores claros: pessoas capacitadas, empregos gerados, famílias transformadas.
+                Reforce o compromisso da sua empresa com o bem-estar social e ajude a construir um futuro melhor para a nossa comunidade.
               </p>
             </div>
 
-            {/* Card 3 - Certificações ESG */}
+            {/* Card 3 - Parceria Transparente */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-award text-2xl text-white"></i>
+                <i className="fas fa-search text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Certificações ESG
+                Parceria Transparente
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Contribua para os objetivos ESG da sua empresa com certificações reconhecidas e relatórios para stakeholders.
+                Mantemos nossos parceiros informados sobre as nossas ações, garantindo que cada apoio chegue a quem realmente precisa.
               </p>
             </div>
 
-            {/* Card 4 - Impacto Escalável */}
+            {/* Card 4 - Cultura de Solidariedade */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-globe text-2xl text-white"></i>
+                <i className="fas fa-seedling text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Impacto Escalável
+                Cultura de Solidariedade
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Projetos estruturados para crescimento sustentável com metodologias comprovadas e resultados replicáveis.
+                Inspire sua equipe e engaje seus clientes ao associar a sua marca a projetos que promovem a dignidade humana.
               </p>
             </div>
 
-            {/* Card 5 - Engajamento da Equipe */}
+            {/* Card 5 - Desenvolvimento Local */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-users text-2xl text-white"></i>
+                <i className="fas fa-map-marked-alt text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Engajamento da Equipe
+                Desenvolvimento Local
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Oportunidades de voluntariado que fortalecem a cultura organizacional e desenvolvem lideranças.
+                Contribua diretamente para o fortalecimento da Zona Norte de São Paulo, melhorando a realidade ao nosso redor.
               </p>
             </div>
 
-            {/* Card 6 - Visibilidade Estratégica */}
+            {/* Card 6 - Rede do Bem */}
             <div className="bg-teal-50 rounded-3xl p-8 hover:shadow-lg transition-shadow">
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-6">
-                <i className="fas fa-bullseye text-2xl text-white"></i>
+                <i className="fas fa-network-wired text-2xl text-white"></i>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Visibilidade Estratégica
+                Rede do Bem
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Associe sua marca a uma causa relevante com comunicação integrada e eventos exclusivos para stakeholders.
+                Conecte-se com uma rede crescente de empresas e indivíduos que compartilham do mesmo propósito de fazer a diferença.
               </p>
             </div>
           </div>
@@ -484,7 +484,7 @@ export default function BePartner() {
 
             <form 
               onSubmit={handleSubmit}
-              action="https://formsubmit.co/hello@robsonsvicero.com.br"
+              action="https://formsubmit.co/contato@institutosublim.org"
               method="POST"
               className="bg-white rounded-2xl shadow-md p-8"
             >
@@ -768,9 +768,9 @@ export default function BePartner() {
             Junte-se a empresas visionárias que escolheram o Instituto Sublim para multiplicar seu impacto social com transparência total e resultados mensuráveis.
           </p>
           <div className="lg:w-[60%] w-full flex flex-col sm:flex-row gap-4 justify-between items-center">
-            <a href="#partner-form" className='w-full'>
-              <Button variant='primary' icon='fas fa-handshake' className='w-full'>
-                QUERO SER PARCEIRO ESTRATÉGICO
+            <a href="/nossos-projetos" className='w-full'>
+              <Button variant='primary' icon='fa-solid fa-graduation-cap' className='w-full'>
+                Conheça Nossos Projetos
               </Button>
             </a>
             <a href="/transparencia" className='w-full'>
