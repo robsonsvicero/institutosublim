@@ -122,7 +122,7 @@ export default function Contact() {
                     contato@institutosublim.org
                   </p>
                 </div>
-                <a href="mailto:contato@institutosublim.org.br">
+                <a href="mailto:contato@institutosublim.org">
                   <Button variant="primary" className="w-full">
                     Entrar em Contato
                   </Button>
@@ -147,10 +147,10 @@ export default function Contact() {
                 </p>
                 <div className="bg-gray-50 rounded-lg p-4 mb-4">
                   <p className="text-gray-800 font-semibold text-center">
-                    parcerias@institutosublim.org.br
+                    contato@institutosublim.org
                   </p>
                 </div>
-                <a href="mailto:parcerias@institutosublim.org.br">
+                <a href="mailto:contato@institutosublim.org">
                   <Button variant="primary" className="w-full">
                     Entrar em Contato
                   </Button>

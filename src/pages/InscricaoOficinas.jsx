@@ -97,7 +97,17 @@ export default function InscricaoOficinas() {
               Preencha o formulário e nossa equipe entrará em contato em até 24 horas
             </p>
           </div>
-          <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-md p-8">
+          <form 
+            action="https://formsubmit.co/contato@institutosublim.org" 
+            method="POST"
+            className="bg-white rounded-2xl shadow-md p-8"
+          >
+            {/* Hidden fields for FormSubmit configuration */}
+            <input type="hidden" name="_subject" value="Nova Inscrição em Oficina - Instituto Sublim" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value="http://localhost:5173/inscricao-oficinas" />
+
             <div className="bg-gradient-to-r from-teal-500 to-blue-600 rounded-t-xl -mx-8 -mt-8 mb-8 p-6">
               <h3 className="text-xl font-bold text-white mb-2">Formulário de Inscrição</h3>
               <p className="text-white/90 text-sm">Todas as informações são confidenciais e utilizadas apenas para contato</p>
@@ -107,7 +117,7 @@ export default function InscricaoOficinas() {
                 <label className="block text-sm font-medium mb-2 text-gray-900">Nome Completo *</label>
                 <input
                   type="text"
-                  name="name"
+                  name="Nome"
                   value={form.name}
                   onChange={handleChange}
                   required
@@ -119,7 +129,7 @@ export default function InscricaoOficinas() {
                 <label className="block text-sm font-medium mb-2 text-gray-900">E-mail *</label>
                 <input
                   type="email"
-                  name="email"
+                  name="Email"
                   value={form.email}
                   onChange={handleChange}
                   required
@@ -133,7 +143,7 @@ export default function InscricaoOficinas() {
                 <label className="block text-sm font-medium mb-2 text-gray-900">Telefone *</label>
                 <input
                   type="tel"
-                  name="phone"
+                  name="Telefone"
                   value={form.phone}
                   onChange={handleChange}
                   required
@@ -144,7 +154,7 @@ export default function InscricaoOficinas() {
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-900">Curso/Oficina *</label>
                 <select
-                  name="workshop"
+                  name="Oficina"
                   value={form.workshop}
                   onChange={handleChange}
                   required
