@@ -267,10 +267,6 @@ export default function BeVolunteer() {
                     <span>Workshops profissionalizantes</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Quero Ensinar</span>
-                  <i className="fas fa-arrow-right text-sm"></i>
-                </button>
               </div>
             </div>
 
@@ -311,10 +307,6 @@ export default function BeVolunteer() {
                     <span>Dança e movimento</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Compartilhar Arte</span>
-                  <i className="fas fa-arrow-right text-sm"></i>
-                </button>
               </div>
             </div>
 
@@ -355,10 +347,6 @@ export default function BeVolunteer() {
                     <span>Captação de recursos</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Aplicar Expertise</span>
-                  <i className="fas fa-arrow-right text-sm"></i>
-                </button>
               </div>
             </div>
 
@@ -399,10 +387,6 @@ export default function BeVolunteer() {
                     <span>Campanhas especiais</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
-                  <span>Participar de Eventos</span>
-                  <i className="fas fa-arrow-right text-sm"></i>
-                </button>
               </div>
             </div>
           </div>
@@ -786,9 +770,9 @@ export default function BeVolunteer() {
             Cada hora doada, cada talento compartilhado, cada sorriso oferecido multiplica as oportunidades de transformação. Seja voluntário e descubra o poder de fazer a diferença.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="#volunteer-form">
+            <a href="/nossa-historia">
               <Button variant="primary" size="lg" icon="fas fa-heart" className="bg-primary-500 hover:bg-primary-700">
-                INSCREVA-SE COMO VOLUNTÁRIO
+                Conheça a Nossa História
               </Button>
             </a>
             <a href="/oficinas">

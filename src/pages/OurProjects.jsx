@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Card, Modal } from '../components/ui';
 import { supabase } from '../lib/supabaseClient';
+import { Link } from 'react-router-dom';
 
 export default function OurProjects() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -199,12 +200,16 @@ export default function OurProjects() {
               Mais de 2.000 pessoas transformadas através de nossos três pilares de atuação: Geração de Oportunidades, Cuidado e Crescimento, e Dignidade e Acolhimento.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-12 w-full">
-              <Button variant="primary" size="lg" icon="fas fa-heart" className="bg-primary-500 hover:bg-primary-dark hover:text-white w-full">
-                Apoie Nossos Projetos
-              </Button>
-              <Button variant="outline" size="lg" className="w-full">
-                Ver Nosso Impacto
-              </Button>
+              <Link className="w-full" to="/seja-parceiro" onClick={handleLinkClick}>
+                <Button variant="primary" size="lg" icon="fas fa-heart" className="bg-primary-500 hover:bg-primary-dark hover:text-white w-full">
+                  Apoie Nossos Projetos
+                </Button>
+              </Link>
+              <Link className="w-full" to="/oficinas" onClick={handleLinkClick}>
+                <Button variant="outline" size="lg" className="w-full">
+                  Cursos e Oficinas
+                </Button> 
+              </Link>
             </div>
 
             {/* Stats Card */}
@@ -561,7 +566,7 @@ export default function OurProjects() {
                       {workshop.category}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center gap-3 mb-6">
                     {workshop.icon && (
                       <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0">
@@ -723,18 +728,6 @@ export default function OurProjects() {
                 </Button>
               </a>
             </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 text-center max-w-2xl mx-auto">
-            <button className="text-white hover:text-white/80 font-semibold inline-flex items-center gap-2 transition-colors">
-              Apoie Nossos Projetos
-              <i className="fas fa-arrow-right text-sm"></i>
-            </button>
-            <span className="hidden sm:block text-white/50">•</span>
-            <button className="text-white hover:text-white/80 font-semibold inline-flex items-center gap-2 transition-colors">
-              Ver Nosso Impacto
-              <i className="fas fa-arrow-right text-sm"></i>
-            </button>
           </div>
         </div>
       </section>
