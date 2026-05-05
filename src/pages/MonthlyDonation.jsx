@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
 import { supabase } from '../lib/supabaseClient';
 
@@ -13,6 +13,42 @@ const MonthlyDonation = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [livesMudadas, setLivesMudadas] = useState(0);
+  const [oficinas, setOficinas] = useState(0);
+  const [familias, setFamilias] = useState(0);
+
+  // Counter animation effect for Hero
+  useEffect(() => {
+    const duration = 500; // 0.5 seconds
+    const steps = 60;
+    const interval = duration / steps;
+
+    const targets = {
+      lives: 120,
+      workshops: 85,
+      families: 200
+    };
+
+    let currentStep = 0;
+
+    const timer = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+
+      setLivesMudadas(Math.floor(targets.lives * progress));
+      setOficinas(Math.floor(targets.workshops * progress));
+      setFamilias(Math.floor(targets.families * progress));
+
+      if (currentStep >= steps) {
+        setLivesMudadas(targets.lives);
+        setOficinas(targets.workshops);
+        setFamilias(targets.families);
+        clearInterval(timer);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +74,22 @@ const MonthlyDonation = () => {
         ]);
 
       if (error) throw error;
+
+      // Enviar e-mail via FormSubmit
+      await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          _subject: "Novo Doador Mensal - Instituto Sublim",
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+
       setSubmitted(true);
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
@@ -65,28 +117,71 @@ const MonthlyDonation = () => {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-[120px] pb-[60px] lg:pt-[180px] lg:pb-[100px] bg-primary-900 text-white overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20">
-          <img 
-            src="/images/hero_doacao.png" 
-            alt="Background" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="container mx-auto px-6 relative z-10 lg:px-[204px]">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Transforme Vidas Todos os Meses
-            </h1>
-            <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Ao se tornar um doador mensal, você garante a sustentabilidade de nossos projetos e permite que planejemos o futuro de centenas de crianças e jovens.
-            </p>
+      <section
+        className="relative h-[780px] bg-cover bg-center pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
+        style={{ backgroundImage: 'url(/images/hero_doacao.png)' }}>
+        <div className="absolute inset-0 bg-black/50 flex items-center pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]">
+          <div className="container mx-auto">
+            <div className="max-w-3xl text-white">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 border-2 border-primary-500 px-4 py-2 rounded-full mb-6">
+                <p className="text-sm font-semibold text-primary-500">
+                  <i className="fas fa-heart mr-2"></i> Transformando Vidas Juntos
+                </p>
+              </div>
+
+              <h1 className="text-5xl lg:text-6xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Sua Doação<br />
+                Salva Vidas
+              </h1>
+
+              <p className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed">
+                Cada real doado financia oficinas, programas de inclusão e apoio direto às crianças em comunidades reais, educando-as e salvando o mundo.
+              </p>
+
+              {/* Impact Stats */}
+              <div className="grid grid-cols-3 gap-6 mb-8">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary mb-2">{livesMudadas}</div>
+                  <div className="text-sm text-white/80">Vidas Mudadas em 2024</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary mb-2">{oficinas}</div>
+                  <div className="text-sm text-white/80">Oficinas Realizadas</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary mb-2">{familias}</div>
+                  <div className="text-sm text-white/80">Famílias Atendidas</div>
+                </div>
+              </div>
+
+              <div className="flex flex-col lg:flex-row mt-20 gap-4">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  icon="fas fa-heart"
+                  className="flex-1 font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
+                  onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  QUERO AJUDAR AGORA
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="flex-1 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold"
+                  onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Ver Nosso Impacto
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-16 lg:py-24 px-6 lg:px-[204px]">
+      <section id="main-content" className="py-16 lg:py-24 px-6 lg:px-[204px]">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row gap-16">
             {/* Left: Info and Impact */}

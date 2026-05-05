@@ -32,11 +32,27 @@ const BazaarDonation = () => {
             tipo_itens: formData.tipoItens,
             localizacao: formData.localizacao,
             mensagem: formData.mensagem,
-            status: 'pendente'
+            status: 'pendente_entrega'
           }
         ]);
 
       if (error) throw error;
+
+      // Enviar e-mail via FormSubmit
+      await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          _subject: "Novo Agendamento de Entrega de Doação - Instituto Sublim",
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+
       setSubmitted(true);
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
@@ -66,7 +82,7 @@ const BazaarDonation = () => {
               Doação de Itens para o Bazar
             </h1>
             <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Transforme seus itens usados em recursos para nossos projetos. O que para você não serve mais, para nós pode ser o início de um sonho.
+              Sua doação se transforma em impacto social. Aceitamos roupas, móveis e utensílios em bom estado para nosso bazar beneficente.
             </p>
           </div>
         </div>
@@ -78,7 +94,7 @@ const BazaarDonation = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold mb-6 text-gray-900">O que você pode doar?</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Aceitamos diversos tipos de itens, desde que estejam em **bom estado de conservação**. Lembre-se: doar é um ato de carinho, doe apenas o que você ainda usaria.
+              Aceitamos diversos tipos de itens, desde que estejam em <strong>bom estado de conservação</strong>. Lembre-se: doar é um ato de carinho, doe apenas o que você ainda usaria.
             </p>
           </div>
 
@@ -110,23 +126,27 @@ const BazaarDonation = () => {
               
               <div className="space-y-8">
                 <div className="flex gap-6">
-                  <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">1</div>
+                  <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">
+                    <i className="fas fa-map-marker-alt"></i>
+                  </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Ponto de Coleta</h3>
+                    <h3 className="text-xl font-bold mb-2">Ponto de Entrega</h3>
                     <p className="text-gray-600 mb-4">Você pode entregar diretamente em nossa sede na Zona Norte de São Paulo.</p>
                     <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 inline-block">
                       <p className="text-sm font-bold text-gray-800">Endereço:</p>
-                      <p className="text-sm text-gray-600">Rua Exemplo, 123 - Vila Maria, São Paulo - SP</p>
+                      <p className="text-sm text-gray-600">R. Albertina Vieira da Silva Gordo, 154 - Vila Aurora, São Paulo - SP</p>
                       <p className="text-sm text-gray-600">Segunda a Sexta, das 9h às 17h</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex gap-6">
-                  <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">2</div>
+                  <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">
+                    <i className="fas fa-calendar-alt"></i>
+                  </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Agendamento para Retirada</h3>
-                    <p className="text-gray-600">Se você tem uma grande quantidade de itens ou móveis, nós podemos agendar a retirada em sua residência (sujeito a disponibilidade de rota).</p>
+                    <h3 className="text-xl font-bold mb-2">Agende sua Entrega</h3>
+                    <p className="text-gray-600">Para facilitar o recebimento, pedimos que agende um horário através do formulário ao lado.</p>
                   </div>
                 </div>
               </div>
@@ -147,14 +167,14 @@ const BazaarDonation = () => {
                   <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i className="fas fa-calendar-check text-3xl"></i>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">Agendamento Solicitado!</h3>
-                  <p className="text-gray-600 mb-8">Nossa equipe do Bazar entrará em contato via WhatsApp para confirmar a data e horário da retirada.</p>
-                  <Button variant="primary" onClick={() => setSubmitted(false)}>SOLICITAR OUTRO</Button>
+                  <h3 className="text-2xl font-bold mb-4">Entrega Agendada!</h3>
+                  <p className="text-gray-600 mb-8">Nossa equipe do Bazar entrará em contato via WhatsApp para confirmar o melhor horário para sua entrega.</p>
+                  <Button variant="primary" onClick={() => setSubmitted(false)}>AGENDAR OUTRA</Button>
                 </div>
               ) : (
                 <>
-                  <h3 className="text-2xl font-bold mb-2 text-gray-900">Agende sua Retirada</h3>
-                  <p className="text-gray-600 mb-8">Preencha os campos abaixo e aguarde nosso contato.</p>
+                  <h3 className="text-2xl font-bold mb-2 text-gray-900">Agende sua Entrega</h3>
+                  <p className="text-gray-600 mb-8">Preencha os campos abaixo para que possamos nos preparar para receber sua doação.</p>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
@@ -227,7 +247,7 @@ const BazaarDonation = () => {
                       className="w-full py-4 text-lg font-bold bg-blue-600 hover:bg-blue-700"
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? 'AGENDANDO...' : 'SOLICITAR RETIRADA'}
+                      {isSubmitting ? 'AGENDANDO...' : 'AGENDAR ENTREGA'}
                     </Button>
                   </form>
                 </>
