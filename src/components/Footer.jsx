@@ -69,7 +69,17 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <Link to="/doacao" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
-                  Doar Agora
+                  Doação Única
+                </Link>
+              </li>
+              <li>
+                <Link to="/doacao-mensal" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                  Doação Mensal
+                </Link>
+              </li>
+              <li>
+                <Link to="/doacao-bazar" onClick={handleLinkClick} className="text-sm opacity-75 hover:opacity-100 hover:text-white transition">
+                  Doação para Bazar
                 </Link>
               </li>
               <li>

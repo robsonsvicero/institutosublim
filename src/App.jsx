@@ -22,6 +22,8 @@ import AlterarSenha from './pages/AlterarSenha';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminDepoimentos from './pages/AdminDepoimentos';
 import CartaoVisitaDigital from './pages/CartaoVisitaDigital';
+import MonthlyDonation from './pages/MonthlyDonation';
+import BazaarDonation from './pages/BazaarDonation';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function AppContent() {
@@ -46,6 +48,8 @@ function AppContent() {
         <Route path="/doacao" element={<TransformLivesDonation />} />
         <Route path="/inscricao-oficinas" element={<InscricaoOficinas />} />
         <Route path="/oficinas" element={<Oficinas />} />
+        <Route path="/doacao-mensal" element={<MonthlyDonation />} />
+        <Route path="/doacao-bazar" element={<BazaarDonation />} />
         
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

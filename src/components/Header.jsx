@@ -7,7 +7,9 @@ export default function Header({ fixed = true, textColor }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState(false);
+  const [ajudaSubmenuOpen, setAjudaSubmenuOpen] = useState(false);
   const sobreNosBtnRef = useRef(null);
+  const ajudaBtnRef = useRef(null);
 
   useEffect(() => {
     if (!fixed) return;
@@ -20,6 +22,7 @@ export default function Header({ fixed = true, textColor }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsOpen(false);
     setSubmenuOpen(false);
+    setAjudaSubmenuOpen(false);
   };
 
   const linkClass = textColor === 'admin'
@@ -45,11 +48,22 @@ export default function Header({ fixed = true, textColor }) {
       </div>
       <Link to="/transparencia" onClick={handleLinkClick} className={linkClass}>Transparência</Link>
       <Link to="/seja-parceiro" onClick={handleLinkClick} className={linkClass}>Seja Parceiro</Link>
+      
+      <div className="relative group">
+        <button ref={ajudaBtnRef} className={linkClass + ' flex items-center gap-2'} tabIndex={0} onClick={() => setAjudaSubmenuOpen(!ajudaSubmenuOpen)}>
+          Como ajudar <span className="fa fa-chevron-down text-xs"></span>
+        </button>
+        {ajudaSubmenuOpen && ReactDOM.createPortal(
+          <div className="fixed min-w-[220px] bg-white rounded-xl shadow-lg border border-gray-100 transition-opacity z-[9999] opacity-100 pointer-events-auto" style={ajudaBtnRef.current ? { left: ajudaBtnRef.current.getBoundingClientRect().left, top: ajudaBtnRef.current.getBoundingClientRect().bottom + 8 } : {}}>
+            <Link to="/doacao" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-t-xl">Doação Única</Link>
+            <Link to="/doacao-mensal" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700">Doação Mensal</Link>
+            <Link to="/doacao-bazar" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-b-xl">Doação para Bazar</Link>
+          </div>, document.body)
+        }
+      </div>
+
       <Link to="/oficinas" onClick={handleLinkClick} className={linkClass}>Oficinas e Capacitações</Link>
       <Link to="/contato" onClick={handleLinkClick} className={linkClass}>Contato</Link>
-      <Link to="/doacao" onClick={handleLinkClick}>
-        <Button variant="primary" icon="fas fa-heart" >DOE AGORA</Button>
-      </Link>
       <Link
         to="/login"
         onClick={handleLinkClick}
@@ -79,12 +93,24 @@ export default function Header({ fixed = true, textColor }) {
           </div>
           <Link to="/transparencia" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Transparência</Link>
           <Link to="/seja-parceiro" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Seja Parceiro</Link>
+          
+          <div className="relative">
+            <button className="text-header flex items-center gap-2 w-full py-3" onClick={() => setAjudaSubmenuOpen(!ajudaSubmenuOpen)} aria-label="Abrir submenu Como ajudar">Como ajudar <span className="fa fa-chevron-down text-xs"></span></button>
+            {ajudaSubmenuOpen && (
+              <div className="pl-4 border-l-2 border-primary-100">
+                <Link to="/doacao" onClick={handleLinkClick} className="block py-2 text-gray-700">Doação Única</Link>
+                <Link to="/doacao-mensal" onClick={handleLinkClick} className="block py-2 text-gray-700">Doação Mensal</Link>
+                <Link to="/doacao-bazar" onClick={handleLinkClick} className="block py-2 text-gray-700">Doação para Bazar</Link>
+              </div>
+            )}
+          </div>
+
           <Link to="/oficinas" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Oficinas e Capacitações</Link>
           <Link to="/contato" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Contato</Link>
           
           <div className="mt-8 w-full max-w-xs">
-            <Link to="/doacao" onClick={handleLinkClick} className="w-full inline-flex items-center justify-center text-base py-4">
-              <Button variant="primary" icon="fas fa-heart">DOE AGORA</Button>
+            <Link to="/doacao-mensal" onClick={handleLinkClick} className="w-full inline-flex items-center justify-center text-base py-4">
+              <Button variant="primary" icon="fas fa-heart">DOE MENSAL</Button>
             </Link>
           </div>
           <Link
