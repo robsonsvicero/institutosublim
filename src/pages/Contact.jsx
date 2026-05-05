@@ -542,12 +542,7 @@ export default function Contact() {
             <div className="w-full flex flex-col sm:flex-row gap-4 mb-12">
               <a href="/doacao" className='w-full'>
                   <Button variant="primary" className=" font-bold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 w-full" icon="fas fa-heart" iconPosition="left">
-                    Fazer Doação
-                  </Button>
-                </a>
-              <a href="/doacao" className='w-full'>
-                  <Button variant="outline" className='w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold py-3 px-6 rounded-xl border border-white/30 transition-colors' icon="fas fa-handshake" iconPosition="left">
-                    Fazer Doação
+                    DOE AGORA
                   </Button>
                 </a>
             </div>

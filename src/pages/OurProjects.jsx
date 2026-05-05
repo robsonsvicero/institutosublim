@@ -612,44 +612,6 @@ export default function OurProjects() {
         </div>
       </section>
 
-      {/* Strategic Partners */}
-      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Parcerias Estratégicas
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Juntos somos mais fortes na transformação social
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12 max-w-7xl mx-auto">
-            {partners.map((partner, idx) => (
-              <div key={idx} className="bg-[#E8F5F1] rounded-2xl shadow-sm p-8 flex flex-col items-center text-center">
-                {/* Ícone Circular */}
-                <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mb-4">
-                  <i className="fas fa-building text-2xl text-gray-900"></i>
-                </div>
-
-                {/* Nome do Parceiro */}
-                <h4 className="font-bold text-gray-900 mb-2 text-base">{partner.name}</h4>
-
-                {/* Categoria */}
-                <p className="text-sm text-gray-600">{partner.category}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <button className="bg-primary-500 hover:bg-primary-700 text-gray-900 font-bold py-3 px-8 rounded-lg inline-flex items-center gap-2 transition-colors shadow-md">
-              <i className="fas fa-handshake"></i>
-              Seja Nosso Parceiro
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gradient-to-r from-teal-400 via-blue-500 to-blue-700 text-white">
         <div className="container mx-auto">

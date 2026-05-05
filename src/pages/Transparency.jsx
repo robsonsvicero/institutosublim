@@ -143,11 +143,6 @@ export default function Transparency() {
                 </div>
 
               </div>
-
-              {/* Botão */}
-              <Button variant="primary" size="lg" icon="fas fa-file-alt" className="w-full">
-                Entenda Nosso Custo Operacional
-              </Button>
             </div>
           </div>
         </div>
@@ -269,7 +264,7 @@ export default function Transparency() {
 
       {/* CTA Section - A Confiança Gera Transformação */}
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-black lg:bg-white">
-        <div className="bg-black text-white container mx-auto rounded-3xl lg:p-12">
+        <div className="bg-primary text-white container mx-auto rounded-3xl lg:p-12">
           <div className="lg:max-w-4xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               A Confiança Gera Transformação
@@ -278,12 +273,11 @@ export default function Transparency() {
               Agora que você conhece nossa transparência, junte-se a nós. Seja o elo de mudança que milhares de famílias da Zona Norte de São Paulo precisam.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link to="/doacoes">
               <Button variant="primary" size="lg" icon="fas fa-heart">
-                QUERO FAZER A DIFERENÇA
+                QUERO DOAR
               </Button>
-              <Button variant="ghost" size="lg" icon="fas fa-arrow-right" iconPosition="right" className="text-primary hover:bg-white/10">
-                Prefiro Parceria Corporativa
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

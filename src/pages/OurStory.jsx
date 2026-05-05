@@ -307,46 +307,6 @@ export default function OurStory() {
         </div>
       </section>
 
-      {/* Parcerias Estratégicas Section */}
-      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-            Parcerias Estratégicas
-          </h2>
-          <p className="text-center text-gray-700 mb-16 text-base sm:text-lg">
-            Juntos somos mais fortes na transformação social
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-6xl mx-auto mb-12">
-            {[
-              { name: 'Gerando Falcões', type: 'ONGs' },
-              { name: 'Vertem', type: 'Empresas' },
-              { name: 'Fundação Everis', type: 'Fundações' },
-              { name: 'SEBRAE', type: 'Educação' },
-              { name: 'Caça Fome', type: 'ONGs' },
-              { name: 'New School', type: 'Educação' }
-            ].map((partner, idx) => (
-              <div key={idx} className="bg-[#E8F5F1] rounded-2xl p-8 text-center hover:shadow-lg transition-shadow">
-                <div className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-building text-2xl text-white/75"></i>
-                </div>
-                <h3 className="text-base font-bold text-gray-600 mb-2">{partner.name}</h3>
-                <p className="text-sm text-gray-400">{partner.type}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <a className="w-full" href="/seja-parceiro">
-              <Button variant="primary" size="lg" icon="fas fa-handshake">
-                Seja Nosso Parceiro
-              </Button>
-            </a>
-
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-[80px] px-[16px] lg:py-[120px] lg:px-[204px] bg-gradient-to-r from-green-500 via-teal-600 to-blue-700">
         <div className="max-w-5xl mx-auto text-center">
