@@ -5,10 +5,10 @@ import { supabase } from '../lib/supabaseClient';
 export default function InscricaoOficinas() {
   const [workshopOptions, setWorkshopOptions] = useState([]);
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    workshop: '',
+    Nome: '',
+    Email: '',
+    Telefone: '',
+    Oficina: '',
   });
   const [showToast, setShowToast] = useState(false);
 
@@ -26,7 +26,7 @@ export default function InscricaoOficinas() {
       setWorkshopOptions(activeOptions);
       setForm((prev) => ({
         ...prev,
-        workshop: activeOptions[0] || '',
+        Oficina: activeOptions[0] || '',
       }));
     }
 
@@ -39,16 +39,8 @@ export default function InscricaoOficinas() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aqui você pode integrar com backend ou serviço de e-mail
-    setShowToast(true);
-    setForm({
-      name: '',
-      email: '',
-      phone: '',
-      workshop: workshopOptions[0] || '',
-    });
-    setTimeout(() => setShowToast(false), 4000);
+    // Permite que o formulário seja enviado normalmente ao FormSubmit
+    console.log('Enviando inscrição...');
   };
 
   return (
@@ -118,7 +110,7 @@ export default function InscricaoOficinas() {
                 <input
                   type="text"
                   name="Nome"
-                  value={form.name}
+                  value={form.Nome}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
@@ -130,7 +122,7 @@ export default function InscricaoOficinas() {
                 <input
                   type="email"
                   name="Email"
-                  value={form.email}
+                  value={form.Email}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
@@ -144,7 +136,7 @@ export default function InscricaoOficinas() {
                 <input
                   type="tel"
                   name="Telefone"
-                  value={form.phone}
+                  value={form.Telefone}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
@@ -155,7 +147,7 @@ export default function InscricaoOficinas() {
                 <label className="block text-sm font-medium mb-2 text-gray-900">Curso/Oficina *</label>
                 <select
                   name="Oficina"
-                  value={form.workshop}
+                  value={form.Oficina}
                   onChange={handleChange}
                   required
                   disabled={workshopOptions.length === 0}
