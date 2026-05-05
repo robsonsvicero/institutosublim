@@ -38,7 +38,7 @@ export default function Header({ fixed = true, textColor }) {
         <button ref={sobreNosBtnRef} className={linkClass + ' flex items-center gap-2'} tabIndex={0} onClick={() => setSubmenuOpen(!submenuOpen)}>
           Sobre Nós <span className="fa fa-chevron-down text-xs"></span>
         </button>
-        {submenuOpen && ReactDOM.createPortal(
+        {submenuOpen && window.innerWidth >= 1024 && ReactDOM.createPortal(
           <div className="fixed min-w-[200px] bg-white rounded-xl shadow-lg border border-gray-100 transition-opacity z-[9999] opacity-100 pointer-events-auto" style={sobreNosBtnRef.current ? { left: sobreNosBtnRef.current.getBoundingClientRect().left, top: sobreNosBtnRef.current.getBoundingClientRect().bottom + 8 } : {}}>
             <Link to="/nossa-historia" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-t-xl">Nossa História</Link>
             <Link to="/seja-voluntario" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700">Seja Voluntário</Link>
@@ -52,7 +52,7 @@ export default function Header({ fixed = true, textColor }) {
         <button ref={ajudaBtnRef} className={linkClass + ' flex items-center gap-2'} tabIndex={0} onClick={() => setAjudaSubmenuOpen(!ajudaSubmenuOpen)}>
           Como ajudar <span className="fa fa-chevron-down text-xs"></span>
         </button>
-        {ajudaSubmenuOpen && ReactDOM.createPortal(
+        {ajudaSubmenuOpen && window.innerWidth >= 1024 && ReactDOM.createPortal(
           <div className="fixed min-w-[220px] bg-white rounded-xl shadow-lg border border-gray-100 transition-opacity z-[9999] opacity-100 pointer-events-auto" style={ajudaBtnRef.current ? { left: ajudaBtnRef.current.getBoundingClientRect().left, top: ajudaBtnRef.current.getBoundingClientRect().bottom + 8 } : {}}>
             <Link to="/doacao" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-t-xl">Doação Única</Link>
             <Link to="/doacao-mensal" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700">Doação Mensal</Link>
