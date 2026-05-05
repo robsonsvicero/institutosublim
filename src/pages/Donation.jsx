@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
 import { supabase } from '../lib/supabaseClient';
+import { Link } from 'react-router-dom';
 
 const TransformLivesDonation = () => {
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -289,114 +290,7 @@ const TransformLivesDonation = () => {
         </div>
       </section>
 
-      {/* Donation Channels Section */}
-      <section id="donation-channels" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Canais de Comunicação
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Escolha o canal mais adequado para seu contato. Nossa equipe está pronta para atender você com transparência e agilidade.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Monthly Donation Card */}
-            <div className="bg-gradient-to-br from-green-500 via-teal-500 to-blue-600 rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <div className="p-8 text-white">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
-                      <i className="fas fa-chart-line text-2xl"></i>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold">Doação Mensal</h3>
-                      <p className="text-sm text-white/90">Impacto contínuo e sustentável</p>
-                    </div>
-                  </div>
-                  <div className="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full">
-                    RECOMENDADO
-                  </div>
-                </div>
-
-                <p className="text-white/90 mb-6 leading-relaxed">
-                  Sua contribuição mensal gera transformação constante na vida de famílias da Zona Norte
-                </p>
-
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Acompanhamento mensal do impacto gerado</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Relatórios exclusivos de progresso</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Pode ser cancelado a qualquer momento</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Certificado anual de contribuição social</p>
-                  </div>
-                </div>
-
-                <button className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold py-4 px-6 rounded-xl border-2 border-white/30 transition-all duration-300">
-                  COMEÇAR DOAÇÃO MENSAL
-                </button>
-              </div>
-            </div>
-
-            {/* Single Donation Card */}
-            <div className="bg-gradient-to-br from-fuchsia-500 via-pink-500 to-pink-600 rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <div className="p-8 text-white">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
-                      <i className="fas fa-bolt text-2xl"></i>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold">Doação Única</h3>
-                      <p className="text-sm text-white/90">Transformação imediata</p>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-white/90 mb-6 leading-relaxed">
-                  Uma contribuição pontual que gera impacto direto e imediato em nossa comunidade
-                </p>
-
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Impacto imediato nos projetos</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Comprovante para declaração de IR</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Relatório específico do uso da doação</p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-white text-lg mt-0.5"></i>
-                    <p className="text-white/90">Reconhecimento na nossa galeria de doadores</p>
-                  </div>
-                </div>
-
-                <button className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold py-4 px-6 rounded-xl border-2 border-white/30 transition-all duration-300">
-                  FAZER DOAÇÃO ÚNICA
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Donation Section */}
+      {/* Impact Section */}
       <section id="impact-section" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
         <div className="container mx-auto">
           <div className="text-center mb-12">
