@@ -11,6 +11,10 @@ export default function OurProjects() {
   const [erroStories, setErroStories] = useState(false);
   const [workshops, setWorkshops] = useState([]);
 
+  const handleLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const carregarHistorias = async () => {
     setLoadingStories(true);
     setErroStories(false);

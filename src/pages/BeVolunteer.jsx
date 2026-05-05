@@ -32,6 +32,20 @@ export default function BeVolunteer() {
     carregarDepoimentos();
   }, []);
 
+  const [formData, setFormData] = useState({
+    nomeCompleto: '',
+    email: '',
+    telefone: '',
+    idade: '',
+    profissao: '',
+    habilidades: [],
+    disponibilidade: '',
+    frequencia: '',
+    interesse: [],
+    experiencia: '',
+    mensagem: ''
+  });
+
   const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
