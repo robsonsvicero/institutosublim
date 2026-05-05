@@ -31,7 +31,7 @@ export default function Transparency() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link className="w-full" to="/doacao" onClick={handleLinkClick}>
-                <Button size="lg" className="w-full" variant="primary" icon="fa-regular fa-heart">
+                <Button size="lg" className="w-full" variant="primary" icon="fas fa-heart">
                   DOAR AGORA
                 </Button>
               </Link>
@@ -40,7 +40,7 @@ export default function Transparency() {
                   Conheça Nossos Projetos
                 </Button>
               </Link>
-            </div>            
+            </div>
           </div>
         </div>
       </section>
@@ -304,7 +304,7 @@ export default function Transparency() {
           <div className="max-w-4xl mx-auto space-y-4">
             {/* FAQ Item 1 */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-              <button 
+              <button
                 onClick={() => toggleFaq(0)}
                 className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
               >
@@ -322,7 +322,7 @@ export default function Transparency() {
 
             {/* FAQ Item 2 */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-              <button 
+              <button
                 onClick={() => toggleFaq(1)}
                 className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
               >
@@ -340,7 +340,7 @@ export default function Transparency() {
 
             {/* FAQ Item 3 */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-              <button 
+              <button
                 onClick={() => toggleFaq(2)}
                 className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
               >
@@ -358,7 +358,7 @@ export default function Transparency() {
 
             {/* FAQ Item 4 */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-              <button 
+              <button
                 onClick={() => toggleFaq(3)}
                 className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors text-left"
               >

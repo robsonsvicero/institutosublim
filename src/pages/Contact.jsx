@@ -12,6 +12,8 @@ export default function Contact() {
 
   const [openFaq, setOpenFaq] = useState(0);
 
+  const [showToast, setShowToast] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,10 +21,44 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
-    // Permite que o formulário seja enviado normalmente
-    // O FormSubmit irá redirecionar automaticamente
-    console.log('Formulário sendo enviado...');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Preparar os dados incluindo os campos ocultos de configuração
+    const submissionData = {
+      ...formData,
+      _subject: "Novo contato - Instituto Sublim",
+      _template: "table",
+      _captcha: "false"
+    };
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(submissionData)
+      });
+
+      if (response.ok) {
+        setShowToast(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+        setTimeout(() => setShowToast(false), 5000);
+      } else {
+        throw new Error('Falha no envio');
+      }
+    } catch (error) {
+      console.error("Erro ao enviar:", error);
+      alert("Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.");
+    }
   };
 
   const toggleFaq = (index) => {
@@ -211,19 +247,24 @@ export default function Contact() {
                 </p>
               </div>
 
+              {/* Toast de sucesso */}
+              {showToast && (
+                <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 text-center animate-bounce border-2 border-white">
+                  <div className="flex items-center gap-3">
+                    <i className="fas fa-check-circle text-2xl"></i>
+                    <div>
+                      <p className="font-bold text-lg">Mensagem enviada com sucesso!</p>
+                      <p className="text-sm opacity-90">Em breve nossa equipe entrará em contato.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Form Content */}
               <form
                 onSubmit={handleSubmit}
-                action="https://formsubmit.co/contato@institutosublim.org"
-                method="POST"
                 className="p-8 space-y-6"
               >
-                {/* Hidden fields for FormSubmit configuration */}
-                <input type="hidden" name="_subject" value="Novo contato - Instituto Sublim" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-                <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
-                <input type="hidden" name="_next" value="http://localhost:5173/contato" />
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>

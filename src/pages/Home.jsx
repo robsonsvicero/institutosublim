@@ -132,7 +132,7 @@ const WorkshopCard = ({ workshop }) => (
           {workshop.category}
         </span>
       </div>
-      
+
       <div className="flex items-center gap-3 mb-6">
         {workshop.icon && (
           <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0">
@@ -258,215 +258,215 @@ export default function Home() {
     <>
       {showPreLoader && <PreLoader onFinish={() => setShowPreLoader(false)} />}
       <div className="bg-white">
-      {/* Hero Section Otimizada */}
-      <section
-        id="home"
-        className="w-full hero-bg h-[780px] flex items-center relative pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
-        style={{ backgroundImage: "url('/images/hero-photo.png')" }}>
+        {/* Hero Section Otimizada */}
+        <section
+          id="home"
+          className="w-full hero-bg h-[780px] flex items-center relative pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
+          style={{ backgroundImage: "url('/images/hero-photo.png')" }}>
 
-        <div className="absolute inset-0 hero-overlay z-0"></div>
+          <div className="absolute inset-0 hero-overlay z-0"></div>
 
-        <div className="container mx-auto mt-24 relative">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Sua doação transforma a Zona Norte.<br />
-              <span className="text-white/90">Ajude o Instituto Sublim a mudar vidas.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
-              Já impactamos <strong>9.000 famílias</strong> com necessidades básicas.<br />
-              Em 2025, entregamos <strong>200 cestas básicas</strong> e assistimos <strong>450 famílias</strong> no Natal Solidário.<br />
-            </p>
+          <div className="container mx-auto mt-24 relative">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                Sua doação transforma a Zona Norte.<br />
+                <span className="text-white/90">Ajude o Instituto Sublim a mudar vidas.</span>
+              </h1>
+              <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
+                Já impactamos <strong>9.000 famílias</strong> com necessidades básicas.<br />
+                Em 2025, entregamos <strong>200 cestas básicas</strong> e assistimos <strong>450 famílias</strong> no Natal Solidário.<br />
+              </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link className="w-full" to="/doacao" onClick={handleLinkClick}>
-                <Button size="lg" className="w-full" variant="primary" icon="fa-regular fa-heart">
-                  DOE AGORA
-                </Button>
-              </Link>
-              <Link className="w-full" to="/nossos-projetos" onClick={handleLinkClick}>
-                <Button size="lg" className='w-full' variant="outline" icon="fa-solid fa-arrow-right" iconPosition="right">
-                  Conheça Nossos Projetos
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Transparency Section */}
-      <section id="transparency" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
-        <div className="container mx-auto">
-          <SectionTitle subtitle="Acreditamos que a confiança é construída através da transparência total em nossas ações e resultados.">
-            Transparência é Nosso Compromisso
-          </SectionTitle>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {TRANSPARENCY_CARDS.map((card, idx) => (
-              <TransparencyCard key={idx} card={card} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* History Section */}
-      <section id="history" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <div className="rounded-xl lg:rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/our-storie.png"
-                  alt="Carol Andrade com crianças"
-                  className="w-full h-full object-cover"
-                />
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link className="w-full" to="/doacao" onClick={handleLinkClick}>
+                  <Button size="lg" className="w-full" variant="primary" icon="fas fa-heart">
+                    DOE AGORA
+                  </Button>
+                </Link>
+                <Link className="w-full" to="/nossos-projetos" onClick={handleLinkClick}>
+                  <Button size="lg" className='w-full' variant="outline" icon="fa-solid fa-arrow-right" iconPosition="right">
+                    Conheça Nossos Projetos
+                  </Button>
+                </Link>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div>
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Nossa História: A Determinação que Transforma Vidas
-              </h2>
-              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                Carol Andrade transformou sua jornada de superação na Zona Norte de São Paulo em um propósito inabalável. Desde cedo, após enfrentar adversidades e abusos, nasceu a semente de que faria o possível para que nenhuma criança passasse por aquilo.
-              </p>
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                Toda essa dor moldou uma mulher forte e determinada. Hoje, o Instituto Sublim é a materialização dessa força, usando a transparência e a união para oferecer apoio e oportunidades reais para as 200 famílias cadastradas da periferia.
-              </p>
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                Sua história é a inspiração que nos move a construir um futuro mais justo e digno.
-              </p>
-              <Link to="/nossa-historia" onClick={handleLinkClick}>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors inline-flex items-center justify-center gap-2 w-full lg:w-[50%]">
-                  Leia a História Completa
-                  <i className="fas fa-arrow-right"></i>
-                </button>
+        {/* Transparency Section */}
+        <section id="transparency" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+          <div className="container mx-auto">
+            <SectionTitle subtitle="Acreditamos que a confiança é construída através da transparência total em nossas ações e resultados.">
+              Transparência é Nosso Compromisso
+            </SectionTitle>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {TRANSPARENCY_CARDS.map((card, idx) => (
+                <TransparencyCard key={idx} card={card} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* History Section */}
+        <section id="history" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
+          <div className="container mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="relative">
+                <div className="rounded-xl lg:rounded-3xl overflow-hidden shadow-2xl">
+                  <img
+                    src="/images/our-storie.png"
+                    alt="Carol Andrade com crianças"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  Nossa História: A Determinação que Transforma Vidas
+                </h2>
+                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                  Carol Andrade transformou sua jornada de superação na Zona Norte de São Paulo em um propósito inabalável. Desde cedo, após enfrentar adversidades e abusos, nasceu a semente de que faria o possível para que nenhuma criança passasse por aquilo.
+                </p>
+                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                  Toda essa dor moldou uma mulher forte e determinada. Hoje, o Instituto Sublim é a materialização dessa força, usando a transparência e a união para oferecer apoio e oportunidades reais para as 200 famílias cadastradas da periferia.
+                </p>
+                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                  Sua história é a inspiração que nos move a construir um futuro mais justo e digno.
+                </p>
+                <Link to="/nossa-historia" onClick={handleLinkClick}>
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors inline-flex items-center justify-center gap-2 w-full lg:w-[50%]">
+                    Leia a História Completa
+                    <i className="fas fa-arrow-right"></i>
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Workshops Section */}
+        <section id="workshops" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+          <div className="container mx-auto">
+            <SectionTitle subtitle="Programas estruturados que geram oportunidades concretas de trabalho e renda">
+              Oficinas e Capacitações
+            </SectionTitle>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {workshops.map((workshop) => (
+                <WorkshopCard key={workshop.id} workshop={workshop} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Impact Section */}
+        <section id="impact" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
+          <div className="container mx-auto">
+            <SectionTitle subtitle="Conheça os pilares de nossa atuação e como transformamos recursos em oportunidades reais.">
+              Onde Sua Doação Acontece
+            </SectionTitle>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {IMPACT_PROJECTS.map((project, idx) => (
+                <ImpactProjectCard key={idx} project={project} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Onde Atuamos Section */}
+        <section id="onde-atuamos" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
+          <div className="container mx-auto">
+            <SectionTitle subtitle="Veja os bairros da Zona Norte de São Paulo onde o Instituto Sublim atua e transforma vidas.">
+              Onde Atuamos
+            </SectionTitle>
+            <div className="flex flex-col lg:flex-row gap-12 items-center">
+              <div className="w-full lg:w-1/2">
+                <img src="/images/mapa-zona-norte.png" alt="Mapa Zona Norte" className="rounded-xl shadow-xl w-full" />
+              </div>
+              <div className="w-full lg:w-1/2">
+                <h3 className="text-2xl font-bold mb-4 text-primary">Bairros Atendidos:</h3>
+                <ul className="grid grid-cols-2 gap-2 text-lg text-gray-700">
+                  <li>Vila Aurora</li>
+                  <li>Comunidade da Paz</li>
+                  <li>São João</li>
+                  <li>Corisco</li>
+                  <li>Filhos da Terra</li>
+                  <li>Jaçanã</li>
+                  <li>Vila Albertina</li>
+                  <li>Cachoeira</li>
+                  <li>Tremembé</li>
+                  <li>Jardim Brasil</li>
+                  <li>Vila Ede</li>
+                  <li>Imirim</li>
+                  <li>Pery</li>
+                  <li>Sucupira</li>
+                  <li>Vila Nova Galvão</li>
+                  <li>Pery Alto</li>
+                  <li>Casa Verde</li>
+                  <li>Boi Malhado</li>
+                  <li>Santana</li>
+                  <li>Tucuruvi</li>
+                  <li>Mandaqui</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Partnerships Section */}
+        <section id="partnerships" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-100">
+          <div className="container mx-auto">
+            <SectionTitle subtitle="Através de parcerias estratégicas e utilização de Leis de Incentivo, sua empresa pode fazer parte desta transformação social enquanto obtém benefícios fiscais e fortalece sua responsabilidade social corporativa.">
+              Sua Empresa Pode Mudar Milhares de Vidas
+            </SectionTitle>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+              {PARTNERSHIP_STATS.map((stat, idx) => (
+                <PartnershipStatCard key={idx} stat={stat} />
+              ))}
+            </div>
+
+            <div className="text-center mb-8">
+              <Link className="w-full" to="/seja-parceiro" onClick={handleLinkClick}>
+                <Button className='w-full lg:w-[30%]' variant="primary" icon="fas fa-handshake" iconPosition="left">
+                  Venha ser Nosso Parceiro
+                </Button>
+              </Link>
+            </div>
+
+            <p className="text-center text-gray-600 text-sm">
+              Junte-se a empresas visionárias que escolheram o Instituto Sublim para multiplicar seu impacto social com transparência total e resultados mensuráveis.
+            </p>
+          </div>
+        </section>
+
+        {/* Contact/CTA Section */}
+        <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gradient-to-r from-green-500 via-teal-500 to-blue-600 text-white">
+          <div className="container mx-auto text-center">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              Faça Parte Dessa Transformação
+            </h2>
+            <p className="text-lg md:text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
+              Sua contribuição pode mudar a vida de uma criança, jovem ou família inteira.
+              Juntos, construímos um futuro melhor para todos.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-4xl mx-auto">
+              <Link to="/doacao" onClick={handleLinkClick} className="flex-1">
+                <Button variant="primary" size="lg" icon="far fa-heart" className="w-full bg-primary hover:bg-primary/90">
+                  QUERO TRANSFORMAR VIDAS
+                </Button>
+              </Link>
+              <Link to="/seja-voluntario" onClick={handleLinkClick} className="flex-1">
+                <Button variant="outline" size="lg" className="w-full">
+                  Seja Voluntário
+                </Button>
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Workshops Section */}
-      <section id="workshops" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
-        <div className="container mx-auto">
-          <SectionTitle subtitle="Programas estruturados que geram oportunidades concretas de trabalho e renda">
-            Oficinas e Capacitações
-          </SectionTitle>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {workshops.map((workshop) => (
-              <WorkshopCard key={workshop.id} workshop={workshop} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Impact Section */}
-      <section id="impact" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-white">
-        <div className="container mx-auto">
-          <SectionTitle subtitle="Conheça os pilares de nossa atuação e como transformamos recursos em oportunidades reais.">
-            Onde Sua Doação Acontece
-          </SectionTitle>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {IMPACT_PROJECTS.map((project, idx) => (
-              <ImpactProjectCard key={idx} project={project} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Onde Atuamos Section */}
-      <section id="onde-atuamos" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
-        <div className="container mx-auto">
-          <SectionTitle subtitle="Veja os bairros da Zona Norte de São Paulo onde o Instituto Sublim atua e transforma vidas.">
-            Onde Atuamos
-          </SectionTitle>
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
-            <div className="w-full lg:w-1/2">
-              <img src="/images/mapa-zona-norte.png" alt="Mapa Zona Norte" className="rounded-xl shadow-xl w-full" />
-            </div>
-            <div className="w-full lg:w-1/2">
-              <h3 className="text-2xl font-bold mb-4 text-primary">Bairros Atendidos:</h3>
-              <ul className="grid grid-cols-2 gap-2 text-lg text-gray-700">
-                <li>Vila Aurora</li>
-                <li>Comunidade da Paz</li>
-                <li>São João</li>
-                <li>Corisco</li>
-                <li>Filhos da Terra</li>
-                <li>Jaçanã</li>
-                <li>Vila Albertina</li>
-                <li>Cachoeira</li>
-                <li>Tremembé</li>
-                <li>Jardim Brasil</li>
-                <li>Vila Ede</li>
-                <li>Imirim</li>
-                <li>Pery</li>
-                <li>Sucupira</li>
-                <li>Vila Nova Galvão</li>
-                <li>Pery Alto</li>
-                <li>Casa Verde</li>
-                <li>Boi Malhado</li>
-                <li>Santana</li>
-                <li>Tucuruvi</li>
-                <li>Mandaqui</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Partnerships Section */}
-      <section id="partnerships" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-100">
-        <div className="container mx-auto">
-          <SectionTitle subtitle="Através de parcerias estratégicas e utilização de Leis de Incentivo, sua empresa pode fazer parte desta transformação social enquanto obtém benefícios fiscais e fortalece sua responsabilidade social corporativa.">
-            Sua Empresa Pode Mudar Milhares de Vidas
-          </SectionTitle>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
-            {PARTNERSHIP_STATS.map((stat, idx) => (
-              <PartnershipStatCard key={idx} stat={stat} />
-            ))}
-          </div>
-
-          <div className="text-center mb-8">
-            <Link className="w-full" to="/seja-parceiro" onClick={handleLinkClick}>
-              <Button className='w-full lg:w-[30%]' variant="primary" icon="fas fa-handshake" iconPosition="left">
-                Venha ser Nosso Parceiro
-              </Button>
-            </Link>
-          </div>
-
-          <p className="text-center text-gray-600 text-sm">
-            Junte-se a empresas visionárias que escolheram o Instituto Sublim para multiplicar seu impacto social com transparência total e resultados mensuráveis.
-          </p>
-        </div>
-      </section>
-
-      {/* Contact/CTA Section */}
-      <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gradient-to-r from-green-500 via-teal-500 to-blue-600 text-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-            Faça Parte Dessa Transformação
-          </h2>
-          <p className="text-lg md:text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
-            Sua contribuição pode mudar a vida de uma criança, jovem ou família inteira.
-            Juntos, construímos um futuro melhor para todos.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-4xl mx-auto">
-            <Link to="/doacao" onClick={handleLinkClick} className="flex-1">
-              <Button variant="primary" size="lg" icon="far fa-heart" className="w-full bg-primary hover:bg-primary/90">
-                QUERO TRANSFORMAR VIDAS
-              </Button>
-            </Link>
-            <Link to="/seja-voluntario" onClick={handleLinkClick} className="flex-1">
-              <Button variant="outline" size="lg" className="w-full">
-                Seja Voluntário
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
 
       </div>
     </>

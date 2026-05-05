@@ -235,7 +235,7 @@ const TransformLivesDonation = () => {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 border-2 border-primary-500 px-4 py-2 rounded-full mb-6">
                 <p className="text-sm font-semibold text-primary-500">
-                  <i className="fa-regular fa-heart mr-2"></i> Transformando Vidas Juntos
+                  <i className="fas fa-heart mr-2"></i> Transformando Vidas Juntos
                 </p>
               </div>
 
@@ -268,7 +268,7 @@ const TransformLivesDonation = () => {
                 <Button
                   variant="primary"
                   size="lg"
-                  icon="fa-regular fa-heart"
+                  icon="fas fa-heart"
                   className="flex-1 font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
                   onClick={() => document.getElementById('donation-channels')?.scrollIntoView({ behavior: 'smooth' })}
                 >
@@ -400,9 +400,9 @@ const TransformLivesDonation = () => {
       <section id="impact-section" className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-50">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Ajude a Transformar Vidas
-              </h2>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              Ajude a Transformar Vidas
+            </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Transparência total: cada real se transforma em resultado concreto
             </p>
@@ -519,51 +519,51 @@ const TransformLivesDonation = () => {
           ) : transformationStories.length === 0 ? (
             <p className="text-center text-gray-500">Ainda nao ha historias publicadas.</p>
           ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {transformationStories.map((story, index) => (
-              <div key={index} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-14 h-14 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
-                      <i className="fas fa-user text-gray-600 text-xl"></i>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 text-base">{story.nome}</h4>
-                      <p className="text-sm text-gray-600">{story.idade}</p>
-                      <p className="text-xs text-gray-500">{story.localizacao}</p>
-                    </div>
-                  </div>
-
-                  <p className="text-sm text-gray-700 italic mb-6 leading-relaxed">
-                    {story.texto}
-                  </p>
-
-                  {(story.transformacao_de || story.transformacao_para) && (
-                    <div className="bg-green-50 rounded-lg p-4 mb-4">
-                      <p className="text-xs font-semibold text-green-700 mb-2">Transformação</p>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-700">{story.transformacao_de || '-'}</span>
-                        <i className="fas fa-arrow-right text-green-600 mx-2"></i>
-                        <span className="text-green-700 font-semibold">{story.transformacao_para || '-'}</span>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+              {transformationStories.map((story, index) => (
+                <div key={index} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-14 h-14 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
+                        <i className="fas fa-user text-gray-600 text-xl"></i>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900 text-base">{story.nome}</h4>
+                        <p className="text-sm text-gray-600">{story.idade}</p>
+                        <p className="text-xs text-gray-500">{story.localizacao}</p>
                       </div>
                     </div>
-                  )}
 
-                  {story.doacao && (
-                    <div className="bg-blue-50 rounded-lg p-4">
-                      <p className="text-xs font-semibold text-blue-700 mb-1">Doação Mensal:</p>
-                      <p className="text-sm font-bold text-blue-900">{story.doacao}</p>
-                    </div>
-                  )}
+                    <p className="text-sm text-gray-700 italic mb-6 leading-relaxed">
+                      {story.texto}
+                    </p>
+
+                    {(story.transformacao_de || story.transformacao_para) && (
+                      <div className="bg-green-50 rounded-lg p-4 mb-4">
+                        <p className="text-xs font-semibold text-green-700 mb-2">Transformação</p>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-700">{story.transformacao_de || '-'}</span>
+                          <i className="fas fa-arrow-right text-green-600 mx-2"></i>
+                          <span className="text-green-700 font-semibold">{story.transformacao_para || '-'}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {story.doacao && (
+                      <div className="bg-blue-50 rounded-lg p-4">
+                        <p className="text-xs font-semibold text-blue-700 mb-1">Doação Mensal:</p>
+                        <p className="text-sm font-bold text-blue-900">{story.doacao}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           )}
 
           <div className="text-center mt-12">
             <Button variant="primary" size="lg" className="text-white bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700">
-              <i className="fa-regular fa-heart mr-2"></i>
+              <i className="fas fa-heart mr-2"></i>
               QUERO TRANSFORMAR UMA VIDA TAMBÉM
             </Button>
           </div>
@@ -692,7 +692,7 @@ const TransformLivesDonation = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-10">
               <button className="w-full bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                <i className="fa-regular fa-heart"></i>
+                <i className="fas fa-heart"></i>
                 DOAÇÃO MENSAL (Recomendado)
               </button>
               <button className="w-full bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-700 font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
@@ -739,9 +739,9 @@ const TransformLivesDonation = () => {
             <div className="p-6 sm:p-8 flex flex-col items-center text-center">
               {/* Logo */}
               <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 sm:mb-6 flex items-center justify-center">
-                <img 
-                  src="/images/sublim_selo.png" 
-                  alt="Instituto Sublim" 
+                <img
+                  src="/images/sublim_selo.png"
+                  alt="Instituto Sublim"
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -759,9 +759,9 @@ const TransformLivesDonation = () => {
               {/* QR Code */}
               <div className="bg-white p-3 sm:p-4 rounded-xl mb-4 sm:mb-6">
                 <div className="w-50 h-50 flex items-center justify-center">
-                  <img 
-                    src="/images/qrcode-pix.png" 
-                    alt="QR Code PIX" 
+                  <img
+                    src="/images/qrcode-pix.png"
+                    alt="QR Code PIX"
                     className="w-full h-full object-contain"
                     onError={(e) => {
                       e.target.style.display = 'none';
@@ -784,9 +784,9 @@ const TransformLivesDonation = () => {
               </p>
 
               {/* Botão Copiar Chave PIX */}
-              <Button 
-                variant="primary" 
-                size="lg" 
+              <Button
+                variant="primary"
+                size="lg"
                 className="w-full bg-[#C4FF0E] hover:bg-[#B0E60D] text-gray-900 font-bold text-base sm:text-lg py-3 sm:py-4"
                 onClick={() => {
                   navigator.clipboard.writeText('39.976.495/0001-24');

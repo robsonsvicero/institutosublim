@@ -32,19 +32,7 @@ export default function BeVolunteer() {
     carregarDepoimentos();
   }, []);
 
-  const [formData, setFormData] = useState({
-    nomeCompleto: '',
-    email: '',
-    telefone: '',
-    idade: '',
-    profissao: '',
-    habilidades: [],
-    disponibilidade: '',
-    frequencia: '',
-    interesse: [],
-    experiencia: '',
-    mensagem: ''
-  });
+  const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -62,12 +50,67 @@ export default function BeVolunteer() {
     }
   };
 
-  const handleSubmit = (e) => {
-    console.log('Formulário sendo enviado...');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Preparar os dados incluindo os campos ocultos de configuração
+    const submissionData = {
+      ...formData,
+      _subject: "Nova Inscrição de Voluntário - Instituto Sublim",
+      _template: "table",
+      _captcha: "false"
+    };
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(submissionData)
+      });
+
+      if (response.ok) {
+        setShowToast(true);
+        setFormData({
+          nomeCompleto: '',
+          email: '',
+          telefone: '',
+          idade: '',
+          profissao: '',
+          habilidades: [],
+          disponibilidade: '',
+          frequencia: '',
+          interesse: [],
+          experiencia: '',
+          mensagem: ''
+        });
+        setTimeout(() => setShowToast(false), 5000);
+      } else {
+        throw new Error('Falha no envio');
+      }
+    } catch (error) {
+      console.error("Erro ao enviar:", error);
+      alert("Ocorreu um erro ao enviar sua inscrição. Por favor, tente novamente.");
+    }
   };
 
   return (
     <div className="bg-white">
+      {/* Toast de sucesso */}
+      {showToast && (
+        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 text-center animate-bounce border-2 border-white">
+          <div className="flex items-center gap-3">
+            <i className="fas fa-check-circle text-2xl"></i>
+            <div>
+              <p className="font-bold text-lg">Inscrição enviada com sucesso!</p>
+              <p className="text-sm opacity-90">Em breve nossa equipe entrará em contato.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative h-[780px] pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px] bg-cover bg-center flex items-center" style={{ backgroundImage: 'url(/images/hero-voluntario.png)' }}>
         <div className="absolute inset-0 bg-black/50"></div>
@@ -101,7 +144,6 @@ export default function BeVolunteer() {
                   Ver Oportunidades
                 </Button>
               </a>
-
             </div>
 
             {/* Stats */}
@@ -485,8 +527,6 @@ export default function BeVolunteer() {
 
             <form
               onSubmit={handleSubmit}
-              action="https://formsubmit.co/contato@institutosublim.org"
-              method="POST"
               className="bg-white rounded-2xl shadow-md p-8"
             >
               {/* Header do Formulário */}
@@ -494,13 +534,6 @@ export default function BeVolunteer() {
                 <h3 className="text-xl font-bold text-white mb-2">Inscrição de Voluntário</h3>
                 <p className="text-white/90 text-sm">Queremos conhecer você e entender como pode contribuir com nossos projetos</p>
               </div>
-
-              {/* Hidden fields for FormSubmit configuration */}
-              <input type="hidden" name="_subject" value="Nova Inscrição de Voluntário - Instituto Sublim" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
-              <input type="hidden" name="_next" value="http://localhost:5173/seja-voluntario" />
 
               <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>

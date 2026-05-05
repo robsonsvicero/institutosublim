@@ -45,6 +45,8 @@ export default function BePartner() {
     mensagem: ''
   });
 
+  const [showToast, setShowToast] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     
@@ -60,14 +62,66 @@ export default function BePartner() {
     }
   };
 
-  const handleSubmit = (e) => {
-    // Permite que o formulário seja enviado normalmente
-    // O FormSubmit irá redirecionar automaticamente
-    console.log('Formulário sendo enviado...');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Preparar os dados incluindo os campos ocultos de configuração
+    const submissionData = {
+      ...formData,
+      _subject: "Nova Proposta de Parceria - Instituto Sublim",
+      _template: "table",
+      _captcha: "false"
+    };
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(submissionData)
+      });
+
+      if (response.ok) {
+        setShowToast(true);
+        setFormData({
+          nomeCompleto: '',
+          nomeEmpresa: '',
+          cargo: '',
+          email: '',
+          telefone: '',
+          tipoEmpresa: '',
+          numFuncionarios: '',
+          areaAtuacao: '',
+          tiposParceria: [],
+          mensagem: ''
+        });
+        setTimeout(() => setShowToast(false), 5000);
+      } else {
+        throw new Error('Falha no envio');
+      }
+    } catch (error) {
+      console.error("Erro ao enviar:", error);
+      alert("Ocorreu um erro ao enviar sua proposta. Por favor, tente novamente.");
+    }
   };
 
   return (
     <div className="bg-white">
+      {/* Toast de sucesso */}
+      {showToast && (
+        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 text-center animate-bounce border-2 border-white">
+          <div className="flex items-center gap-3">
+            <i className="fas fa-check-circle text-2xl"></i>
+            <div>
+              <p className="font-bold text-lg">Proposta enviada com sucesso!</p>
+              <p className="text-sm opacity-90">Em breve nossa equipe entrará em contato.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative h-[780px] pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px] bg-cover bg-center flex items-center" style={{ backgroundImage: 'url(/images/hero-parceiro.png)' }}>
         <div className="absolute inset-0 bg-black/50"></div>
@@ -98,11 +152,10 @@ export default function BePartner() {
                 </Button>
               </a>
               <a href="/nossos-projetos" className='w-full'>
-              <Button variant="outline" size="lg" className='w-full'>
-                Ver Nosso Impacto
-              </Button>
+                <Button variant="outline" className='w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-primary-500 font-semibold py-3 px-6 rounded-xl border border-primary-500/30 transition-colors' size="lg">
+                  Nossos Projetos
+                </Button>
               </a>
-              
             </div>
 
             {/* Stats */}
@@ -484,8 +537,6 @@ export default function BePartner() {
 
             <form 
               onSubmit={handleSubmit}
-              action="https://formsubmit.co/contato@institutosublim.org"
-              method="POST"
               className="bg-white rounded-2xl shadow-md p-8"
             >
               {/* Header do Formulário */}
@@ -493,13 +544,6 @@ export default function BePartner() {
                 <h3 className="text-xl font-bold text-white mb-2">Formulário de Qualificação</h3>
                 <p className="text-white/90 text-sm">Todas as informações são confidenciais e utilizadas apenas para personalizar nossa proposta</p>
               </div>
-
-              {/* Hidden fields for FormSubmit configuration */}
-              <input type="hidden" name="_subject" value="Nova Proposta de Parceria - Instituto Sublim" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
-              <input type="hidden" name="_next" value="http://localhost:5173/seja-parceiro" />
               
               <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
@@ -511,7 +555,7 @@ export default function BePartner() {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Digite seu nome..."
+                    placeholder="Digite o nome da empresa..."
                   />
                 </div>
                 <div>

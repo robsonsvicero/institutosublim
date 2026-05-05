@@ -38,9 +38,43 @@ export default function InscricaoOficinas() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    // Permite que o formulário seja enviado normalmente ao FormSubmit
-    console.log('Enviando inscrição...');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Preparar os dados incluindo os campos ocultos de configuração
+    const formData = {
+      ...form,
+      _subject: "Nova Inscrição em Oficina - Instituto Sublim",
+      _template: "table",
+      _captcha: "false"
+    };
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setShowToast(true);
+        setForm({
+          Nome: '',
+          Email: '',
+          Telefone: '',
+          Oficina: workshopOptions[0] || '',
+        });
+        setTimeout(() => setShowToast(false), 5000);
+      } else {
+        throw new Error('Falha no envio');
+      }
+    } catch (error) {
+      console.error("Erro ao enviar:", error);
+      alert("Ocorreu um erro ao enviar sua inscrição. Por favor, tente novamente.");
+    }
   };
 
   return (
@@ -73,8 +107,14 @@ export default function InscricaoOficinas() {
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-gray-100">
         {/* Toast de sucesso */}
       {showToast && (
-        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-primary-dark text-teal-200 px-6 py-3 rounded-xl shadow-lg z-50 text-lg font-semibold">
-          Inscrição enviada com sucesso!<br />Em breve nossa equipe entrará em contato.
+        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 text-center animate-bounce border-2 border-white">
+          <div className="flex items-center gap-3">
+            <i className="fas fa-check-circle text-2xl"></i>
+            <div>
+              <p className="font-bold text-lg">Inscrição enviada com sucesso!</p>
+              <p className="text-sm opacity-90">Em breve nossa equipe entrará em contato.</p>
+            </div>
+          </div>
         </div>
       )}
 
@@ -90,15 +130,9 @@ export default function InscricaoOficinas() {
             </p>
           </div>
           <form 
-            action="https://formsubmit.co/contato@institutosublim.org" 
-            method="POST"
+            onSubmit={handleSubmit}
             className="bg-white rounded-2xl shadow-md p-8"
           >
-            {/* Hidden fields for FormSubmit configuration */}
-            <input type="hidden" name="_subject" value="Nova Inscrição em Oficina - Instituto Sublim" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_next" value="http://localhost:5173/inscricao-oficinas" />
 
             <div className="bg-gradient-to-r from-teal-500 to-blue-600 rounded-t-xl -mx-8 -mt-8 mb-8 p-6">
               <h3 className="text-xl font-bold text-white mb-2">Formulário de Inscrição</h3>
