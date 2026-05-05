@@ -491,13 +491,6 @@ const TransformLivesDonation = () => {
               ))}
             </div>
           )}
-
-          <div className="text-center mt-12">
-            <Button variant="primary" size="lg" className="text-white bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700">
-              <i className="fas fa-heart mr-2"></i>
-              QUERO TRANSFORMAR UMA VIDA TAMBÉM
-            </Button>
-          </div>
         </div>
       </section>
 
@@ -622,11 +615,16 @@ const TransformLivesDonation = () => {
               Enquanto você lê isso, famílias inteiras estão esperando uma oportunidade. Sua doação não é apenas um gesto de bondade - é a diferença entre desespero e esperança.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-10">
-              <button className="w-full bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                <i className="fas fa-heart"></i>
-                DOAÇÃO MENSAL (Recomendado)
-              </button>
-              <button className="w-full bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-700 font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
+              <Link to="/doacao-mensal" className="w-full">
+                <button className="w-full bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                  <i className="fas fa-heart"></i>
+                  DOAÇÃO MENSAL (Recomendado)
+                </button>
+              </Link>
+              <button 
+                onClick={() => document.getElementById('impact-section')?.scrollIntoView({ behavior: 'smooth' })}
+                className="w-full bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-700 font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+              >
                 <i className="fas fa-hand-holding-heart"></i>
                 DOAÇÃO ÚNICA (Impacto Imediato)
               </button>
