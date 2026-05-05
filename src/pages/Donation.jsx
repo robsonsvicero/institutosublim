@@ -371,9 +371,9 @@ const TransformLivesDonation = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
             {impactItems.map((item, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all ">
+              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(25%-1.5rem)] min-w-[260px] max-w-[300px]">
                 <div className="p-8 flex flex-col justify-between h-full">
                   <div className={`${item.bgColor} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto`}>
                     <i className={`fas ${item.icon} ${item.iconColor} text-3xl`}></i>
@@ -419,9 +419,9 @@ const TransformLivesDonation = () => {
           </div>
 
           {loadingStories ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto">
               {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 p-6 animate-pulse">
+                <div key={item} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 p-6 animate-pulse w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(25%-1.5rem)] min-w-[260px] max-w-[300px]">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-14 h-14 rounded-full bg-teal-100 flex-shrink-0"></div>
                     <div className="flex-1">
@@ -450,9 +450,9 @@ const TransformLivesDonation = () => {
           ) : transformationStories.length === 0 ? (
             <p className="text-center text-gray-500">Ainda nao ha historias publicadas.</p>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto">
               {transformationStories.map((story, index) => (
-                <div key={index} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all">
+                <div key={index} className="bg-gradient-to-b from-teal-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(25%-1.5rem)] min-w-[260px] max-w-[300px]">
                   <div className="p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-14 h-14 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
@@ -518,9 +518,9 @@ const TransformLivesDonation = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
             {urgentCases.map((item, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+              <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] min-w-[300px] max-w-[380px]">
                 <div className="p-6 flex flex-col justify-between h-full">
                   <div className="flex items-start gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
@@ -571,8 +571,8 @@ const TransformLivesDonation = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto mb-12">
-            <div className="bg-teal-50 rounded-2xl p-8 text-center">
+          <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto mb-12">
+            <div className="bg-teal-50 rounded-2xl p-8 text-center w-full sm:w-[calc(50%-2rem)] lg:w-[calc(25%-2rem)] min-w-[240px] max-w-[280px]">
               <div className="text-5xl font-bold text-primary mb-2">+{vidasTransformadas.toLocaleString()}</div>
               <div className="text-gray-800 font-semibold mb-2">Vidas Transformadas</div>
               <div className="text-sm text-gray-600">Pessoas diretamente beneficiadas em +4 anos</div>

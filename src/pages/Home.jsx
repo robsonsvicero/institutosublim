@@ -300,9 +300,11 @@ export default function Home() {
               Transparência é Nosso Compromisso
             </SectionTitle>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
               {TRANSPARENCY_CARDS.map((card, idx) => (
-                <TransparencyCard key={idx} card={card} />
+                <div key={idx} className="w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] min-w-[280px] max-w-[350px]">
+                  <TransparencyCard card={card} />
+                </div>
               ))}
             </div>
           </div>
@@ -353,9 +355,11 @@ export default function Home() {
               Oficinas e Capacitações
             </SectionTitle>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto">
               {workshops.map((workshop) => (
-                <WorkshopCard key={workshop.id} workshop={workshop} />
+                <div key={workshop.id} className="w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] min-w-[300px] max-w-[380px] flex">
+                  <WorkshopCard workshop={workshop} />
+                </div>
               ))}
             </div>
           </div>
@@ -368,9 +372,11 @@ export default function Home() {
               Onde Sua Doação Acontece
             </SectionTitle>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
               {IMPACT_PROJECTS.map((project, idx) => (
-                <ImpactProjectCard key={idx} project={project} />
+                <div key={idx} className="w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] min-w-[300px] max-w-[380px] flex">
+                  <ImpactProjectCard project={project} />
+                </div>
               ))}
             </div>
           </div>
@@ -423,9 +429,11 @@ export default function Home() {
               Sua Empresa Pode Mudar Milhares de Vidas
             </SectionTitle>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+            <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto mb-12">
               {PARTNERSHIP_STATS.map((stat, idx) => (
-                <PartnershipStatCard key={idx} stat={stat} />
+                <div key={idx} className="w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] min-w-[240px] max-w-[300px]">
+                  <PartnershipStatCard stat={stat} />
+                </div>
               ))}
             </div>
 
@@ -458,9 +466,9 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
               {/* Monthly Donation Card */}
-              <div className="bg-gradient-to-br from-green-500 via-teal-500 to-blue-600 rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+              <div className="w-full md:w-[calc(50%-2rem)] max-w-[450px] bg-gradient-to-br from-green-500 via-teal-500 to-blue-600 rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
                 <div className="p-8 text-white">
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-3">
@@ -509,7 +517,7 @@ export default function Home() {
               </div>
 
               {/* Single Donation Card */}
-              <div className="bg-gradient-to-br from-fuchsia-500 via-pink-500 to-pink-600 rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+              <div className="w-full md:w-[calc(50%-2rem)] max-w-[450px] bg-gradient-to-br from-fuchsia-500 via-pink-500 to-pink-600 rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
                 <div className="p-8 text-white">
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-3">
