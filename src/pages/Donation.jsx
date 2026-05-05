@@ -7,6 +7,7 @@ const TransformLivesDonation = () => {
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [donationType, setDonationType] = useState('monthly');
   const [showDonationModal, setShowDonationModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
   const [livesMudadas, setLivesMudadas] = useState(0);
   const [oficinas, setOficinas] = useState(0);
   const [familias, setFamilias] = useState(0);
@@ -200,27 +201,95 @@ const TransformLivesDonation = () => {
     carregarHistorias();
   }, []);
 
+  const impactItems = [
+    {
+      id: 'impact-50',
+      icon: 'fa-graduation-cap',
+      iconColor: 'text-blue-500',
+      bgColor: 'bg-blue-50',
+      amount: 'R$ 50',
+      value: 50,
+      label: 'valor do impacto',
+      title: 'Reforço escolar para 1 criança por 1 mês',
+      description: 'Material didático, acompanhamento pedagógico e lanche',
+      qrCode: '/images/qrcode-pix-50.png',
+      impactTitle: 'Dignidade imediata',
+      impactDesc: 'Garante um Kit Completo de Higiene Pessoal e apoio básico para uma família vulnerável.'
+    },
+    {
+      id: 'impact-100',
+      icon: 'fa-home',
+      iconColor: 'text-green-500',
+      bgColor: 'bg-green-50',
+      amount: 'R$ 100',
+      value: 100,
+      label: 'valor do impacto',
+      title: 'Cesta básica completa para 1 família',
+      description: 'Alimentação para 30 dias + produtos de higiene',
+      qrCode: '/images/qrcode-pix-100.png',
+      impactTitle: 'Segurança Alimentar',
+      impactDesc: 'Garante uma cesta básica completa para uma família em situação de vulnerabilidade.'
+    },
+    {
+      id: 'impact-150',
+      icon: 'fa-briefcase',
+      iconColor: 'text-purple-500',
+      bgColor: 'bg-purple-50',
+      amount: 'R$ 150',
+      value: 150,
+      label: 'valor do impacto',
+      title: 'Curso de capacitação profissional completo',
+      description: 'Informática, vendas ou empreendedorismo para 1 pessoa',
+      qrCode: '/images/qrcode-pix-150.png',
+      impactTitle: 'Geração de Renda',
+      impactDesc: 'Financia a capacitação profissional de um jovem para o mercado de trabalho.'
+    },
+    {
+      id: 'impact-300',
+      icon: 'fa-users',
+      iconColor: 'text-red-500',
+      bgColor: 'bg-red-50',
+      amount: 'R$ 300',
+      value: 300,
+      label: 'valor do impacto',
+      title: 'Apoio integral para 1 família por 3 meses',
+      description: 'Assistência social, educação e capacitação completa',
+      qrCode: '/images/qrcode-pix-300.png',
+      impactTitle: 'Transformação Familiar',
+      impactDesc: 'Proporciona acompanhamento integral para que uma família conquiste autonomia.'
+    }
+  ];
+
+  const handleOpenModal = (data) => {
+    setModalData(data);
+    setShowDonationModal(true);
+  };
+
   const urgentCases = [
+    // {
+    //   title: 'Criança Escala Profissional',
+    //   subtitle: 'R$ 50 por mês',
+    //   description: 'Ajuda a oferecer ao nosso instituto a pagar por 3 meses de bolsa de estudos',
+    //   progress: 85,
+    //   buttonText: 'AJUDAR AGORA'
+    // },
+    // {
+    //   title: 'Matheus Sarmêlo',
+    //   subtitle: 'R$ 100 por mês',
+    //   description: 'Ajuda a oferecer formação para uma pessoa que não tem condições de pagar',
+    //   progress: 70,
+    //   buttonText: 'AJUDAR AGORA'
+    // },
     {
-      title: 'Criança Escala Profissional',
-      subtitle: 'R$ 50 por mês',
-      description: 'Ajuda a oferecer ao nosso instituto a pagar por 3 meses de bolsa de estudos',
-      progress: 85,
-      buttonText: 'AJUDAR AGORA'
-    },
-    {
-      title: 'Matheus Sarmêlo',
-      subtitle: 'R$ 100 por mês',
-      description: 'Ajuda a oferecer formação para uma pessoa que não tem condições de pagar',
-      progress: 70,
-      buttonText: 'AJUDAR AGORA'
-    },
-    {
-      title: 'Assistência Alimentar',
-      subtitle: 'R$ 200 por mês',
-      description: 'Ajuda toda nossa equipe a fazer compras de alimentos',
-      progress: 50,
-      buttonText: 'AJUDAR AGORA'
+      title: 'Aluguel do Instituto',
+      subtitle: 'Meta: R$ 2.200 / mês',
+      description: 'Ajude-nos a manter nossa sede aberta para continuar atendendo centenas de famílias.',
+      progress: 10,
+      buttonText: 'AJUDAR AGORA',
+      value: null, // Valor aberto
+      qrCode: '/images/qrcode-pix-aberto.png',
+      impactTitle: 'Manutenção da Sede',
+      impactDesc: 'Sua doação ajuda a pagar o aluguel e custos fixos, mantendo nossos projetos vivos.'
     }
   ];
 
@@ -303,44 +372,7 @@ const TransformLivesDonation = () => {
           </div>
 
           <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {[
-              {
-                icon: 'fa-graduation-cap',
-                iconColor: 'text-blue-500',
-                bgColor: 'bg-blue-50',
-                amount: 'R$ 50',
-                label: 'valor do impacto',
-                title: 'Reforço escolar para 1 criança por 1 mês',
-                description: 'Material didático, acompanhamento pedagógico e lanche'
-              },
-              {
-                icon: 'fa-home',
-                iconColor: 'text-green-500',
-                bgColor: 'bg-green-50',
-                amount: 'R$ 100',
-                label: 'valor do impacto',
-                title: 'Cesta básica completa para 1 família',
-                description: 'Alimentação para 30 dias + produtos de higiene'
-              },
-              {
-                icon: 'fa-briefcase',
-                iconColor: 'text-purple-500',
-                bgColor: 'bg-purple-50',
-                amount: 'R$ 150',
-                label: 'valor do impacto',
-                title: 'Curso de capacitação profissional completo',
-                description: 'Informática, vendas ou empreendedorismo para 1 pessoa'
-              },
-              {
-                icon: 'fa-users',
-                iconColor: 'text-red-500',
-                bgColor: 'bg-red-50',
-                amount: 'R$ 300',
-                label: 'valor do impacto',
-                title: 'Apoio integral para 1 família por 3 meses',
-                description: 'Assistência social, educação e capacitação complet'
-              }
-            ].map((item, index) => (
+            {impactItems.map((item, index) => (
               <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all ">
                 <div className="p-8 flex flex-col justify-between h-full">
                   <div className={`${item.bgColor} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto`}>
@@ -352,7 +384,7 @@ const TransformLivesDonation = () => {
                   </div>
                   <h3 className="text-base font-bold text-gray-900 mb-3 text-center leading-tight">{item.title}</h3>
                   <p className="text-sm text-gray-600 text-center mb-6 leading-relaxed">{item.description}</p>
-                  <Button variant='primary' className='hover:-translate-y-1' onClick={() => setShowDonationModal(true)}>
+                  <Button variant='primary' className='hover:-translate-y-1' onClick={() => handleOpenModal(item)}>
                     DOAR {item.amount}
                   </Button>
                 </div>
@@ -361,7 +393,12 @@ const TransformLivesDonation = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Button variant="primary" size="lg" >
+            <Button variant="primary" size="lg" onClick={() => handleOpenModal({
+              value: null,
+              qrCode: '/images/qrcode-pix-aberto.png',
+              impactTitle: 'Qualquer Valor',
+              impactDesc: 'Sua doação espontânea é fundamental para nossos projetos.'
+            })}>
               <i className="fas fa-dollar-sign mr-2"></i>
               ESCOLHER OUTRO VALOR
             </Button>
@@ -512,7 +549,7 @@ const TransformLivesDonation = () => {
                     </div>
                   </div>
 
-                  <Button variant="red" className="w-full">
+                  <Button variant="red" className="w-full" onClick={() => handleOpenModal(item)}>
                     {item.buttonText}
                   </Button>
                 </div>
@@ -618,7 +655,7 @@ const TransformLivesDonation = () => {
       </section>
 
       {/* Modal de Doação */}
-      {showDonationModal && (
+      {showDonationModal && modalData && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] p-4 sm:p-6" onClick={() => setShowDonationModal(false)}>
           <div className="w-[520px] bg-gray-100 rounded-2xl sm:rounded-3xl relative shadow-2xl max-h-[95vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             {/* Botão Fechar */}
@@ -643,10 +680,14 @@ const TransformLivesDonation = () => {
               {/* Título e Descrição */}
               <div className="mb-4 sm:mb-6">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                  <strong>R$ 50,00: </strong><span className="font-normal">Dignidade imediata</span>
+                  {modalData.value ? (
+                    <><strong>R$ {modalData.value.toFixed(2).replace('.', ',')}: </strong><span className="font-normal">{modalData.impactTitle}</span></>
+                  ) : (
+                    <><strong>Valor Livre: </strong><span className="font-normal">{modalData.impactTitle}</span></>
+                  )}
                 </h2>
                 <p className="text-gray-700 text-xs sm:text-sm italic leading-relaxed px-2">
-                  Garante um Kit Completo de Higiene Pessoal e apoio básico para uma família vulnerável.
+                  {modalData.impactDesc}
                 </p>
               </div>
 
@@ -654,7 +695,7 @@ const TransformLivesDonation = () => {
               <div className="bg-white p-3 sm:p-4 rounded-xl mb-4 sm:mb-6">
                 <div className="w-50 h-50 flex items-center justify-center">
                   <img
-                    src="/images/qrcode-pix.png"
+                    src={modalData.qrCode}
                     alt="QR Code PIX"
                     className="w-full h-full object-contain"
                     onError={(e) => {
