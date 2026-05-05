@@ -564,8 +564,8 @@ const TransformLivesDonation = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto mb-12">
-            <div className="bg-teal-50 rounded-2xl p-8 text-center w-full sm:w-[calc(50%-2rem)] lg:w-[calc(25%-2rem)] min-w-[240px] max-w-[280px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto mb-12">
+            <div className="bg-teal-50 rounded-2xl p-8 text-center">
               <div className="text-5xl font-bold text-primary mb-2">+{vidasTransformadas.toLocaleString()}</div>
               <div className="text-gray-800 font-semibold mb-2">Vidas Transformadas</div>
               <div className="text-sm text-gray-600">Pessoas diretamente beneficiadas em +4 anos</div>
