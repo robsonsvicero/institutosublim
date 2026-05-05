@@ -66,6 +66,10 @@ export default function Contact() {
     setOpenFaq(openFaq === index ? null : index);
   };
 
+  const handleLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const faqData = [
     {
       question: 'Onde fica localizado o Instituto Sublim e qual sua área de atuação?',

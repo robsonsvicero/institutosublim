@@ -32,6 +32,10 @@ export default function BePartner() {
     carregarDepoimentos();
   }, []);
 
+  const handleLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const [formData, setFormData] = useState({
     nomeCompleto: '',
     nomeEmpresa: '',
