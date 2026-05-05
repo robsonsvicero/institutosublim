@@ -133,7 +133,7 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-75">
             <p>© 2025 Instituto Sublim. Todos os direitos reservados.</p>
-            <p>CNPJ: 12.345.678/0001-90 | Utilidade Pública</p>
+            <p>CNPJ: 39.976.495/0001-24 | Utilidade Pública</p>
             <div className='flex flex-col justify-center item-center'>
               <p className='text-center'>Desenvolvido por</p>
               <a 

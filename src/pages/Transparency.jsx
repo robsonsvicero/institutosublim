@@ -245,7 +245,7 @@ export default function Transparency() {
               <div className="space-y-2 mb-6 text-sm text-gray-700">
                 <div className="flex justify-between">
                   <span>CNPJ:</span>
-                  <span className="font-bold">100%</span>
+                  <span className="font-bold">39.976.495/0001-24</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Auditoria:</span>
@@ -264,7 +264,7 @@ export default function Transparency() {
 
       {/* CTA Section - A Confiança Gera Transformação */}
       <section className="py-[50px] px-[16px] lg:py-[100px] lg:px-[204px] bg-black lg:bg-white">
-        <div className="bg-primary text-white container mx-auto rounded-3xl lg:p-12">
+        <div className="bg-teal-700 text-white container mx-auto rounded-3xl lg:p-12">
           <div className="lg:max-w-4xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               A Confiança Gera Transformação

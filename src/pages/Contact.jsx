@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '../components/ui';
+import { Link } from 'react-router-dom';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Preparar os dados incluindo os campos ocultos de configuração
     const submissionData = {
       ...formData,
@@ -35,7 +36,7 @@ export default function Contact() {
     try {
       const response = await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
         method: "POST",
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
@@ -80,7 +81,7 @@ export default function Contact() {
     },
     {
       question: 'Como posso ter certeza de que o PIX vai para a conta correta?',
-      answer: 'Nossa chave PIX oficial é o CNPJ 12.345.678/0001-90. Sempre confirme os dados antes de realizar a transferência. Você receberá um comprovante automático e um e-mail de confirmação após a doação. Em caso de dúvida, entre em contato conosco antes de doar.'
+      answer: 'Nossa chave PIX oficial é o CNPJ 39.976.495/0001-24. Sempre confirme os dados antes de realizar a transferência. Você receberá um comprovante automático e um e-mail de confirmação após a doação. Em caso de dúvida, entre em contato conosco antes de doar.'
     }
   ];
 
@@ -539,18 +540,18 @@ export default function Contact() {
             <p className="text-xl text-white/90 mb-10 leading-relaxed">
               Sua participação é fundamental para continuarmos nossa missão. Seja através de doação, parceria ou voluntariado, há sempre uma forma de fazer a diferença.
             </p>
-            <div className="w-full flex flex-col sm:flex-row gap-4 mb-12">
-              <a href="/doacao" className='w-full'>
-                  <Button variant="primary" className=" font-bold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 w-full" icon="fas fa-heart" iconPosition="left">
-                    DOE AGORA
-                  </Button>
-                </a>
+            <div className="text-center mb-8">
+              <Link className="w-full" to="/doacao" onClick={handleLinkClick}>
+                <Button className='w-full lg:w-[30%]' variant="primary" icon="fas fa-heart" iconPosition="left">
+                  DOE AGORA
+                </Button>
+              </Link>
             </div>
 
             {/* Footer Info */}
             <div className="pt-8 border-t border-white/20">
               <p className="text-sm text-white/80">
-                Instituição sem fins lucrativos • CNPJ: 12.345.678/0001-90 • Certificação de utilidade pública
+                Instituição sem fins lucrativos • CNPJ: 39.976.495/0001-24 • Certificação de utilidade pública
               </p>
             </div>
           </div>

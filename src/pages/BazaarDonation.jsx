@@ -101,7 +101,7 @@ const BazaarDonation = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {categories.map((cat, index) => (
               <div key={index} className="bg-gray-50 p-6 rounded-2xl border border-gray-100 text-center hover:shadow-lg transition-all group">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl text-blue-600 shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl text-teal-500 shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-colors">
                   <i className={cat.icon}></i>
                 </div>
                 <p className="font-semibold text-gray-800">{cat.name}</p>
@@ -126,7 +126,7 @@ const BazaarDonation = () => {
               
               <div className="space-y-8">
                 <div className="flex gap-6">
-                  <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">
+                  <div className="w-12 h-12 bg-teal-500 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">
                     <i className="fas fa-map-marker-alt"></i>
                   </div>
                   <div>
@@ -141,7 +141,7 @@ const BazaarDonation = () => {
                 </div>
 
                 <div className="flex gap-6">
-                  <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">
+                  <div className="w-12 h-12 bg-teal-500 text-white rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xl">
                     <i className="fas fa-calendar-alt"></i>
                   </div>
                   <div>
@@ -263,17 +263,17 @@ const BazaarDonation = () => {
           <h2 className="text-3xl font-bold mb-12">O ciclo da sua doação</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-8">
-              <i className="fas fa-box-open text-4xl text-blue-500 mb-6"></i>
+              <i className="fas fa-box-open text-4xl text-teal-500 mb-6"></i>
               <h4 className="text-xl font-bold mb-4">Sua Doação</h4>
               <p className="text-gray-600">Você doa itens que não usa mais mas que estão em bom estado.</p>
             </div>
             <div className="p-8">
-              <i className="fas fa-store text-4xl text-blue-500 mb-6"></i>
+              <i className="fas fa-store text-4xl text-teal-500 mb-6"></i>
               <h4 className="text-xl font-bold mb-4">Nosso Bazar</h4>
               <p className="text-gray-600">Vendemos os itens a preços acessíveis para a própria comunidade.</p>
             </div>
             <div className="p-8">
-              <i className="fas fa-hand-holding-heart text-4xl text-blue-500 mb-6"></i>
+              <i className="fas fa-hand-holding-heart text-4xl text-teal-500 mb-6"></i>
               <h4 className="text-xl font-bold mb-4">Investimento Social</h4>
               <p className="text-gray-600">100% do valor arrecadado é revertido para os projetos do Instituto Sublim.</p>
             </div>

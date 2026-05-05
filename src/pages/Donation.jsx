@@ -630,19 +630,9 @@ const TransformLivesDonation = () => {
               </button>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-8 justify-between items-center text-sm text-white/90 mb-6">
-              <button className="w-full hover:underline flex items-center justify-center gap-2">
-                Ver Nossa Transparência <i className="fas fa-arrow-right"></i>
-              </button>
-              <span className="hidden sm:inline">•</span>
-              <button className="w-full hover:underline flex items-center justify-center gap-2">
-                Fale Conosco <i className="fas fa-arrow-right"></i>
-              </button>
-            </div>
-
             <div className="border-t border-white/30 pt-6 text-sm text-white/80">
               <p className="mb-2">
-                Instituto Sublim • CNPJ: 12.345.678/0001-90 • Certificação de Utilidade Pública
+                Instituto Sublim • CNPJ: 39.976.495/0001-24 • Certificação de Utilidade Pública
               </p>
               <p>
                 Sua doação é dedutível no Imposto de Renda
