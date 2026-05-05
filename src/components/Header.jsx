@@ -42,12 +42,11 @@ export default function Header({ fixed = true, textColor }) {
           <div className="fixed min-w-[200px] bg-white rounded-xl shadow-lg border border-gray-100 transition-opacity z-[9999] opacity-100 pointer-events-auto" style={sobreNosBtnRef.current ? { left: sobreNosBtnRef.current.getBoundingClientRect().left, top: sobreNosBtnRef.current.getBoundingClientRect().bottom + 8 } : {}}>
             <Link to="/nossa-historia" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-t-xl">Nossa História</Link>
             <Link to="/seja-voluntario" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700">Seja Voluntário</Link>
-            <Link to="/nossos-projetos" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-b-xl">Nossos Projetos</Link>
+            <Link to="/nossos-projetos" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700">Nossos Projetos</Link>
+            <Link to="/transparencia" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-b-xl">Transparência</Link>
           </div>, document.body)
         }
       </div>
-      <Link to="/transparencia" onClick={handleLinkClick} className={linkClass}>Transparência</Link>
-      <Link to="/seja-parceiro" onClick={handleLinkClick} className={linkClass}>Seja Parceiro</Link>
       
       <div className="relative group">
         <button ref={ajudaBtnRef} className={linkClass + ' flex items-center gap-2'} tabIndex={0} onClick={() => setAjudaSubmenuOpen(!ajudaSubmenuOpen)}>
@@ -57,13 +56,17 @@ export default function Header({ fixed = true, textColor }) {
           <div className="fixed min-w-[220px] bg-white rounded-xl shadow-lg border border-gray-100 transition-opacity z-[9999] opacity-100 pointer-events-auto" style={ajudaBtnRef.current ? { left: ajudaBtnRef.current.getBoundingClientRect().left, top: ajudaBtnRef.current.getBoundingClientRect().bottom + 8 } : {}}>
             <Link to="/doacao" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-t-xl">Doação Única</Link>
             <Link to="/doacao-mensal" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700">Doação Mensal</Link>
-            <Link to="/doacao-bazar" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-b-xl">Doação para Bazar</Link>
+            <Link to="/doacao-bazar" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700">Doação para Bazar</Link>
+            <Link to="/seja-parceiro" onClick={handleLinkClick} className="block px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-700 rounded-b-xl">Seja Parceiro</Link>
           </div>, document.body)
         }
       </div>
 
       <Link to="/oficinas" onClick={handleLinkClick} className={linkClass}>Oficinas e Capacitações</Link>
       <Link to="/contato" onClick={handleLinkClick} className={linkClass}>Contato</Link>
+      <Link to="/doacao" onClick={handleLinkClick}>
+        <Button variant="primary" icon="fas fa-heart" >DOE AGORA</Button>
+      </Link>
       <Link
         to="/login"
         onClick={handleLinkClick}
@@ -88,11 +91,10 @@ export default function Header({ fixed = true, textColor }) {
                 <Link to="/nossa-historia" onClick={handleLinkClick} className="block py-2 text-gray-700">Nossa História</Link>
                 <Link to="/seja-voluntario" onClick={handleLinkClick} className="block py-2 text-gray-700">Seja Voluntário</Link>
                 <Link to="/nossos-projetos" onClick={handleLinkClick} className="block py-2 text-gray-700">Nossos Projetos</Link>
+                <Link to="/transparencia" onClick={handleLinkClick} className="block py-2 text-gray-700">Transparência</Link>
               </div>
             )}
           </div>
-          <Link to="/transparencia" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Transparência</Link>
-          <Link to="/seja-parceiro" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Seja Parceiro</Link>
           
           <div className="relative">
             <button className="text-header flex items-center gap-2 w-full py-3" onClick={() => setAjudaSubmenuOpen(!ajudaSubmenuOpen)} aria-label="Abrir submenu Como ajudar">Como ajudar <span className="fa fa-chevron-down text-xs"></span></button>
@@ -101,6 +103,7 @@ export default function Header({ fixed = true, textColor }) {
                 <Link to="/doacao" onClick={handleLinkClick} className="block py-2 text-gray-700">Doação Única</Link>
                 <Link to="/doacao-mensal" onClick={handleLinkClick} className="block py-2 text-gray-700">Doação Mensal</Link>
                 <Link to="/doacao-bazar" onClick={handleLinkClick} className="block py-2 text-gray-700">Doação para Bazar</Link>
+                <Link to="/seja-parceiro" onClick={handleLinkClick} className="block py-2 text-gray-700">Seja Parceiro</Link>
               </div>
             )}
           </div>
@@ -109,8 +112,8 @@ export default function Header({ fixed = true, textColor }) {
           <Link to="/contato" onClick={handleLinkClick} className="text-xl font-medium text-[#8B8B8B] hover:text-primary-dark transition">Contato</Link>
           
           <div className="mt-8 w-full max-w-xs">
-            <Link to="/doacao-mensal" onClick={handleLinkClick} className="w-full inline-flex items-center justify-center text-base py-4">
-              <Button variant="primary" icon="fas fa-heart">DOE MENSAL</Button>
+            <Link to="/doacao" onClick={handleLinkClick} className="w-full inline-flex items-center justify-center text-base py-4">
+              <Button variant="primary" icon="fas fa-heart">DOE AGORA</Button>
             </Link>
           </div>
           <Link
