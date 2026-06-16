@@ -187,7 +187,7 @@ export default function OurProjects() {
       <section
         className="w-full hero-bg h-[780px] flex items-center relative pt-[120px] pb-[50px] px-[16px] lg:pt-[100px] lg:pb-[100px] lg:px-[204px]"
         style={{ backgroundImage: 'url(/images/projects-hero.png)' }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-black/0"></div>
 
         <div className="container mx-auto relative z-10">
           <div className="max-w-3xl text-white">

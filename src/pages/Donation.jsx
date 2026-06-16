@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
 import { supabase } from '../lib/supabaseClient';
 import { Link } from 'react-router-dom';
+import { pixService } from '../services/pixService';
 
 const TransformLivesDonation = () => {
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -20,6 +21,33 @@ const TransformLivesDonation = () => {
   const [certificacoes, setCertificacoes] = useState(0);
   const [comunidades, setComunidades] = useState(0);
   const [hasAnimatedImpact, setHasAnimatedImpact] = useState(false);
+
+  // States para o PIX Automático
+  const [isGeneratingPix, setIsGeneratingPix] = useState(false);
+  const [pixData, setPixData] = useState(null);
+  const [pixStatus, setPixStatus] = useState('pendente');
+  const [customValue, setCustomValue] = useState('');
+
+  // Polling para verificar status do pagamento
+  useEffect(() => {
+    let intervalId;
+    if (pixData?.pagamento_id && pixStatus === 'pendente') {
+      intervalId = setInterval(async () => {
+        try {
+          const res = await pixService.verificarStatusPix(pixData.pagamento_id);
+          if (res.status === 'pago') {
+            setPixStatus('pago');
+            clearInterval(intervalId);
+          }
+        } catch (error) {
+          console.error("Erro ao verificar status:", error);
+        }
+      }, 3000);
+    }
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [pixData, pixStatus]);
 
   // Counter animation effect for Hero
   useEffect(() => {
@@ -260,9 +288,28 @@ const TransformLivesDonation = () => {
     }
   ];
 
-  const handleOpenModal = (data) => {
+  const handleOpenModal = async (data) => {
     setModalData(data);
     setShowDonationModal(true);
+    setPixData(null);
+    setPixStatus('pendente');
+    setCustomValue('');
+    
+    if (data.value) {
+      gerarPixDinamico(data.value);
+    }
+  };
+
+  const gerarPixDinamico = async (valorToGenerate) => {
+    setIsGeneratingPix(true);
+    try {
+      const result = await pixService.gerarPix(valorToGenerate);
+      setPixData(result);
+    } catch (error) {
+      alert("Erro ao gerar PIX. Tente novamente.");
+    } finally {
+      setIsGeneratingPix(false);
+    }
   };
 
   const urgentCases = [
@@ -345,14 +392,15 @@ const TransformLivesDonation = () => {
                   QUERO AJUDAR AGORA
                 </Button>
 
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="flex-1 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold"
-                  onClick={() => document.getElementById('impact-section')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Ver Nosso Impacto
-                </Button>
+                <Link to="/transparency" className="flex-1">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="flex-1 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold"
+                  >
+                    Ver Nosso Impacto
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -656,68 +704,122 @@ const TransformLivesDonation = () => {
 
             {/* Conteúdo do Modal */}
             <div className="p-6 sm:p-8 flex flex-col items-center text-center">
-              {/* Logo */}
-              <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 sm:mb-6 flex items-center justify-center">
-                <img
-                  src="/images/sublim_selo.png"
-                  alt="Instituto Sublim"
-                  className="w-full h-full object-contain"
-                />
-              </div>
-
-              {/* Título e Descrição */}
-              <div className="mb-4 sm:mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                  {modalData.value ? (
-                    <><strong>R$ {modalData.value.toFixed(2).replace('.', ',')}: </strong><span className="font-normal">{modalData.impactTitle}</span></>
-                  ) : (
-                    <><strong>Valor Livre: </strong><span className="font-normal">{modalData.impactTitle}</span></>
-                  )}
-                </h2>
-                <p className="text-gray-700 text-xs sm:text-sm italic leading-relaxed px-2">
-                  {modalData.impactDesc}
-                </p>
-              </div>
-
-              {/* QR Code */}
-              <div className="bg-white p-3 sm:p-4 rounded-xl mb-4 sm:mb-6">
-                <div className="w-50 h-50 flex items-center justify-center">
-                  <img
-                    src={modalData.qrCode}
-                    alt="QR Code PIX"
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.innerHTML = '<div class="w-40 h-40 sm:w-48 sm:h-48 bg-gray-200 flex items-center justify-center text-gray-500"><i class="fas fa-qrcode text-5xl sm:text-6xl"></i></div>';
-                    }}
-                  />
+              {pixStatus === 'pago' ? (
+                <div className="flex flex-col items-center py-10">
+                  <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                    <i className="fas fa-check text-5xl text-green-500"></i>
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">Pagamento Confirmado!</h2>
+                  <p className="text-gray-700 text-lg">Muitíssimo obrigado pela sua doação. Ela fará a diferença!</p>
+                  <Button variant="primary" className="mt-8" onClick={() => setShowDonationModal(false)}>FECHAR</Button>
                 </div>
-              </div>
+              ) : (
+                <>
+                  {/* Logo */}
+                  <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 sm:mb-6 flex items-center justify-center">
+                    <img src="/images/sublim_selo.png" alt="Instituto Sublim" className="w-full h-full object-contain" />
+                  </div>
 
-              {/* Chave PIX */}
-              <div className="font-body mb-2">
-                <p className="text-primary-dark text-xs sm:text-sm px-2">
-                  Chave Pix (CNPJ): <strong>39.976.495/0001-24</strong>
-                </p>
-              </div>
+                  {/* Título e Descrição */}
+                  <div className="mb-4 sm:mb-6 w-full">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                      {modalData.value ? (
+                        <><strong>R$ {modalData.value.toFixed(2).replace('.', ',')}: </strong><span className="font-normal">{modalData.impactTitle}</span></>
+                      ) : (
+                        <><strong>Valor Livre: </strong><span className="font-normal">{modalData.impactTitle}</span></>
+                      )}
+                    </h2>
+                    <p className="text-gray-700 text-xs sm:text-sm italic leading-relaxed px-2 mb-4">
+                      {modalData.impactDesc}
+                    </p>
 
-              {/* Frase de Efeito */}
-              <p className="text-primary-700 font-medium text-base mb-4 sm:mb-6 italic px-2">
-                Mais que acolher, é transformar!
-              </p>
+                    {!modalData.value && !pixData && !isGeneratingPix && (
+                      <div className="flex flex-col items-center mt-4">
+                        <label className="text-sm font-semibold mb-2">Digite o valor da doação:</label>
+                        <div className="flex gap-2 w-full max-w-xs">
+                          <span className="bg-gray-200 px-3 py-2 rounded-l-lg border border-gray-300 flex items-center">R$</span>
+                          <input 
+                            type="number" 
+                            className="flex-1 border border-gray-300 p-2 rounded-r-lg" 
+                            value={customValue}
+                            onChange={(e) => setCustomValue(e.target.value)}
+                            placeholder="0,00"
+                          />
+                        </div>
+                        <Button 
+                          variant="primary" 
+                          className="mt-4 w-full max-w-xs"
+                          onClick={() => {
+                            if (parseFloat(customValue) > 0) gerarPixDinamico(parseFloat(customValue));
+                            else alert("Digite um valor válido.");
+                          }}
+                        >
+                          GERAR PIX
+                        </Button>
+                      </div>
+                    )}
+                  </div>
 
-              {/* Botão Copiar Chave PIX */}
-              <Button
-                variant="primary"
-                size="lg"
-                className="w-full bg-[#C4FF0E] hover:bg-[#B0E60D] text-gray-900 font-bold text-base sm:text-lg py-3 sm:py-4"
-                onClick={() => {
-                  navigator.clipboard.writeText('39.976.495/0001-24');
-                  alert('Chave PIX copiada com sucesso!');
-                }}
-              >
-                COPIAR CHAVE PIX
-              </Button>
+                  {/* Area do PIX */}
+                  {(modalData.value || pixData || isGeneratingPix) && (
+                    <>
+                      <div className="bg-white p-3 sm:p-4 rounded-xl mb-4 sm:mb-6 shadow-sm border border-gray-200">
+                        <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center mx-auto relative">
+                          {isGeneratingPix ? (
+                            <div className="flex flex-col items-center text-primary-600">
+                              <i className="fas fa-spinner fa-spin text-4xl mb-2"></i>
+                              <span className="text-sm font-semibold">Gerando PIX Seguro...</span>
+                            </div>
+                          ) : pixData ? (
+                            <img
+                              src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(pixData.qr_code_copia_cola)}`}
+                              alt="QR Code PIX Dinâmico"
+                              className="w-full h-full object-contain"
+                            />
+                          ) : (
+                            <img src={modalData.qrCode} alt="QR Code PIX Fixo" className="w-full h-full object-contain" />
+                          )}
+                        </div>
+                      </div>
+
+                      {pixData && (
+                        <div className="font-body mb-2 w-full">
+                          <p className="text-xs text-gray-500 mb-1">Copia e Cola:</p>
+                          <div className="bg-gray-200 p-2 rounded text-xs break-all text-gray-700 mb-4 max-h-20 overflow-y-auto">
+                            {pixData.qr_code_copia_cola}
+                          </div>
+                        </div>
+                      )}
+
+                      {!pixData && !isGeneratingPix && (
+                        <div className="font-body mb-2">
+                          <p className="text-primary-dark text-xs sm:text-sm px-2">
+                            Chave Pix (CNPJ): <strong>39.976.495/0001-24</strong>
+                          </p>
+                        </div>
+                      )}
+
+                      <p className="text-primary-700 font-medium text-base mb-4 sm:mb-6 italic px-2">
+                        {pixData ? "Aguardando pagamento..." : "Mais que acolher, é transformar!"}
+                      </p>
+
+                      <Button
+                        variant="primary"
+                        size="lg"
+                        className="w-full bg-[#C4FF0E] hover:bg-[#B0E60D] text-gray-900 font-bold text-base sm:text-lg py-3 sm:py-4 disabled:opacity-50"
+                        disabled={isGeneratingPix}
+                        onClick={() => {
+                          const textToCopy = pixData ? pixData.qr_code_copia_cola : '39.976.495/0001-24';
+                          navigator.clipboard.writeText(textToCopy);
+                          alert('Copiado com sucesso! Cole no aplicativo do seu banco.');
+                        }}
+                      >
+                        {pixData ? "COPIAR CÓDIGO PIX" : "COPIAR CHave PIX"}
+                      </Button>
+                    </>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>

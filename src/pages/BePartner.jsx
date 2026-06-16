@@ -321,10 +321,10 @@ export default function BePartner() {
                     <span>Participação em eventos exclusivos</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                <a href="https://wa.me/5511975911225" target="_blank" rel="noopener noreferrer" className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
                   <span>Saiba Mais</span>
                   <i className="fas fa-arrow-right text-sm"></i>
-                </button>
+                </a>
               </div>
             </div>
 
@@ -361,10 +361,10 @@ export default function BePartner() {
                     <span>Certificado de parceria</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                <a href="https://wa.me/5511975911225" target="_blank" rel="noopener noreferrer" className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
                   <span>Saiba Mais</span>
                   <i className="fas fa-arrow-right text-sm"></i>
-                </button>
+                </a>
               </div>
             </div>
 
@@ -401,10 +401,10 @@ export default function BePartner() {
                     <span>Reconhecimento público</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                <a href="https://wa.me/5511975911225" target="_blank" rel="noopener noreferrer" className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
                   <span>Saiba Mais</span>
                   <i className="fas fa-arrow-right text-sm"></i>
-                </button>
+                </a>
               </div>
             </div>
 
@@ -441,10 +441,10 @@ export default function BePartner() {
                     <span>Certificado de agradecimento</span>
                   </li>
                 </ul>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                <a href="https://wa.me/5511975911225" target="_blank" rel="noopener noreferrer" className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
                   <span>Saiba Mais</span>
                   <i className="fas fa-arrow-right text-sm"></i>
-                </button>
+                </a>
               </div>
             </div>
           </div>

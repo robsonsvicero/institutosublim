@@ -15,13 +15,14 @@ export function useAuth() {
     // Busca o perfil na tabela usuarios
     const { data: profile } = await supabase
       .from('usuarios')
-      .select('role, aprovado')
+      .select('nome, role, aprovado')
       .eq('auth_id', authUser.id)
       .single();
 
     // Combina os dados do auth com os do banco
     setUser({
       ...authUser,
+      nome: profile?.nome || authUser?.user_metadata?.nome || '',
       role: profile?.role || 'voluntario',
       aprovado: profile?.aprovado || false,
     });

@@ -1,494 +1,487 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/ui/Button';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
 
-const TIPO_LABELS = { voluntario: 'Voluntário', beneficiado: 'Beneficiado', parceiro: 'Parceiro' };
-
-const FORM_INICIAL = {
+const FORM_VAZIO = {
   tipo: 'voluntario',
   nome: '',
   texto: '',
   avatar_url: '',
   role: '',
   area: '',
-  idade: '',
-  localizacao: '',
-  transformacao_de: '',
-  transformacao_para: '',
-  doacao: '',
   ativo: true,
   ordem: 0,
 };
 
+function formatDate(dateStr) {
+  if (!dateStr) return '-';
+  return new Date(dateStr).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+const ITEMS_PER_PAGE = 10;
+
 export default function AdminDepoimentos() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, signOut } = useAuth();
+  const isAdmin = user?.role === 'admin';
   const navigate = useNavigate();
-  const [depoimentos, setDepoimentos] = useState([]);
+
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [erroCarregamento, setErroCarregamento] = useState(false);
-  const [feedback, setFeedback] = useState({ tipo: '', mensagem: '' });
-  const [form, setForm] = useState(FORM_INICIAL);
-  const [editId, setEditId] = useState(null);
-  const [filtroTipo, setFiltroTipo] = useState('todos');
-  const [salvando, setSalvando] = useState(false);
+  const [form, setForm] = useState(FORM_VAZIO);
+  const [editingId, setEditingId] = useState(null);
+  const [feedback, setFeedback] = useState({ msg: '', type: '' });
+  const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    if (!authLoading && !user) navigate('/login');
-  }, [authLoading, user, navigate]);
+  const menuItems = [
+    { name: 'Painel', icon: 'fa-solid fa-border-all', path: '/admin' },
+    { name: 'Cursos', icon: 'fa-solid fa-graduation-cap', path: '/admin/cursos-oficinas' },
+    { name: 'Depoimentos', icon: 'fa-solid fa-quote-left', path: '/admin/depoimentos', active: true },
+    ...(isAdmin ? [{ name: 'Usuários', icon: 'fa-solid fa-users', path: '/admin/usuarios' }] : []),
+    { name: 'Configurações', icon: 'fa-solid fa-gear', path: '/alterar-senha' },
+  ];
 
-  useEffect(() => {
-    fetchDepoimentos();
-  }, []);
+  useEffect(() => { fetchItems(); }, []);
 
-  async function fetchDepoimentos() {
+  async function fetchItems() {
     setLoading(true);
-    setErroCarregamento(false);
-    setFeedback((prev) => (prev.tipo === 'erro' ? { tipo: '', mensagem: '' } : prev));
     const { data, error } = await supabase
       .from('depoimentos')
       .select('*')
-      .order('tipo', { ascending: true })
-      .order('ordem', { ascending: true });
-
-    if (error) {
-      setErroCarregamento(true);
-      setDepoimentos([]);
-      setFeedback({ tipo: 'erro', mensagem: 'Erro ao carregar depoimentos. Tente novamente.' });
-    } else {
-      setDepoimentos(data || []);
+      .order('created_at', { ascending: false });
+    if (!error) {
+      setItems(data || []);
     }
-
     setLoading(false);
   }
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
-    setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   }
 
-  function iniciarEdicao(dep) {
+  function handleOpenNew() {
+    setEditingId(null);
+    setForm(FORM_VAZIO);
+    setFeedback({ msg: '', type: '' });
+    setShowModal(true);
+  }
+
+  function handleEdit(item) {
+    setEditingId(item.id);
     setForm({
-      tipo: dep.tipo,
-      nome: dep.nome,
-      texto: dep.texto,
-      avatar_url: dep.avatar_url || '',
-      role: dep.role || '',
-      area: dep.area || '',
-      idade: dep.idade || '',
-      localizacao: dep.localizacao || '',
-      transformacao_de: dep.transformacao_de || '',
-      transformacao_para: dep.transformacao_para || '',
-      doacao: dep.doacao || '',
-      ativo: dep.ativo,
-      ordem: dep.ordem ?? 0,
+      tipo: item.tipo || 'voluntario',
+      nome: item.nome || '',
+      texto: item.texto || '',
+      avatar_url: item.avatar_url || '',
+      role: item.role || '',
+      area: item.area || '',
+      ativo: item.ativo,
+      ordem: item.ordem || 0,
     });
-    setEditId(dep.id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setFeedback({ msg: '', type: '' });
+    setShowModal(true);
   }
 
-  function cancelarEdicao() {
-    setForm(FORM_INICIAL);
-    setEditId(null);
+  function handleCloseModal() {
+    setShowModal(false);
+    setEditingId(null);
+    setForm(FORM_VAZIO);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setSalvando(true);
-    setFeedback({ tipo: '', mensagem: '' });
-
+    setFeedback({ msg: '', type: '' });
     const payload = {
       tipo: form.tipo,
       nome: form.nome,
       texto: form.texto,
-      avatar_url: form.avatar_url || null,
-      role: ['voluntario', 'parceiro'].includes(form.tipo) ? form.role || null : null,
-      area: ['voluntario', 'parceiro'].includes(form.tipo) ? form.area || null : null,
-      idade: form.tipo === 'beneficiado' ? form.idade || null : null,
-      localizacao: form.tipo === 'beneficiado' ? form.localizacao || null : null,
-      transformacao_de: form.tipo === 'beneficiado' ? form.transformacao_de || null : null,
-      transformacao_para: form.tipo === 'beneficiado' ? form.transformacao_para || null : null,
-      doacao: form.tipo === 'beneficiado' ? form.doacao || null : null,
+      avatar_url: form.avatar_url,
+      role: form.role,
+      area: form.area,
       ativo: form.ativo,
-      ordem: Number(form.ordem) || 0,
+      ordem: form.ordem,
     };
 
-    if (editId) {
-      const { error } = await supabase.from('depoimentos').update(payload).eq('id', editId);
-      if (error) {
-        setFeedback({ tipo: 'erro', mensagem: 'Nao foi possivel salvar as alteracoes.' });
+    if (editingId) {
+      const { error } = await supabase.from('depoimentos').update(payload).eq('id', editingId);
+      if (!error) {
+        setFeedback({ msg: 'Depoimento atualizado com sucesso!', type: 'success' });
+        fetchItems();
+        setTimeout(handleCloseModal, 1000);
       } else {
-        setDepoimentos((prev) => prev.map((d) => (d.id === editId ? { ...d, ...payload } : d)));
-        setFeedback({ tipo: 'sucesso', mensagem: 'Depoimento atualizado com sucesso.' });
-        cancelarEdicao();
+        setFeedback({ msg: 'Erro ao atualizar: ' + error.message, type: 'error' });
       }
     } else {
       const { data, error } = await supabase.from('depoimentos').insert([payload]).select();
-      if (error) {
-        setFeedback({ tipo: 'erro', mensagem: 'Nao foi possivel adicionar o depoimento.' });
-      } else if (data) {
-        setDepoimentos((prev) => [data[0], ...prev]);
-        setForm(FORM_INICIAL);
-        setFeedback({ tipo: 'sucesso', mensagem: 'Depoimento adicionado com sucesso.' });
+      if (!error && data) {
+        setFeedback({ msg: 'Depoimento cadastrado com sucesso!', type: 'success' });
+        fetchItems();
+        setTimeout(handleCloseModal, 1000);
+      } else {
+        setFeedback({ msg: 'Erro ao cadastrar: ' + error?.message, type: 'error' });
       }
     }
-    setSalvando(false);
   }
 
-  async function handleDelete(id) {
-    if (!window.confirm('Excluir este depoimento?')) return;
-    const { error } = await supabase.from('depoimentos').delete().eq('id', id);
-    if (error) {
-      setFeedback({ tipo: 'erro', mensagem: 'Nao foi possivel excluir o depoimento.' });
-    } else {
-      setDepoimentos((prev) => prev.filter((d) => d.id !== id));
-      setFeedback({ tipo: 'sucesso', mensagem: 'Depoimento excluido com sucesso.' });
+  async function toggleAtivo(item) {
+    const newStatus = !item.ativo;
+    const { error } = await supabase.from('depoimentos').update({ ativo: newStatus }).eq('id', item.id);
+    if (!error) {
+      setItems(items.map(i => i.id === item.id ? { ...i, ativo: newStatus } : i));
     }
   }
 
-  async function toggleAtivo(dep) {
-    const { error } = await supabase
-      .from('depoimentos')
-      .update({ ativo: !dep.ativo })
-      .eq('id', dep.id);
-    if (error) {
-      setFeedback({ tipo: 'erro', mensagem: 'Nao foi possivel alterar o status do depoimento.' });
-    } else {
-      setDepoimentos((prev) =>
-        prev.map((d) => (d.id === dep.id ? { ...d, ativo: !d.ativo } : d))
-      );
-      setFeedback({
-        tipo: 'sucesso',
-        mensagem: dep.ativo ? 'Depoimento desativado com sucesso.' : 'Depoimento ativado com sucesso.'
-      });
-    }
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    if (signOut) signOut();
+    navigate('/login');
   }
 
-  const listagem = filtroTipo === 'todos'
-    ? depoimentos
-    : depoimentos.filter((d) => d.tipo === filtroTipo);
+  const filtered = items.filter(item => {
+    const matchSearch = !search || item.nome?.toLowerCase().includes(search.toLowerCase()) || item.texto?.toLowerCase().includes(search.toLowerCase());
+    return matchSearch;
+  });
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
-    <div className="bg-gray-50 min-h-screen p-6 lg:p-10 pt-20">
-      <div className="max-w-5xl mx-auto">
-        <button onClick={() => navigate('/admin')} className="text-black hover:opacity-60 transition text-sm flex items-center gap-1 mb-4">
-          <i className="fas fa-arrow-left text-xs"></i> Voltar ao painel
-        </button>
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Gerenciar Depoimentos</h1>
+    <div className="min-h-screen bg-gray-50 flex font-body">
+      {/* Sidebar */}
+      <aside className="w-[220px] bg-gray-50 border-r border-gray-200 flex-col hidden md:flex sticky top-0 h-screen">
+        <div className="p-7 pb-4">
+          <h1 className="text-2xl font-montserrat font-bold text-gray-900 leading-tight mb-1">
+            Painel<br />Administrativo
+          </h1>
+          <p className="text-xs text-gray-500">Gestão do Instituto Sublim</p>
         </div>
-
-        {feedback.mensagem && (
-          <div
-            className={`mb-6 rounded-xl border px-4 py-3 text-sm font-medium ${
-              feedback.tipo === 'erro'
-                ? 'bg-red-50 border-red-200 text-red-700'
-                : 'bg-green-50 border-green-200 text-green-700'
-            }`}
-          >
-            {feedback.mensagem}
-          </div>
-        )}
-
-        {/* Formulário */}
-        <div className="bg-white rounded-2xl shadow p-6 mb-10">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            {editId ? 'Editar Depoimento' : 'Novo Depoimento'}
-          </h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Tipo */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tipo *</label>
-              <select
-                name="tipo"
-                value={form.tipo}
-                onChange={handleChange}
-                className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-              >
-                <option value="voluntario">Voluntário</option>
-                <option value="beneficiado">Beneficiado</option>
-                <option value="parceiro">Parceiro</option>
-              </select>
-            </div>
-
-            {/* Nome */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nome *</label>
-              <input
-                name="nome"
-                value={form.nome}
-                onChange={handleChange}
-                placeholder="Nome da pessoa"
-                className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                required
-              />
-            </div>
-
-            {/* Avatar URL */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Foto (URL ou caminho)</label>
-              <input
-                name="avatar_url"
-                value={form.avatar_url}
-                onChange={handleChange}
-                placeholder="/images/foto.jpg"
-                className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-              />
-            </div>
-
-            {/* Texto */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Depoimento *</label>
-              <textarea
-                name="texto"
-                value={form.texto}
-                onChange={handleChange}
-                rows={4}
-                placeholder="Texto do depoimento..."
-                className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                required
-              />
-            </div>
-
-            {/* Campos de voluntário */}
-            {['voluntario', 'parceiro'].includes(form.tipo) && (
-              <>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {form.tipo === 'parceiro' ? 'Cargo' : 'Cargo / Período'}
-                  </label>
-                  <input
-                    name="role"
-                    value={form.role}
-                    onChange={handleChange}
-                    placeholder={form.tipo === 'parceiro' ? 'Ex: Diretora de Sustentabilidade' : 'Ex: Voluntária desde 2022'}
-                    className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {form.tipo === 'parceiro' ? 'Empresa / Organização' : 'Área de atuação'}
-                  </label>
-                  <input
-                    name="area"
-                    value={form.area}
-                    onChange={handleChange}
-                    placeholder={form.tipo === 'parceiro' ? 'Ex: Parceiro 01' : 'Ex: Pedagoga'}
-                    className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                  />
-                </div>
-              </>
-            )}
-
-            {/* Campos de beneficiado */}
-            {form.tipo === 'beneficiado' && (
-              <>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Idade</label>
-                  <input
-                    name="idade"
-                    value={form.idade}
-                    onChange={handleChange}
-                    placeholder="Ex: 34 anos ou 10"
-                    className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Localização</label>
-                  <input
-                    name="localizacao"
-                    value={form.localizacao}
-                    onChange={handleChange}
-                    placeholder="Ex: Mandaqui, SP"
-                    className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Transformação: antes</label>
-                  <input
-                    name="transformacao_de"
-                    value={form.transformacao_de}
-                    onChange={handleChange}
-                    placeholder="Ex: Desempregada"
-                    className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Transformação: depois</label>
-                  <input
-                    name="transformacao_para"
-                    value={form.transformacao_para}
-                    onChange={handleChange}
-                    placeholder="Ex: Analista de Sistemas Jr"
-                    className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Informação de doação</label>
-                  <input
-                    name="doacao"
-                    value={form.doacao}
-                    onChange={handleChange}
-                    placeholder="Ex: R$ 150 por 6 meses"
-                    className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-                  />
-                </div>
-              </>
-            )}
-
-            {/* Ordem e Ativo */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Ordem de exibição</label>
-              <input
-                name="ordem"
-                type="number"
-                value={form.ordem}
-                onChange={handleChange}
-                className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400"
-              />
-            </div>
-            <div className="flex items-center gap-3 pt-6">
-              <input
-                type="checkbox"
-                name="ativo"
-                id="ativo"
-                checked={form.ativo}
-                onChange={handleChange}
-                className="w-4 h-4 accent-teal-600"
-              />
-              <label htmlFor="ativo" className="text-sm font-medium text-gray-700">Ativo (visível no site)</label>
-            </div>
-
-            {/* Botões */}
-            <div className="md:col-span-2 flex gap-3 pt-2">
-              <Button type="submit" variant="primary" size="md" disabled={salvando}>
-                {salvando ? 'Salvando...' : editId ? 'Salvar Alterações' : 'Adicionar Depoimento'}
-              </Button>
-              {editId && (
-                <Button type="button" variant="outline" size="md" onClick={cancelarEdicao}>
-                  Cancelar
-                </Button>
-              )}
-            </div>
-          </form>
-        </div>
-
-        {/* Filtro */}
-        <div className="flex gap-2 mb-6">
-          {['todos', 'voluntario', 'beneficiado', 'parceiro'].map((t) => (
+        <nav className="flex-1 px-4 py-4 space-y-1">
+          {menuItems.map(item => (
             <button
-              key={t}
-              onClick={() => setFiltroTipo(t)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-                filtroTipo === t
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
+              key={item.name}
+              onClick={() => navigate(item.path)}
+              className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg transition-colors ${
+                item.active
+                  ? 'bg-gray-200 text-gray-900 border-l-4 border-gray-900'
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 border-l-4 border-transparent'
               }`}
             >
-              {t === 'todos' ? 'Todos' : TIPO_LABELS[t]}
+              <i className={`${item.icon} w-4 text-center`}></i>
+              {item.name}
             </button>
           ))}
-        </div>
-
-        {/* Listagem */}
-        {loading ? (
-          <p className="text-gray-500 text-center py-12">Carregando depoimentos...</p>
-        ) : erroCarregamento ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">Nao foi possivel carregar os depoimentos no momento.</p>
-            <Button type="button" variant="primary" size="sm" onClick={fetchDepoimentos}>
-              Tentar novamente
-            </Button>
+        </nav>
+        <div className="p-4 border-t border-gray-200 flex items-center justify-between">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-9 h-9 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+              {user?.nome ? user.nome.substring(0, 2).toUpperCase() : 'U'}
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-gray-900 truncate w-[90px]" title={user?.nome || 'Usuário'}>
+                {user?.nome || 'Usuário'}
+              </p>
+              <p className="text-[10px] text-gray-500">{isAdmin ? 'Administrador' : 'Colaborador'}</p>
+            </div>
           </div>
-        ) : listagem.length === 0 ? (
-          <p className="text-gray-400 text-center py-12">Nenhum depoimento encontrado.</p>
-        ) : (
-          <div className="space-y-4">
-            {listagem.map((dep) => (
-              <div
-                key={dep.id}
-                className={`bg-white rounded-xl shadow p-5 flex gap-4 items-start border-l-4 ${
-                  dep.tipo === 'voluntario'
-                    ? 'border-teal-500'
-                    : dep.tipo === 'beneficiado'
-                      ? 'border-orange-400'
-                      : 'border-blue-500'
-                } ${!dep.ativo ? 'opacity-50' : ''}`}
-              >
-                {/* Avatar */}
-                <div className="w-14 h-14 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
-                  {dep.avatar_url ? (
-                    <img
-                      src={dep.avatar_url}
-                      alt={dep.nome}
-                      className="w-full h-full object-cover"
-                      onError={(e) => (e.target.style.display = 'none')}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400 text-xl">
-                      👤
-                    </div>
-                  )}
-                </div>
+          <button
+            onClick={handleLogout}
+            className="w-9 h-9 bg-[#00E600] hover:bg-green-500 text-white rounded-lg flex items-center justify-center transition-colors shadow-sm"
+            title="Sair"
+          >
+            <i className="fa-solid fa-arrow-right-from-bracket text-sm"></i>
+          </button>
+        </div>
+      </aside>
 
-                {/* Conteúdo */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                        dep.tipo === 'voluntario'
-                          ? 'bg-teal-100 text-teal-700'
-                          : dep.tipo === 'beneficiado'
-                            ? 'bg-orange-100 text-orange-700'
-                            : 'bg-blue-100 text-blue-700'
-                      }`}
-                    >
-                      {TIPO_LABELS[dep.tipo]}
-                    </span>
-                    {!dep.ativo && (
-                      <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
-                        Inativo
-                      </span>
-                    )}
-                    <span className="text-xs text-gray-400 ml-auto">Ordem: {dep.ordem}</span>
-                  </div>
-                  <p className="font-bold text-gray-900">{dep.nome}</p>
-                  {dep.role && <p className="text-xs text-gray-500">{dep.role} · {dep.area}</p>}
-                  {dep.localizacao && <p className="text-xs text-gray-500">{dep.idade} anos · {dep.localizacao}</p>}
-                  <p className="text-sm text-gray-600 mt-2 line-clamp-2">{dep.texto}</p>
-                </div>
+      {/* Main */}
+      <main className="flex-1 flex flex-col min-h-screen relative">
+        {/* Top Header */}
+        <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
+          <div className="flex-1"></div>
+          <div className="flex items-center gap-5">
+            <div className="relative">
+              <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+              <input
+                type="text"
+                placeholder="Pesquisar depoimentos..."
+                value={search}
+                onChange={e => { setSearch(e.target.value); setCurrentPage(1); }}
+                className="pl-9 pr-4 py-2 bg-gray-100 border-transparent rounded-full text-sm focus:bg-white focus:ring-2 focus:ring-primary-500 w-[280px] transition-all outline-none"
+              />
+            </div>
+            <div className="flex items-center gap-3 text-gray-500 border-r border-gray-200 pr-5">
+              <button className="hover:text-gray-900 relative">
+                <i className="fa-regular fa-bell text-lg"></i>
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+              </button>
+              <button className="hover:text-gray-900">
+                <i className="fa-regular fa-circle-question text-lg"></i>
+              </button>
+            </div>
+            <button
+              onClick={handleOpenNew}
+              className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition"
+            >
+              <i className="fa-solid fa-plus"></i> Adicionar Novo
+            </button>
+          </div>
+        </header>
 
-                {/* Ações */}
-                <div className="flex flex-col gap-2 flex-shrink-0">
+        {/* Content */}
+        <div className="p-8 flex-1 max-w-5xl">
+          {/* Page Title + Actions */}
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h1 className="text-3xl font-bold font-montserrat text-gray-900 mb-1">Depoimentos</h1>
+              <p className="text-sm text-gray-500">Gerencie e selecione o feedback da comunidade para a vitrine de impacto.</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <button className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
+                <i className="fa-solid fa-filter text-gray-400 text-xs"></i> Filtros
+              </button>
+              <button className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
+                <i className="fa-solid fa-download text-gray-400 text-xs"></i> Exportar
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            {/* Table Header Bar */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Depoimentos Recentes</h3>
+              <div className="flex items-center gap-4">
+                <p className="text-xs text-gray-500 font-medium">
+                  Mostrando {(currentPage - 1) * ITEMS_PER_PAGE + (paginated.length > 0 ? 1 : 0)}-{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} de {filtered.length}
+                </p>
+                <div className="flex items-center gap-1">
                   <button
-                    onClick={() => iniciarEdicao(dep)}
-                    className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-100 font-medium"
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="w-7 h-7 rounded border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 disabled:opacity-40 bg-white"
                   >
-                    Editar
+                    <i className="fa-solid fa-chevron-left text-[10px]"></i>
                   </button>
                   <button
-                    onClick={() => toggleAtivo(dep)}
-                    className={`text-xs px-3 py-1.5 rounded-lg font-medium ${
-                      dep.ativo
-                        ? 'bg-yellow-50 text-yellow-700 hover:bg-yellow-100'
-                        : 'bg-green-50 text-green-700 hover:bg-green-100'
-                    }`}
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages || totalPages === 0}
+                    className="w-7 h-7 rounded border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 disabled:opacity-40 bg-white"
                   >
-                    {dep.ativo ? 'Desativar' : 'Ativar'}
-                  </button>
-                  <button
-                    onClick={() => handleDelete(dep.id)}
-                    className="text-xs bg-red-50 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-100 font-medium"
-                  >
-                    Excluir
+                    <i className="fa-solid fa-chevron-right text-[10px]"></i>
                   </button>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* List */}
+            {loading ? (
+              <div className="p-12 text-center text-gray-400">
+                <i className="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
+                <p className="text-sm">Carregando...</p>
+              </div>
+            ) : paginated.length === 0 ? (
+              <div className="p-12 text-center text-gray-400">
+                <i className="fa-solid fa-inbox text-3xl mb-2 opacity-40"></i>
+                <p className="text-sm">Nenhum depoimento encontrado.</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-100">
+                {paginated.map(item => (
+                  <div key={item.id} className="p-6 hover:bg-gray-50 transition relative group">
+                    <div className="flex items-start gap-4">
+                      {/* Avatar */}
+                      <div className="relative flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 border border-gray-100 flex items-center justify-center font-bold text-gray-400">
+                          {item.avatar_url ? (
+                            <img src={item.avatar_url} alt={item.nome} className="w-full h-full object-cover" />
+                          ) : (
+                            item.nome.substring(0, 2).toUpperCase()
+                          )}
+                        </div>
+                        {item.ativo && (
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white flex items-center justify-center text-white">
+                            <i className="fa-solid fa-check text-[8px]"></i>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <h4 className="font-bold text-gray-900 text-base">{item.nome}</h4>
+                          {/* Botões de Ação ao Passar o Mouse */}
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+                            <button onClick={() => handleEdit(item)} className="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-500 hover:text-blue-600 hover:border-blue-200 flex items-center justify-center shadow-sm">
+                              <i className="fa-solid fa-pen text-xs"></i>
+                            </button>
+                            <button onClick={async () => {
+                              if(window.confirm('Excluir?')) {
+                                await supabase.from('depoimentos').delete().eq('id', item.id);
+                                fetchItems();
+                              }
+                            }} className="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-500 hover:text-red-600 hover:border-red-200 flex items-center justify-center shadow-sm">
+                              <i className="fa-solid fa-trash text-xs"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500 mb-2">
+                          {item.role || (item.tipo === 'voluntario' ? 'Voluntário' : item.tipo === 'parceiro' ? 'Parceiro' : 'Doador')} • {formatDate(item.created_at)}
+                        </p>
+                        <p className="text-sm text-gray-700 leading-relaxed mb-4 italic">
+                          "{item.texto}"
+                        </p>
+                        
+                        <div className="flex items-center gap-4">
+                          <button 
+                            onClick={() => toggleAtivo(item)}
+                            className="flex items-center gap-2 cursor-pointer"
+                          >
+                            <div className={`w-10 h-5 rounded-full relative transition-colors ${item.ativo ? 'bg-green-700' : 'bg-gray-300'}`}>
+                              <div className={`w-4 h-4 rounded-full bg-white absolute top-0.5 transition-transform ${item.ativo ? 'translate-x-5' : 'translate-x-0.5'}`}></div>
+                            </div>
+                            <span className="text-xs text-gray-500">{item.ativo ? 'Visível no Site' : 'Oculto'}</span>
+                          </button>
+
+                          <div className="flex items-center gap-2">
+                            {item.area && (
+                              <span className="bg-gray-100 text-gray-600 font-bold text-[10px] uppercase px-2 py-1 rounded">
+                                {item.area}
+                              </span>
+                            )}
+                            <span className="bg-gray-100 text-gray-600 font-bold text-[10px] uppercase px-2 py-1 rounded">
+                              {item.tipo}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+
+        {/* Floating Add Button */}
+        <button 
+          onClick={handleOpenNew}
+          className="fixed bottom-10 right-10 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-105 transition-transform"
+        >
+          <i className="fa-solid fa-plus"></i>
+        </button>
+      </main>
+
+      {/* Modal Formulário */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={handleCloseModal}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h2 className="text-lg font-bold font-montserrat text-gray-900">
+                {editingId ? 'Editar Depoimento' : 'Novo Depoimento'}
+              </h2>
+              <button onClick={handleCloseModal} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition text-gray-500">
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {feedback.msg && (
+                <div className={`md:col-span-2 rounded-xl border px-4 py-3 text-sm font-medium ${
+                  feedback.type === 'error'
+                    ? 'bg-red-50 border-red-200 text-red-700'
+                    : 'bg-green-50 border-green-200 text-green-700'
+                }`}>
+                  {feedback.msg}
+                </div>
+              )}
+              
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Tipo *</label>
+                <select
+                  name="tipo" value={form.tipo} onChange={handleChange} required
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition bg-white"
+                >
+                  <option value="voluntario">Voluntário</option>
+                  <option value="beneficiado">Beneficiado</option>
+                  <option value="parceiro">Parceiro</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Nome *</label>
+                <input
+                  name="nome" value={form.nome} onChange={handleChange} required
+                  placeholder="Nome do autor"
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Avatar URL</label>
+                <input
+                  name="avatar_url" value={form.avatar_url} onChange={handleChange}
+                  placeholder="https://..."
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Papel / Cargo</label>
+                <input
+                  name="role" value={form.role} onChange={handleChange}
+                  placeholder="Ex: Líder Comunitário"
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Área / Tag</label>
+                <input
+                  name="area" value={form.area} onChange={handleChange}
+                  placeholder="Ex: Educação"
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Texto do Depoimento *</label>
+                <textarea
+                  name="texto" value={form.texto} onChange={handleChange} required rows={4}
+                  placeholder="Escreva o depoimento aqui..."
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
+                />
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <input
+                  type="checkbox" name="ativo" id="ativo"
+                  checked={form.ativo} onChange={handleChange}
+                  className="w-4 h-4 accent-teal-600"
+                />
+                <label htmlFor="ativo" className="text-sm font-medium text-gray-700">Visível no Site</label>
+              </div>
+
+              <div className="md:col-span-2 flex gap-3 pt-2 border-t border-gray-100 mt-2">
+                <button
+                  type="submit"
+                  className="flex-1 bg-black hover:bg-gray-800 text-white font-bold py-3 rounded-xl transition text-sm"
+                >
+                  {editingId ? 'Salvar Alterações' : 'Adicionar Depoimento'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="px-6 border border-gray-200 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition text-sm"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

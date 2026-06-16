@@ -34,8 +34,8 @@ function AppContent() {
   
   return (
     <div className="w-full">
-      {!isCartao && !isAuthRoute && (
-        <Header fixed={!isAdminRoute} textColor={isAdminRoute ? 'admin' : undefined} />
+      {!isCartao && !isAuthRoute && !isAdminRoute && (
+        <Header fixed={true} />
       )}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -65,7 +65,7 @@ function AppContent() {
         <Route path="/admin/usuarios" element={<ProtectedRoute requireAdmin={true}><AdminUsuarios /></ProtectedRoute>} />
         <Route path="/admin/aprovacao-usuarios" element={<ProtectedRoute requireAdmin={true}><AdminAprovacaoUsuarios /></ProtectedRoute>} />
       </Routes>
-      {!isCartao && <Footer />}
+      {!isCartao && !isAdminRoute && <Footer />}
     </div>
   );
 }

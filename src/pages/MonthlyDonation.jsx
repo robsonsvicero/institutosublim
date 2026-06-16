@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
 import { supabase } from '../lib/supabaseClient';
+import { Link } from 'react-router-dom';
 
 const MonthlyDonation = () => {
   const [formData, setFormData] = useState({
@@ -166,14 +167,15 @@ const MonthlyDonation = () => {
                   QUERO AJUDAR AGORA
                 </Button>
 
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="flex-1 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold"
-                  onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Ver Nosso Impacto
-                </Button>
+                <Link to="/transparency" className="flex-1">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="flex-1 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold"
+                  >
+                    Ver Nosso Impacto
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

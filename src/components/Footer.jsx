@@ -140,7 +140,7 @@ export default function Footer() {
               href="http://svicerostudio.com.br"
               target="_blank"  
               rel="noopener noreferrer">
-                <img src="/images/logo_svicerostudio.png" alt="Svicero Studio" />
+                <img src="/images/logo_svicerostudio.png" alt="Svicero Studio" className="h-14" />
               </a>
             </div>
           </div>

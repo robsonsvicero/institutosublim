@@ -141,6 +141,10 @@ create policy "Usuário pode atualizar seu próprio email/nome" on usuarios
   for update using (auth.uid() = auth_id) 
   with check (auth.uid() = auth_id);
 
+drop policy if exists "Permitir usuário inserir seu próprio perfil" on usuarios;
+create policy "Permitir usuário inserir seu próprio perfil" on usuarios
+  for insert with check (auth.uid() = auth_id);
+
 -- Função RPC para administradores deletarem usuários (evita uso da service_role na API Node)
 create or replace function delete_user_admin(user_id uuid)
 returns void
@@ -167,3 +171,41 @@ begin
   delete from auth.users where id = user_id;
 end;
 $$;
+
+-- Criação da tabela para pagamentos PIX
+create table if not exists pagamentos_pix (
+  id uuid primary key default gen_random_uuid(),
+  valor numeric not null,
+  status text default 'pendente' check (status in ('pendente', 'pago', 'expirado', 'cancelado')),
+  cora_id text, -- ID retornado pela API da Cora
+  qr_code_base64 text,
+  qr_code_copia_cola text,
+  txid text,
+  doador_nome text,
+  doador_email text,
+  created_at timestamp with time zone default timezone('utc'::text, now()),
+  updated_at timestamp with time zone default timezone('utc'::text, now())
+);
+
+-- RLS para pagamentos PIX
+alter table pagamentos_pix enable row level security;
+
+-- Usuários não autenticados (visitantes) podem criar um novo pagamento PIX
+drop policy if exists "Permitir inserção anônima de PIX" on pagamentos_pix;
+create policy "Permitir inserção anônima de PIX" on pagamentos_pix
+  for insert with check (true);
+
+-- Visitantes podem ler apenas o PIX que acabaram de criar (baseado no ID)
+drop policy if exists "Permitir leitura pública de PIX" on pagamentos_pix;
+create policy "Permitir leitura pública de PIX" on pagamentos_pix
+  for select using (true);
+
+-- Admins podem gerenciar todos os PIX
+drop policy if exists "Admin pode gerenciar PIX" on pagamentos_pix;
+create policy "Admin pode gerenciar PIX" on pagamentos_pix
+  for all using (
+    auth.email() = 'hello@svicerostudio.com.br' OR
+    auth.email() = 'robsonsvicero@outlook.com' OR
+    (select role from usuarios where auth_id = auth.uid()) = 'admin'
+  );
+

@@ -147,17 +147,13 @@ export default function BeVolunteer() {
               Junte-se ao nosso time de voluntários que dedicam seu tempo, talento e energia para criar oportunidades reais e transformar a realidade de famílias na Zona Norte de São Paulo.<br />
             </p>
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <a href="#volunteer-form" className='w-full'>
+            <div className="flex justify-center mb-12">
+              <a href="#volunteer-form" className='flex items-center w-auto'>
                 <Button variant="primary" size="lg" icon="fas fa-heart" className="w-full">
                   Quero Ser Voluntário
                 </Button>
               </a>
-              <a href="#volunteer-opportunities" className='w-full'>
-                <Button variant="outline" className='w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-primary-500 font-semibold py-3 px-6 rounded-xl border border-primary-500/30 transition-colors' size="lg">
-                  Ver Oportunidades
-                </Button>
-              </a>
+              
             </div>
 
             {/* Stats */}
@@ -793,8 +789,8 @@ export default function BeVolunteer() {
                 </svg>
               </div>
               <h3 className="text-sm font-medium text-gray-500 mb-2">WhatsApp</h3>
-              <a href="https://wa.me/5511932167894" className="text-sm font-semibold text-gray-900 hover:text-blue-500 transition">
-                (11) 93216-7894
+              <a href="https://wa.me/5511975911225" className="text-sm font-semibold text-gray-900 hover:text-blue-500 transition">
+                (11) 97591-1225
               </a>
             </div>
           </div>
