@@ -56,7 +56,6 @@ export const pixService = {
     }
 
     // Lógica real consultando o Supabase
-    /*
     const { data, error } = await supabase
       .from('pagamentos_pix')
       .select('status')
@@ -65,6 +64,5 @@ export const pixService = {
 
     if (error) throw error;
     return data;
-    */
   }
 };
