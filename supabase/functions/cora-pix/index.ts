@@ -1,62 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import * as https from 'node:https'
-import { Buffer } from 'node:buffer'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
-
-// Wrapper para chamadas HTTP seguras com mTLS ignorando a limitação do fetch nativo do Edge Runtime
-function fetchMTLS(urlStr: string, options: any, cert: string, key: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    try {
-      const url = new URL(urlStr)
-      const reqOptions: any = {
-        hostname: url.hostname,
-        port: url.port || 443,
-        path: url.pathname + url.search,
-        method: options.method || 'GET',
-        cert: cert,
-        key: key,
-        headers: options.headers || {}
-      }
-
-      if (options.body) {
-        const bodyStr = typeof options.body === 'string' ? options.body : options.body.toString()
-        reqOptions.headers['Content-Length'] = Buffer.byteLength(bodyStr)
-      }
-
-      const req = https.request(reqOptions, (res) => {
-        let data = ''
-        res.on('data', (chunk) => data += chunk)
-        res.on('end', () => {
-          resolve({
-            ok: res.statusCode && res.statusCode >= 200 && res.statusCode < 300,
-            status: res.statusCode,
-            text: () => Promise.resolve(data),
-            json: () => {
-              try {
-                return Promise.resolve(JSON.parse(data))
-              } catch(e) {
-                return Promise.reject(new Error(`Falha ao fazer parse do JSON: ${data}`))
-              }
-            }
-          })
-        })
-      })
-
-      req.on('error', (err) => reject(err))
-
-      if (options.body) {
-        req.write(typeof options.body === 'string' ? options.body : options.body.toString())
-      }
-      req.end()
-    } catch (e) {
-      reject(e)
-    }
-  })
 }
 
 serve(async (req) => {
@@ -82,12 +29,24 @@ serve(async (req) => {
        throw new Error('Configurações mTLS da Cora ausentes no backend.')
     }
 
+    // REMOVE as aspas duplas caso o Supabase tenha injetado como string literal
     const CORA_CLIENT_ID = raw_CORA_CLIENT_ID.replace(/^"|"$/g, '')
     const certFormated = raw_CORA_CERT_PEM.replace(/^"|"$/g, '').replace(/\\n/g, '\n')
     const keyFormated = raw_CORA_KEY_PEM.replace(/^"|"$/g, '').replace(/\\n/g, '\n')
 
+    // Configurar cliente HTTP com mTLS no Deno
+    let client;
+    try {
+      client = Deno.createHttpClient({
+        certChain: certFormated,
+        privateKey: keyFormated,
+      })
+    } catch (e) {
+      throw new Error("Deno.createHttpClient falhou: " + e.message)
+    }
+
     // 1. Obter Token (Produção)
-    const tokenOptions = {
+    const tokenOptions: any = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -97,8 +56,9 @@ serve(async (req) => {
         client_id: CORA_CLIENT_ID
       }).toString()
     }
+    if (client) tokenOptions.client = client;
 
-    const tokenResponse = await fetchMTLS('https://matls-clients.api.cora.com.br/token', tokenOptions, certFormated, keyFormated)
+    const tokenResponse = await fetch('https://matls-clients.api.cora.com.br/token', tokenOptions)
 
     if (!tokenResponse.ok) {
       const err = await tokenResponse.text()
@@ -139,7 +99,7 @@ serve(async (req) => {
       payment_forms: ["PIX"]
     }
 
-    const invoiceOptions = {
+    const invoiceOptions: any = {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
@@ -148,8 +108,9 @@ serve(async (req) => {
       },
       body: JSON.stringify(payload)
     }
+    if (client) invoiceOptions.client = client;
 
-    const invoiceResponse = await fetchMTLS('https://matls-clients.api.cora.com.br/v2/invoices', invoiceOptions, certFormated, keyFormated)
+    const invoiceResponse = await fetch('https://matls-clients.api.cora.com.br/v2/invoices', invoiceOptions)
 
     if (!invoiceResponse.ok) {
       const err = await invoiceResponse.text()
@@ -198,7 +159,7 @@ serve(async (req) => {
       status: 200,
     })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Function Error:", error.message)
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
