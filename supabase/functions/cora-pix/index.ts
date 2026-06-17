@@ -1,13 +1,65 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import * as https from 'node:https'
+import { Buffer } from 'node:buffer'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// Wrapper para chamadas HTTP seguras com mTLS ignorando a limitação do fetch nativo do Edge Runtime
+function fetchMTLS(urlStr: string, options: any, cert: string, key: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    try {
+      const url = new URL(urlStr)
+      const reqOptions: any = {
+        hostname: url.hostname,
+        port: url.port || 443,
+        path: url.pathname + url.search,
+        method: options.method || 'GET',
+        cert: cert,
+        key: key,
+        headers: options.headers || {}
+      }
+
+      if (options.body) {
+        const bodyStr = typeof options.body === 'string' ? options.body : options.body.toString()
+        reqOptions.headers['Content-Length'] = Buffer.byteLength(bodyStr)
+      }
+
+      const req = https.request(reqOptions, (res) => {
+        let data = ''
+        res.on('data', (chunk) => data += chunk)
+        res.on('end', () => {
+          resolve({
+            ok: res.statusCode && res.statusCode >= 200 && res.statusCode < 300,
+            status: res.statusCode,
+            text: () => Promise.resolve(data),
+            json: () => {
+              try {
+                return Promise.resolve(JSON.parse(data))
+              } catch(e) {
+                return Promise.reject(new Error(`Falha ao fazer parse do JSON: ${data}`))
+              }
+            }
+          })
+        })
+      })
+
+      req.on('error', (err) => reject(err))
+
+      if (options.body) {
+        req.write(typeof options.body === 'string' ? options.body : options.body.toString())
+      }
+      req.end()
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
 serve(async (req) => {
-  // Lidar com requisição OPTIONS (CORS)
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -22,7 +74,6 @@ serve(async (req) => {
       })
     }
 
-    // Obter as variáveis de ambiente com as credenciais da Cora
     const CORA_CLIENT_ID = Deno.env.get('CORA_CLIENT_ID')
     const CORA_CERT_PEM = Deno.env.get('CORA_CERT_PEM')
     const CORA_KEY_PEM = Deno.env.get('CORA_KEY_PEM')
@@ -31,16 +82,8 @@ serve(async (req) => {
        throw new Error('Configurações mTLS da Cora ausentes no backend.')
     }
 
-    // Configurar cliente HTTP com mTLS no Deno
-    let client;
-    try {
-      client = Deno.createHttpClient({
-        certChain: CORA_CERT_PEM.replace(/\\n/g, '\n'),
-        privateKey: CORA_KEY_PEM.replace(/\\n/g, '\n'),
-      })
-    } catch (e) {
-      throw new Error("Deno.createHttpClient falhou (mTLS não suportado neste runtime?): " + e.message)
-    }
+    const certFormated = CORA_CERT_PEM.replace(/\\n/g, '\n')
+    const keyFormated = CORA_KEY_PEM.replace(/\\n/g, '\n')
 
     // 1. Obter Token (Produção)
     const tokenOptions = {
@@ -51,11 +94,10 @@ serve(async (req) => {
       body: new URLSearchParams({
         grant_type: 'client_credentials',
         client_id: CORA_CLIENT_ID
-      })
+      }).toString()
     }
-    if (client) tokenOptions.client = client;
 
-    const tokenResponse = await fetch('https://matls-clients.api.cora.com.br/token', tokenOptions)
+    const tokenResponse = await fetchMTLS('https://matls-clients.api.cora.com.br/token', tokenOptions, certFormated, keyFormated)
 
     if (!tokenResponse.ok) {
       const err = await tokenResponse.text()
@@ -68,12 +110,10 @@ serve(async (req) => {
     // 2. Criar Boleto/Pix
     const valorCentavos = Math.round(Number(valor) * 100)
     
-    // Data de vencimento = hoje + 3 dias
     const dueDate = new Date()
     dueDate.setDate(dueDate.getDate() + 3)
     const dueDateStr = dueDate.toISOString().split('T')[0]
 
-    // Limpar CPF
     const cpfLimpo = doador_cpf.replace(/\D/g, '')
 
     const payload = {
@@ -107,9 +147,8 @@ serve(async (req) => {
       },
       body: JSON.stringify(payload)
     }
-    if (client) invoiceOptions.client = client;
 
-    const invoiceResponse = await fetch('https://matls-clients.api.cora.com.br/v2/invoices', invoiceOptions)
+    const invoiceResponse = await fetchMTLS('https://matls-clients.api.cora.com.br/v2/invoices', invoiceOptions, certFormated, keyFormated)
 
     if (!invoiceResponse.ok) {
       const err = await invoiceResponse.text()
@@ -125,13 +164,10 @@ serve(async (req) => {
         throw new Error('A Cora não retornou a chave Pix Copia e Cola.')
     }
 
-    // Inicializa cliente Supabase
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const supabase = createClient(supabaseUrl, supabaseKey)
 
-    // 3. Inserir no banco de dados (Status pendente)
-    // Tabela: pagamentos_pix
     const { data, error } = await supabase
       .from('pagamentos_pix')
       .insert([
@@ -152,7 +188,6 @@ serve(async (req) => {
       throw error
     }
 
-    // 4. Retornar os dados para o frontend exibir
     return new Response(JSON.stringify({ 
       sucesso: true,
       pagamento_id: data.id,
@@ -166,7 +201,7 @@ serve(async (req) => {
     console.error("Function Error:", error.message)
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200, // Retornamos 200 para que o frontend consiga ler o JSON de erro sem o SupabaseJS lançar exceção cega
+      status: 200,
     })
   }
 })
