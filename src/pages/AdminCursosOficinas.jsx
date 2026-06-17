@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import * as XLSX from 'xlsx';
 
 const FORM_VAZIO = {
   category: '',
@@ -51,8 +52,34 @@ export default function AdminCursosOficinas() {
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
+  const [filterStatus, setFilterStatus] = useState('todos'); // 'todos', 'ativos', 'encerrados'
+  const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [recentActivity, setRecentActivity] = useState([]);
+
+  function handleExportar() {
+    if (items.length === 0) return;
+    
+    const linhas = filtered.map(c => ({
+      'Título': c.title || '-',
+      'Categoria': c.category || '-',
+      'Status': c.closed ? 'Encerrado' : 'Ativo',
+      'Alunos': c.students || '-',
+      'Frequência': c.frequency || '-',
+      'Duração': c.duration || '-',
+      'Próxima Aula': c.next_class || '-',
+      'Data de Criação': new Date(c.created_at).toLocaleDateString('pt-BR'),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(linhas);
+    ws['!cols'] = [
+      { wch: 35 }, { wch: 20 }, { wch: 12 }, { wch: 10 },
+      { wch: 15 }, { wch: 12 }, { wch: 18 }, { wch: 18 }
+    ];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Cursos");
+    XLSX.writeFile(wb, `cursos_export_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  }
 
   const menuItems = [
     { name: 'Painel', icon: 'fa-solid fa-border-all', path: '/admin' },
@@ -160,9 +187,8 @@ export default function AdminCursosOficinas() {
   }
 
   async function handleLogout() {
+    navigate('/');
     await supabase.auth.signOut();
-    if (signOut) signOut();
-    navigate('/login');
   }
 
   const categories = [...new Set(items.map(i => i.category).filter(Boolean))];
@@ -170,7 +196,8 @@ export default function AdminCursosOficinas() {
   const filtered = items.filter(item => {
     const matchSearch = !search || item.title?.toLowerCase().includes(search.toLowerCase());
     const matchCat = !filterCategory || item.category === filterCategory;
-    return matchSearch && matchCat;
+    const matchStatus = filterStatus === 'todos' ? true : filterStatus === 'ativos' ? !item.closed : item.closed;
+    return matchSearch && matchCat && matchStatus;
   });
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
@@ -228,7 +255,7 @@ export default function AdminCursosOficinas() {
       <main className="flex-1 flex flex-col min-h-screen">
         {/* Top Header */}
         <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
-          <h2 className="text-base font-bold font-montserrat text-gray-900">Painel de Impacto ONG</h2>
+          <h2 className="text-base font-bold font-montserrat text-gray-900">Painel de Cursos</h2>
           <div className="flex items-center gap-5">
             <div className="relative">
               <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -239,15 +266,6 @@ export default function AdminCursosOficinas() {
                 onChange={e => { setSearch(e.target.value); setCurrentPage(1); }}
                 className="pl-9 pr-4 py-2 bg-gray-100 border-transparent rounded-full text-sm focus:bg-white focus:ring-2 focus:ring-primary-500 w-[220px] transition-all outline-none"
               />
-            </div>
-            <div className="flex items-center gap-3 text-gray-500">
-              <button className="hover:text-gray-900 relative">
-                <i className="fa-regular fa-bell text-lg"></i>
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-              </button>
-              <button className="hover:text-gray-900">
-                <i className="fa-regular fa-circle-question text-lg"></i>
-              </button>
             </div>
             <button
               onClick={handleOpenNew}
@@ -267,10 +285,10 @@ export default function AdminCursosOficinas() {
               <p className="text-sm text-gray-500">Gerencie seus programas educacionais e sessões comunitárias.</p>
             </div>
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
+              <button onClick={() => setShowFilterModal(true)} className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
                 <i className="fa-solid fa-filter text-gray-400"></i> Filtrar
               </button>
-              <button className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
+              <button onClick={handleExportar} className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
                 <i className="fa-solid fa-download text-gray-400"></i> Exportar
               </button>
             </div>
@@ -573,6 +591,36 @@ export default function AdminCursosOficinas() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {/* Modal Filtros */}
+      {showFilterModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowFilterModal(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold text-gray-900 font-montserrat">Filtros Avançados</h2>
+              <button onClick={() => setShowFilterModal(false)} className="text-gray-400 hover:text-gray-600"><i className="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Status do Curso</label>
+                <select 
+                  value={filterStatus} 
+                  onChange={e => { setFilterStatus(e.target.value); setCurrentPage(1); }}
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white"
+                >
+                  <option value="todos">Todos os Status</option>
+                  <option value="ativos">Apenas Ativos</option>
+                  <option value="encerrados">Apenas Encerrados</option>
+                </select>
+              </div>
+            </div>
+
+            <button onClick={() => setShowFilterModal(false)} className="mt-6 w-full py-3 rounded-xl bg-black text-white font-bold text-sm hover:bg-gray-800 transition">
+              Aplicar Filtros
+            </button>
           </div>
         </div>
       )}

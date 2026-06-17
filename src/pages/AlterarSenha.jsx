@@ -77,9 +77,8 @@ export default function AlterarSenha() {
   }
 
   async function handleLogout() {
+    navigate('/');
     await supabase.auth.signOut();
-    if (signOut) signOut();
-    navigate('/login');
   }
 
   async function handleChangePassword(e) {
@@ -131,9 +130,8 @@ export default function AlterarSenha() {
 
   async function handleSignOutAll() {
     if (!window.confirm('Deseja encerrar todas as sessões? Você precisará fazer login novamente.')) return;
+    navigate('/');
     await supabase.auth.signOut({ scope: 'global' });
-    if (signOut) signOut();
-    navigate('/login');
   }
 
   if (!user) {
@@ -207,6 +205,7 @@ export default function AlterarSenha() {
       <main className="flex-1 flex flex-col min-h-screen relative">
         {/* Top Header */}
         <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
+          <h2 className="text-xl font-bold font-montserrat text-gray-900">Painel de Configurações</h2>
           <div className="flex-1"></div>
           <div className="flex items-center gap-5">
             <div className="relative">
@@ -216,14 +215,6 @@ export default function AlterarSenha() {
                 placeholder="Pesquisar configurações..."
                 className="pl-9 pr-4 py-2 bg-gray-100 border-transparent rounded-full text-sm focus:bg-white focus:ring-2 focus:ring-gray-300 w-[280px] transition-all outline-none"
               />
-            </div>
-            <div className="flex items-center gap-3 text-gray-500 border-r border-gray-200 pr-5">
-              <button className="hover:text-gray-900 relative">
-                <i className="fa-regular fa-bell text-lg"></i>
-              </button>
-              <button className="hover:text-gray-900">
-                <i className="fa-regular fa-circle-question text-lg"></i>
-              </button>
             </div>
           </div>
         </header>

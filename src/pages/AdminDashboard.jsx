@@ -75,9 +75,8 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
+      navigate('/');
       await supabase.auth.signOut();
-      if (signOut) signOut();
-      navigate('/login');
     } catch (error) {
       console.error('Erro ao sair:', error.message);
     }
@@ -209,23 +208,6 @@ export default function AdminDashboard() {
                 className="pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-full text-sm focus:bg-white focus:border-gray-300 focus:ring-2 focus:ring-primary-500 w-[280px] transition-all outline-none"
               />
             </div>
-            
-            <div className="flex items-center gap-4 text-gray-600">
-              <button className="relative hover:text-gray-900 transition">
-                <i className="fa-regular fa-bell text-xl"></i>
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-              </button>
-              <button className="hover:text-gray-900 transition">
-                <i className="fa-regular fa-circle-question text-xl"></i>
-              </button>
-            </div>
-
-            <button 
-              onClick={() => navigate('/admin/cursos-oficinas')}
-              className="bg-black hover:bg-gray-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition"
-            >
-              <i className="fa-solid fa-plus"></i> Adicionar Novo
-            </button>
           </div>
         </header>
 
@@ -327,7 +309,6 @@ export default function AdminDashboard() {
                             <span className="bg-gray-100 text-gray-800 text-xs font-bold px-3 py-1 rounded-full mb-1 border border-gray-200">Ativo</span>
                           )}
                         </div>
-                        <button className="text-gray-400 hover:text-gray-900 p-2"><i className="fa-solid fa-ellipsis-vertical"></i></button>
                       </div>
                     </div>
                   ))

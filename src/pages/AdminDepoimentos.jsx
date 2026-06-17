@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import * as XLSX from 'xlsx';
 
 const FORM_VAZIO = {
   tipo: 'voluntario',
@@ -33,7 +34,33 @@ export default function AdminDepoimentos() {
   const [feedback, setFeedback] = useState({ msg: '', type: '' });
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
+  const [filterAtivo, setFilterAtivo] = useState('todos'); // 'todos', 'sim', 'nao'
+  const [filterTipo, setFilterTipo] = useState('todos'); // 'todos', 'voluntario', 'beneficiado', 'parceiro'
+  const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+
+  function handleExportar() {
+    if (items.length === 0) return;
+    
+    const linhas = filtered.map(d => ({
+      'Nome': d.nome || '-',
+      'Tipo': d.tipo || '-',
+      'Área/Tag': d.area || '-',
+      'Papel/Cargo': d.role || '-',
+      'Visível no Site': d.ativo ? 'Sim' : 'Não',
+      'Data de Criação': new Date(d.created_at).toLocaleDateString('pt-BR'),
+      'Texto': d.texto || '-'
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(linhas);
+    ws['!cols'] = [
+      { wch: 30 }, { wch: 15 }, { wch: 15 }, { wch: 20 },
+      { wch: 15 }, { wch: 18 }, { wch: 60 }
+    ];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Depoimentos");
+    XLSX.writeFile(wb, `depoimentos_export_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  }
 
   const menuItems = [
     { name: 'Painel', icon: 'fa-solid fa-border-all', path: '/admin' },
@@ -135,14 +162,15 @@ export default function AdminDepoimentos() {
   }
 
   async function handleLogout() {
+    navigate('/');
     await supabase.auth.signOut();
-    if (signOut) signOut();
-    navigate('/login');
   }
 
   const filtered = items.filter(item => {
     const matchSearch = !search || item.nome?.toLowerCase().includes(search.toLowerCase()) || item.texto?.toLowerCase().includes(search.toLowerCase());
-    return matchSearch;
+    const matchAtivo = filterAtivo === 'todos' ? true : filterAtivo === 'sim' ? item.ativo : !item.ativo;
+    const matchTipo = filterTipo === 'todos' ? true : item.tipo === filterTipo;
+    return matchSearch && matchAtivo && matchTipo;
   });
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
@@ -200,6 +228,7 @@ export default function AdminDepoimentos() {
       <main className="flex-1 flex flex-col min-h-screen relative">
         {/* Top Header */}
         <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
+          <h2 className="text-xl font-bold font-montserrat text-gray-900">Painel de Depoimentos</h2>
           <div className="flex-1"></div>
           <div className="flex items-center gap-5">
             <div className="relative">
@@ -211,15 +240,6 @@ export default function AdminDepoimentos() {
                 onChange={e => { setSearch(e.target.value); setCurrentPage(1); }}
                 className="pl-9 pr-4 py-2 bg-gray-100 border-transparent rounded-full text-sm focus:bg-white focus:ring-2 focus:ring-primary-500 w-[280px] transition-all outline-none"
               />
-            </div>
-            <div className="flex items-center gap-3 text-gray-500 border-r border-gray-200 pr-5">
-              <button className="hover:text-gray-900 relative">
-                <i className="fa-regular fa-bell text-lg"></i>
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-              </button>
-              <button className="hover:text-gray-900">
-                <i className="fa-regular fa-circle-question text-lg"></i>
-              </button>
             </div>
             <button
               onClick={handleOpenNew}
@@ -239,10 +259,10 @@ export default function AdminDepoimentos() {
               <p className="text-sm text-gray-500">Gerencie e selecione o feedback da comunidade para a vitrine de impacto.</p>
             </div>
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
+              <button onClick={() => setShowFilterModal(true)} className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
                 <i className="fa-solid fa-filter text-gray-400 text-xs"></i> Filtros
               </button>
-              <button className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
+              <button onClick={handleExportar} className="flex items-center gap-2 border border-gray-200 bg-white px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow-sm">
                 <i className="fa-solid fa-download text-gray-400 text-xs"></i> Exportar
               </button>
             </div>
@@ -363,14 +383,6 @@ export default function AdminDepoimentos() {
             )}
           </div>
         </div>
-
-        {/* Floating Add Button */}
-        <button 
-          onClick={handleOpenNew}
-          className="fixed bottom-10 right-10 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-105 transition-transform"
-        >
-          <i className="fa-solid fa-plus"></i>
-        </button>
       </main>
 
       {/* Modal Formulário */}
@@ -479,6 +491,49 @@ export default function AdminDepoimentos() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {/* Modal Filtros */}
+      {showFilterModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowFilterModal(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold text-gray-900 font-montserrat">Filtros Avançados</h2>
+              <button onClick={() => setShowFilterModal(false)} className="text-gray-400 hover:text-gray-600"><i className="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Visibilidade</label>
+                <select 
+                  value={filterAtivo} 
+                  onChange={e => { setFilterAtivo(e.target.value); setCurrentPage(1); }}
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white"
+                >
+                  <option value="todos">Todos</option>
+                  <option value="sim">Apenas Visíveis no Site</option>
+                  <option value="nao">Apenas Ocultos</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wide">Tipo de Depoimento</label>
+                <select 
+                  value={filterTipo} 
+                  onChange={e => { setFilterTipo(e.target.value); setCurrentPage(1); }}
+                  className="border border-gray-200 rounded-xl p-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white"
+                >
+                  <option value="todos">Todos os Tipos</option>
+                  <option value="voluntario">Voluntários</option>
+                  <option value="beneficiado">Beneficiados</option>
+                  <option value="parceiro">Parceiros</option>
+                </select>
+              </div>
+            </div>
+
+            <button onClick={() => setShowFilterModal(false)} className="mt-6 w-full py-3 rounded-xl bg-black text-white font-bold text-sm hover:bg-gray-800 transition">
+              Aplicar Filtros
+            </button>
           </div>
         </div>
       )}
