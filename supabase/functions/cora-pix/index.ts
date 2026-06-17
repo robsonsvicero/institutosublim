@@ -39,7 +39,7 @@ serve(async (req) => {
         privateKey: CORA_KEY_PEM.replace(/\\n/g, '\n'),
       })
     } catch (e) {
-      console.warn("Deno.createHttpClient falhou, ignorando config de mTLS no http client, tentaremos sem (pode falhar se o ambiente exigir): ", e.message)
+      throw new Error("Deno.createHttpClient falhou (mTLS não suportado neste runtime?): " + e.message)
     }
 
     // 1. Obter Token (Produção)
@@ -55,7 +55,7 @@ serve(async (req) => {
     }
     if (client) tokenOptions.client = client;
 
-    const tokenResponse = await fetch('https://matls-clients.api.cora.com.br/token', tokenOptions)
+    const tokenResponse = await fetch('https://matls-clients.sandbox.api.cora.com.br/token', tokenOptions)
 
     if (!tokenResponse.ok) {
       const err = await tokenResponse.text()
@@ -109,7 +109,7 @@ serve(async (req) => {
     }
     if (client) invoiceOptions.client = client;
 
-    const invoiceResponse = await fetch('https://matls-clients.api.cora.com.br/v2/invoices', invoiceOptions)
+    const invoiceResponse = await fetch('https://matls-clients.sandbox.api.cora.com.br/v2/invoices', invoiceOptions)
 
     if (!invoiceResponse.ok) {
       const err = await invoiceResponse.text()
