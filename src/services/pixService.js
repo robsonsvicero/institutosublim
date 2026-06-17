@@ -4,9 +4,8 @@ import { supabase } from '../lib/supabaseClient'; // Ajuste o path se necessári
  * Serviço responsável por comunicar com o Backend (Edge Functions) para gerar e consultar PIX.
  */
 
-// Como as edge functions ainda não estão ativas na produção com a Cora,
-// usaremos mock para simular o frontend funcionando hoje.
-const IS_MOCK_MODE = true;
+// Como as edge functions agora estão ativas na produção com a Cora,
+const IS_MOCK_MODE = false;
 
 export const pixService = {
   /**
@@ -29,15 +28,15 @@ export const pixService = {
         };
       }
 
-      // Lógica real quando a edge function estiver no ar:
-      /*
+      // Lógica real chamando a edge function:
       const { data, error } = await supabase.functions.invoke('cora-pix', {
-        body: { valor, doador_nome, doador_email }
+        body: { valor, doador_nome, doador_email, doador_cpf: '00000000000' } // mock cpf if not provided for generic donations
       });
       
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
       return data;
-      */
     } catch (error) {
       console.error("Erro ao gerar PIX:", error);
       throw error;

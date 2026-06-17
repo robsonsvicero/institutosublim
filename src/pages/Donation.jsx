@@ -3,6 +3,7 @@ import Button from '../components/ui/Button';
 import { supabase } from '../lib/supabaseClient';
 import { Link } from 'react-router-dom';
 import { pixService } from '../services/pixService';
+import { QRCodeSVG } from 'qrcode.react';
 
 const TransformLivesDonation = () => {
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -771,10 +772,11 @@ const TransformLivesDonation = () => {
                               <span className="text-sm font-semibold">Gerando PIX Seguro...</span>
                             </div>
                           ) : pixData ? (
-                            <img
-                              src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(pixData.qr_code_copia_cola)}`}
-                              alt="QR Code PIX Dinâmico"
-                              className="w-full h-full object-contain"
+                            <QRCodeSVG 
+                              value={pixData.qr_code_copia_cola}
+                              size={220}
+                              level="M"
+                              includeMargin={false}
                             />
                           ) : (
                             <img src={modalData.qrCode} alt="QR Code PIX Fixo" className="w-full h-full object-contain" />

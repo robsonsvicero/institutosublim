@@ -2,18 +2,22 @@ import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
 import { supabase } from '../lib/supabaseClient';
 import { Link } from 'react-router-dom';
+import { QRCodeSVG } from 'qrcode.react';
 
 const MonthlyDonation = () => {
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
     whatsapp: '',
+    cpf: '',
+    diaVencimento: '10',
     valor: '50',
     outroValor: '',
     mensagem: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [pixData, setPixData] = useState(null);
   const [livesMudadas, setLivesMudadas] = useState(0);
   const [oficinas, setOficinas] = useState(0);
   const [familias, setFamilias] = useState(0);
@@ -61,22 +65,23 @@ const MonthlyDonation = () => {
     setIsSubmitting(true);
     
     try {
-      const { error } = await supabase
-        .from('contatos_doacao_mensal')
-        .insert([
-          { 
-            nome: formData.nome,
-            email: formData.email,
-            whatsapp: formData.whatsapp,
-            valor: formData.valor === 'outro' ? formData.outroValor : formData.valor,
-            mensagem: formData.mensagem,
-            status: 'pendente'
-          }
-        ]);
+      const valorFinal = formData.valor === 'outro' ? formData.outroValor : formData.valor;
 
-      if (error) throw error;
+      // Chama a Edge Function para gerar o Pix na Cora e salvar no banco
+      const { data: pixResponse, error: pixError } = await supabase.functions.invoke('cora-pix', {
+        body: {
+          valor: valorFinal,
+          doador_nome: formData.nome,
+          doador_email: formData.email,
+          doador_cpf: formData.cpf,
+          diaVencimento: formData.diaVencimento,
+        }
+      });
 
-      // Enviar e-mail via FormSubmit
+      if (pixError) throw pixError;
+      if (pixResponse?.error) throw new Error(pixResponse.error);
+
+      // Enviar e-mail via FormSubmit (mantido para notificação da equipe)
       await fetch("https://formsubmit.co/ajax/contato@institutosublim.org", {
         method: "POST",
         headers: { 
@@ -91,10 +96,13 @@ const MonthlyDonation = () => {
         })
       });
 
+      setPixData({
+        copiaCola: pixResponse.qr_code_copia_cola
+      });
       setSubmitted(true);
     } catch (error) {
-      console.error('Erro ao enviar formulário:', error);
-      alert('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.');
+      console.error('Erro ao enviar formulário ou gerar Pix:', error);
+      alert('Ocorreu um erro ao gerar sua doação: ' + (error.message || 'Falha desconhecida'));
     } finally {
       setIsSubmitting(false);
     }
@@ -236,13 +244,51 @@ const MonthlyDonation = () => {
             <div className="lg:w-1/2">
               <div className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-100">
                 {submitted ? (
-                  <div className="text-center py-12">
-                    <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <i className="fas fa-check text-3xl"></i>
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <i className="fas fa-check text-2xl"></i>
                     </div>
-                    <h3 className="text-2xl font-bold mb-4">Obrigado pelo interesse!</h3>
-                    <p className="text-gray-600 mb-8">Recebemos seus dados e nossa equipe entrará em contato em breve para finalizar o processo de doação mensal.</p>
-                    <Button variant="primary" onClick={() => setSubmitted(false)}>ENVIAR OUTRO</Button>
+                    <h3 className="text-2xl font-bold mb-2">Tudo Certo!</h3>
+                    <p className="text-gray-600 mb-6">
+                      Sua intenção de doação foi registrada. Escaneie o QR Code abaixo com o app do seu banco para fazer o primeiro pagamento:
+                    </p>
+
+                    {pixData?.copiaCola ? (
+                      <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-6 flex flex-col items-center">
+                        <div className="bg-white p-4 rounded-xl shadow-sm mb-4">
+                          <QRCodeSVG 
+                            value={pixData.copiaCola} 
+                            size={200}
+                            level="M"
+                            includeMargin={false}
+                          />
+                        </div>
+                        <p className="text-sm font-semibold text-gray-700 mb-2">Ou use o Pix Copia e Cola:</p>
+                        <div className="flex w-full items-center gap-2">
+                          <input 
+                            type="text" 
+                            readOnly 
+                            value={pixData.copiaCola}
+                            className="flex-1 bg-white border border-gray-300 rounded-lg py-2 px-3 text-xs text-gray-600 outline-none"
+                          />
+                          <button 
+                            onClick={() => {
+                              navigator.clipboard.writeText(pixData.copiaCola);
+                              alert("Código Copia e Cola copiado!");
+                            }}
+                            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
+                          >
+                            Copiar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-yellow-600 bg-yellow-50 p-4 rounded-lg mb-6 border border-yellow-200">
+                        Ocorreu um aviso na geração do QR Code automático. Nossa equipe entrará em contato.
+                      </p>
+                    )}
+
+                    <Button variant="outline" onClick={() => setSubmitted(false)}>FAZER NOVA DOAÇÃO</Button>
                   </div>
                 ) : (
                   <>
@@ -284,6 +330,37 @@ const MonthlyDonation = () => {
                             className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
                             placeholder="(00) 00000-0000"
                           />
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">CPF / CNPJ *</label>
+                          <input
+                            type="text"
+                            name="cpf"
+                            required
+                            value={formData.cpf}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+                            placeholder="000.000.000-00"
+                          />
+                          <p className="text-[11px] text-gray-500 mt-1">Necessário para registro do Pix Recorrente / Boleto</p>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">Melhor dia para vencimento *</label>
+                          <select
+                            name="diaVencimento"
+                            value={formData.diaVencimento}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition bg-white"
+                          >
+                            <option value="5">Dia 05</option>
+                            <option value="10">Dia 10</option>
+                            <option value="15">Dia 15</option>
+                            <option value="20">Dia 20</option>
+                            <option value="25">Dia 25</option>
+                          </select>
                         </div>
                       </div>
                       
