@@ -74,16 +74,17 @@ serve(async (req) => {
       })
     }
 
-    const CORA_CLIENT_ID = Deno.env.get('CORA_CLIENT_ID')
-    const CORA_CERT_PEM = Deno.env.get('CORA_CERT_PEM')
-    const CORA_KEY_PEM = Deno.env.get('CORA_KEY_PEM')
+    const raw_CORA_CLIENT_ID = Deno.env.get('CORA_CLIENT_ID')
+    const raw_CORA_CERT_PEM = Deno.env.get('CORA_CERT_PEM')
+    const raw_CORA_KEY_PEM = Deno.env.get('CORA_KEY_PEM')
 
-    if (!CORA_CLIENT_ID || !CORA_CERT_PEM || !CORA_KEY_PEM) {
+    if (!raw_CORA_CLIENT_ID || !raw_CORA_CERT_PEM || !raw_CORA_KEY_PEM) {
        throw new Error('Configurações mTLS da Cora ausentes no backend.')
     }
 
-    const certFormated = CORA_CERT_PEM.replace(/\\n/g, '\n')
-    const keyFormated = CORA_KEY_PEM.replace(/\\n/g, '\n')
+    const CORA_CLIENT_ID = raw_CORA_CLIENT_ID.replace(/^"|"$/g, '')
+    const certFormated = raw_CORA_CERT_PEM.replace(/^"|"$/g, '').replace(/\\n/g, '\n')
+    const keyFormated = raw_CORA_KEY_PEM.replace(/^"|"$/g, '').replace(/\\n/g, '\n')
 
     // 1. Obter Token (Produção)
     const tokenOptions = {
