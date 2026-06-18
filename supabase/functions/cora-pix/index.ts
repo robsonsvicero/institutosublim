@@ -6,6 +6,92 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// Cliente HTTP rudimentar que escreve direto no Socket TLS (contornando o fetch do Supabase)
+async function fetchRawTLS(urlStr: string, options: any, cert: string, key: string) {
+  const url = new URL(urlStr)
+  const hostname = url.hostname
+  const port = url.port ? parseInt(url.port) : 443
+  const path = url.pathname + url.search
+
+  // Conecta diretamente via TLS enviando o certificado do cliente
+  const conn = await Deno.connectTls({
+    hostname,
+    port,
+    certChain: cert,
+    privateKey: key
+  })
+
+  const bodyStr = typeof options.body === 'string' ? options.body : (options.body ? options.body.toString() : '')
+  
+  // Escreve a requisição usando HTTP/1.0 para forçar o fechamento sem chunked encoding
+  let reqStr = `${options.method || 'GET'} ${path} HTTP/1.0\r\n`
+  reqStr += `Host: ${hostname}\r\n`
+  reqStr += `Connection: close\r\n`
+  reqStr += `Accept: application/json\r\n`
+  
+  if (options.headers) {
+    for (const [k, v] of Object.entries(options.headers)) {
+      reqStr += `${k}: ${v}\r\n`
+    }
+  }
+  
+  const encodedBody = new TextEncoder().encode(bodyStr)
+  if (bodyStr) {
+    reqStr += `Content-Length: ${encodedBody.length}\r\n`
+  }
+  
+  reqStr += `\r\n`
+  if (bodyStr) {
+    reqStr += bodyStr
+  }
+
+  await conn.write(new TextEncoder().encode(reqStr))
+
+  // Lê a resposta completa
+  const buf = new Uint8Array(8192)
+  let resBytes = new Uint8Array(0)
+  
+  while (true) {
+    const n = await conn.read(buf)
+    if (n === null || n === 0) break
+    
+    const chunk = buf.subarray(0, n)
+    const newResBytes = new Uint8Array(resBytes.length + chunk.length)
+    newResBytes.set(resBytes)
+    newResBytes.set(chunk, resBytes.length)
+    resBytes = newResBytes
+  }
+  conn.close()
+
+  const resStr = new TextDecoder().decode(resBytes)
+
+  // O HTTP sempre separa headers do corpo com dois CRLF
+  const splitIndex = resStr.indexOf('\r\n\r\n')
+  if (splitIndex === -1) {
+    throw new Error('Resposta HTTP malformada: ' + resStr)
+  }
+
+  const headerPart = resStr.substring(0, splitIndex)
+  const bodyPart = resStr.substring(splitIndex + 4)
+  
+  const lines = headerPart.split('\r\n')
+  const statusLine = lines[0]
+  const statusCode = parseInt(statusLine.split(' ')[1])
+
+  return {
+    ok: statusCode >= 200 && statusCode < 300,
+    status: statusCode,
+    text: () => Promise.resolve(bodyPart),
+    json: () => {
+      try {
+        return Promise.resolve(JSON.parse(bodyPart))
+      } catch (e) {
+        return Promise.reject(new Error(`Erro ao fazer parse do JSON. Status: ${statusCode}. Body: ${bodyPart}`))
+      }
+    }
+  }
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
@@ -29,21 +115,9 @@ serve(async (req) => {
        throw new Error('Configurações mTLS da Cora ausentes no backend.')
     }
 
-    // REMOVE as aspas duplas caso o Supabase tenha injetado como string literal
     const CORA_CLIENT_ID = raw_CORA_CLIENT_ID.replace(/^"|"$/g, '')
     const certFormated = raw_CORA_CERT_PEM.replace(/^"|"$/g, '').replace(/\\n/g, '\n')
     const keyFormated = raw_CORA_KEY_PEM.replace(/^"|"$/g, '').replace(/\\n/g, '\n')
-
-    // Configurar cliente HTTP com mTLS no Deno
-    let client;
-    try {
-      client = Deno.createHttpClient({
-        certChain: certFormated,
-        privateKey: keyFormated,
-      })
-    } catch (e) {
-      throw new Error("Deno.createHttpClient falhou: " + e.message)
-    }
 
     // 1. Obter Token (Produção)
     const tokenOptions: any = {
@@ -56,13 +130,12 @@ serve(async (req) => {
         client_id: CORA_CLIENT_ID
       }).toString()
     }
-    if (client) tokenOptions.client = client;
 
-    const tokenResponse = await fetch('https://matls-clients.api.cora.com.br/token', tokenOptions)
+    const tokenResponse = await fetchRawTLS('https://matls-clients.api.cora.com.br/token', tokenOptions, certFormated, keyFormated)
 
     if (!tokenResponse.ok) {
       const err = await tokenResponse.text()
-      throw new Error(`Erro na autenticação Cora: ${err}`)
+      throw new Error(`Erro na autenticação Cora (${tokenResponse.status}): ${err}`)
     }
 
     const tokenData = await tokenResponse.json()
@@ -108,13 +181,12 @@ serve(async (req) => {
       },
       body: JSON.stringify(payload)
     }
-    if (client) invoiceOptions.client = client;
 
-    const invoiceResponse = await fetch('https://matls-clients.api.cora.com.br/v2/invoices', invoiceOptions)
+    const invoiceResponse = await fetchRawTLS('https://matls-clients.api.cora.com.br/v2/invoices', invoiceOptions, certFormated, keyFormated)
 
     if (!invoiceResponse.ok) {
       const err = await invoiceResponse.text()
-      throw new Error(`Erro ao gerar PIX Cora: ${err}`)
+      throw new Error(`Erro ao gerar PIX Cora (${invoiceResponse.status}): ${err}`)
     }
 
     const invoiceData = await invoiceResponse.json()
