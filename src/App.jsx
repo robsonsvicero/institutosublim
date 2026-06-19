@@ -25,6 +25,7 @@ import CartaoVisitaDigital from './pages/CartaoVisitaDigital';
 import MonthlyDonation from './pages/MonthlyDonation';
 import BazaarDonation from './pages/BazaarDonation';
 import ProtectedRoute from './components/ProtectedRoute';
+import EmergencyModal from './components/EmergencyModal';
 
 function AppContent() {
   const location = useLocation();
@@ -66,6 +67,7 @@ function AppContent() {
         <Route path="/admin/aprovacao-usuarios" element={<ProtectedRoute requireAdmin={true}><AdminAprovacaoUsuarios /></ProtectedRoute>} />
       </Routes>
       {!isCartao && !isAdminRoute && <Footer />}
+      {!isCartao && !isAdminRoute && !isAuthRoute && <EmergencyModal />}
     </div>
   );
 }

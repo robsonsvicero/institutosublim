@@ -143,35 +143,48 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex font-body">
-      {/* Sidebar */}
-      <aside className="w-[280px] bg-gray-50 border-r border-gray-200 flex flex-col hidden md:flex sticky top-0 h-screen">
-        <div className="p-8 pb-4">
+    <div className="min-h-screen bg-gray-50 flex font-body pb-16 md:pb-0">
+      {/* Sidebar Desktop / Bottom Nav Mobile */}
+      <aside className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 flex flex-row justify-around md:relative md:w-[280px] md:bg-gray-50 md:border-r md:border-t-0 md:flex-col md:flex md:sticky md:top-0 md:h-screen">
+        
+        {/* Logo / Header Sidebar (Desktop Only) */}
+        <div className="hidden md:block p-8 pb-4">
           <h1 className="text-3xl font-montserrat font-bold text-gray-900 leading-tight mb-1">
             Painel<br />Administrativo
           </h1>
           <p className="text-sm text-gray-500">Gestão do Instituto Sublim</p>
         </div>
 
-        <nav className="flex-1 px-4 py-6 space-y-1">
+        {/* Navigation */}
+        <nav className="flex-1 flex flex-row justify-around w-full px-2 py-2 md:px-4 md:py-6 md:space-y-1 md:flex-col md:justify-start">
           {menuItems.map((item) => (
             <button
               key={item.name}
               onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-4 px-4 py-3 text-sm font-semibold rounded-lg transition-colors ${
+              className={`flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 flex-1 md:flex-none py-2 md:px-4 md:py-3 rounded-lg transition-colors ${
                 item.active
-                  ? 'bg-gray-200 text-gray-900 border-l-4 border-gray-900'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 border-l-4 border-transparent'
+                  ? 'text-gray-900 md:bg-gray-200 md:border-l-4 md:border-gray-900'
+                  : 'text-gray-500 hover:text-gray-900 md:text-gray-600 md:hover:bg-gray-100 md:border-l-4 md:border-transparent'
               }`}
+              title={item.name}
             >
-              <i className={`${item.icon} w-5 text-center text-lg`}></i>
-              {item.name}
+              <i className={`${item.icon} text-xl md:w-5 md:text-center md:text-lg`}></i>
+              <span className="hidden md:block text-sm font-semibold">{item.name}</span>
             </button>
           ))}
+          
+          {/* Logout Mobile Only (as last icon) */}
+          <button
+            onClick={handleLogout}
+            className="md:hidden flex flex-col items-center justify-center flex-1 py-2 text-red-500 hover:text-red-700 transition-colors"
+            title="Sair"
+          >
+            <i className="fa-solid fa-arrow-right-from-bracket text-xl"></i>
+          </button>
         </nav>
 
-        {/* User Profile */}
-        <div className="p-4 border-t border-gray-200 flex items-center justify-between">
+        {/* User Profile (Desktop Only) */}
+        <div className="hidden md:flex p-4 border-t border-gray-200 items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
               {user?.nome ? user.nome.substring(0, 2).toUpperCase() : 'U'}
@@ -196,16 +209,16 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-h-screen">
         {/* Top Header */}
-        <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-10">
+        <header className="bg-white border-b border-gray-200 px-4 py-4 md:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 className="text-xl font-bold font-montserrat text-gray-900">Visão Geral do Painel</h2>
           
-          <div className="flex items-center gap-6">
-            <div className="relative">
+          <div className="flex items-center w-full sm:w-auto">
+            <div className="relative w-full sm:w-auto">
               <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
               <input 
                 type="text" 
                 placeholder="Pesquisar atividades..." 
-                className="pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-full text-sm focus:bg-white focus:border-gray-300 focus:ring-2 focus:ring-primary-500 w-[280px] transition-all outline-none"
+                className="pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-full text-sm focus:bg-white focus:border-gray-300 focus:ring-2 focus:ring-primary-500 w-full sm:w-[280px] transition-all outline-none"
               />
             </div>
           </div>

@@ -256,7 +256,7 @@ export default function Home() {
 
   return (
     <>
-      {showPreLoader && <PreLoader onFinish={() => setShowPreLoader(false)} />}
+      {/* {showPreLoader && <PreLoader onFinish={() => setShowPreLoader(false)} />} */}
       <div className="bg-white">
         {/* Hero Section Otimizada */}
         <section
