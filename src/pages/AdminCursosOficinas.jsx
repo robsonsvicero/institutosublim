@@ -146,6 +146,15 @@ export default function AdminCursosOficinas() {
   async function handleSubmit(e) {
     e.preventDefault();
     setFeedback({ msg: '', type: '' });
+    // Sanitiza o ícone caso o usuário cole a tag HTML inteira (ex: <i class="fas fa-book"></i>)
+    let iconClass = form.icon || '';
+    if (iconClass.includes('<i') && iconClass.includes('class')) {
+      const match = iconClass.match(/class(?:Name)?=["']([^"']+)["']/);
+      if (match) {
+        iconClass = match[1];
+      }
+    }
+
     const payload = {
       category: form.category,
       title: form.title,
@@ -153,7 +162,7 @@ export default function AdminCursosOficinas() {
       duration: form.duration,
       students: form.students,
       next_class: form.nextClass,
-      icon: form.icon,
+      icon: iconClass.trim(),
       closed: form.closed,
     };
 
