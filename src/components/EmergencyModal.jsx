@@ -113,16 +113,8 @@ export default function EmergencyModal() {
       {/* Modal Card */}
       <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col md:flex-row z-10 max-h-[95vh] overflow-y-auto">
         
-        {/* Botão Fechar Mobile (flutuante) */}
-        <button 
-          onClick={handleClose}
-          className="md:hidden absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 z-20"
-        >
-          <i className="fa-solid fa-xmark"></i>
-        </button>
-
-        {/* Lado Esquerdo - Info e QR Code (em telas grandes fica na esquerda, em mobile empilha) */}
-        <div className="w-full md:w-5/12 bg-gray-50 p-6 md:p-10 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
+        {/* Lado Esquerdo - Info e QR Code (Apenas Desktop) */}
+        <div className="hidden md:flex w-5/12 bg-gray-50 p-6 md:p-10 flex-col items-center justify-center border-r border-gray-100">
           <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200 mb-6">
             <QRCodeSVG 
               value={pixPayload}
@@ -140,20 +132,20 @@ export default function EmergencyModal() {
         {/* Lado Direito - Conteúdo e Formulário */}
         <div className="w-full md:w-7/12 p-6 md:p-10 flex flex-col">
           
-          {/* Botão Fechar Desktop */}
+          {/* Botão Fechar Desktop & Mobile */}
           <button 
             onClick={handleClose}
-            className="hidden md:flex absolute top-6 right-6 w-10 h-10 items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors z-20"
           >
             <i className="fa-solid fa-xmark text-lg"></i>
           </button>
 
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-4 mt-2 md:mt-0">
             <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
             <span className="text-red-500 text-xs font-bold uppercase tracking-wider">Ajuda Emergencial</span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-bold font-montserrat text-gray-900 leading-tight mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold font-montserrat text-gray-900 leading-tight mb-4 pr-6 md:pr-0">
             Ajude o Instituto Sublim a manter a sede aberta este mês.
           </h2>
           
@@ -183,6 +175,22 @@ export default function EmergencyModal() {
               <div className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-600 font-mono text-sm break-all">
                 39.976.495/0001-24
               </div>
+            </div>
+
+            {/* QR Code Mobile Only (Antes dos botões) */}
+            <div className="md:hidden flex flex-col items-center justify-center py-2">
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
+                <QRCodeSVG 
+                  value={pixPayload}
+                  size={160}
+                  level="M"
+                  includeMargin={false}
+                  className="w-40 h-40"
+                />
+              </div>
+              <p className="text-xs text-gray-500 text-center mt-3">
+                Escaneie o QR Code ou copie a chave PIX.
+              </p>
             </div>
 
             {/* Ações */}
