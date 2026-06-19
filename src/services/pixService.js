@@ -28,12 +28,20 @@ export const pixService = {
         };
       }
 
-      // Lógica real chamando a edge function:
-      const { data, error } = await supabase.functions.invoke('cora-pix', {
-        body: { valor, doador_nome, doador_email, doador_cpf: '00000000000' } // mock cpf if not provided for generic donations
+      // Lógica real chamando o novo backend PHP:
+      const response = await fetch('/api/cora-pix.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ valor, doador_nome, doador_email, doador_cpf: '00000000000' })
       });
       
-      if (error) throw error;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error || `Erro HTTP ${response.status}`);
+      }
       if (data?.error) throw new Error(data.error);
 
       return data;

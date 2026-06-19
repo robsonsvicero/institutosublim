@@ -29,6 +29,12 @@ const TransformLivesDonation = () => {
   const [pixStatus, setPixStatus] = useState('pendente');
   const [customValue, setCustomValue] = useState('');
 
+  // States para dados do doador (doação única)
+  const [showDonorForm, setShowDonorForm] = useState(true);
+  const [doadorNome, setDoadorNome] = useState('');
+  const [doadorEmail, setDoadorEmail] = useState('');
+  const [doadorCpf, setDoadorCpf] = useState('');
+
   // Polling para verificar status do pagamento
   useEffect(() => {
     let intervalId;
@@ -295,19 +301,48 @@ const TransformLivesDonation = () => {
     setPixData(null);
     setPixStatus('pendente');
     setCustomValue('');
-    
-    if (data.value) {
-      gerarPixDinamico(data.value);
-    }
+    setShowDonorForm(true);
+    setDoadorNome('');
+    setDoadorEmail('');
+    setDoadorCpf('');
   };
 
-  const gerarPixDinamico = async (valorToGenerate) => {
+  const formatarCPF = (value) => {
+    const numbers = value.replace(/\D/g, '').slice(0, 11);
+    return numbers
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  };
+
+  const handleSubmitDonorForm = (valor) => {
+    if (!doadorNome.trim()) { alert('Por favor, informe seu nome.'); return; }
+    if (!doadorCpf || doadorCpf.replace(/\D/g, '').length !== 11) { alert('Por favor, informe um CPF válido.'); return; }
+    setShowDonorForm(false);
+    gerarPixDinamico(valor, doadorNome, doadorEmail, doadorCpf);
+  };
+
+  const gerarPixDinamico = async (valorToGenerate, nome = 'Doador Anônimo', email = '', cpf = '') => {
     setIsGeneratingPix(true);
     try {
-      const result = await pixService.gerarPix(valorToGenerate);
-      setPixData(result);
+      const response = await fetch('/api/cora-pix.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          valor: valorToGenerate,
+          doador_nome: nome,
+          doador_email: email,
+          doador_cpf: cpf.replace(/\D/g, '')
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data?.error || `Erro HTTP ${response.status}`);
+      if (data?.error) throw new Error(data.error);
+      setPixData(data);
     } catch (error) {
-      alert("Erro ao gerar PIX. Tente novamente.");
+      console.error("Erro ao gerar PIX:", error);
+      alert("Erro ao gerar PIX: " + (error.message || 'Falha desconhecida'));
+      setShowDonorForm(true);
     } finally {
       setIsGeneratingPix(false);
     }
@@ -734,25 +769,64 @@ const TransformLivesDonation = () => {
                       {modalData.impactDesc}
                     </p>
 
-                    {!modalData.value && !pixData && !isGeneratingPix && (
-                      <div className="flex flex-col items-center mt-4">
-                        <label className="text-sm font-semibold mb-2">Digite o valor da doação:</label>
-                        <div className="flex gap-2 w-full max-w-xs">
-                          <span className="bg-gray-200 px-3 py-2 rounded-l-lg border border-gray-300 flex items-center">R$</span>
-                          <input 
-                            type="number" 
-                            className="flex-1 border border-gray-300 p-2 rounded-r-lg" 
-                            value={customValue}
-                            onChange={(e) => setCustomValue(e.target.value)}
-                            placeholder="0,00"
+                    {/* Formulário de dados do doador */}
+                    {showDonorForm && !pixData && !isGeneratingPix && (
+                      <div className="flex flex-col gap-3 w-full max-w-sm mx-auto mt-2 text-left">
+                        <div>
+                          <label className="text-xs font-semibold text-gray-700 mb-1 block">Nome completo *</label>
+                          <input
+                            type="text"
+                            className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            placeholder="Seu nome"
+                            value={doadorNome}
+                            onChange={(e) => setDoadorNome(e.target.value)}
                           />
                         </div>
-                        <Button 
-                          variant="primary" 
-                          className="mt-4 w-full max-w-xs"
+                        <div>
+                          <label className="text-xs font-semibold text-gray-700 mb-1 block">E-mail (opcional)</label>
+                          <input
+                            type="email"
+                            className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            placeholder="seu@email.com"
+                            value={doadorEmail}
+                            onChange={(e) => setDoadorEmail(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs font-semibold text-gray-700 mb-1 block">CPF *</label>
+                          <input
+                            type="text"
+                            className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            placeholder="000.000.000-00"
+                            value={doadorCpf}
+                            onChange={(e) => setDoadorCpf(formatarCPF(e.target.value))}
+                            maxLength={14}
+                          />
+                        </div>
+
+                        {!modalData.value && (
+                          <div>
+                            <label className="text-xs font-semibold text-gray-700 mb-1 block">Valor da doação (R$) *</label>
+                            <div className="flex">
+                              <span className="bg-gray-200 px-3 py-2 rounded-l-lg border border-gray-300 flex items-center text-sm">R$</span>
+                              <input
+                                type="number"
+                                className="flex-1 border border-gray-300 p-2 rounded-r-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                value={customValue}
+                                onChange={(e) => setCustomValue(e.target.value)}
+                                placeholder="0,00"
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        <Button
+                          variant="primary"
+                          className="w-full mt-2"
                           onClick={() => {
-                            if (parseFloat(customValue) > 0) gerarPixDinamico(parseFloat(customValue));
-                            else alert("Digite um valor válido.");
+                            const valor = modalData.value || parseFloat(customValue);
+                            if (!valor || valor <= 0) { alert('Digite um valor válido.'); return; }
+                            handleSubmitDonorForm(valor);
                           }}
                         >
                           GERAR PIX
@@ -762,7 +836,7 @@ const TransformLivesDonation = () => {
                   </div>
 
                   {/* Area do PIX */}
-                  {(modalData.value || pixData || isGeneratingPix) && (
+                  {!showDonorForm && (pixData || isGeneratingPix) && (
                     <>
                       <div className="bg-white p-3 sm:p-4 rounded-xl mb-4 sm:mb-6 shadow-sm border border-gray-200">
                         <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center mx-auto relative">

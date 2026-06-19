@@ -12,8 +12,7 @@ const MonthlyDonation = () => {
     cpf: '',
     diaVencimento: '10',
     valor: '50',
-    outroValor: '',
-    mensagem: ''
+    outroValor: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -67,18 +66,22 @@ const MonthlyDonation = () => {
     try {
       const valorFinal = formData.valor === 'outro' ? formData.outroValor : formData.valor;
 
-      // Chama a Edge Function para gerar o Pix na Cora e salvar no banco
-      const { data: pixResponse, error: pixError } = await supabase.functions.invoke('cora-pix', {
-        body: {
+      // Chama o backend PHP para gerar o Pix na Cora e salvar no banco
+      const pixHttpResponse = await fetch('/api/cora-pix.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           valor: valorFinal,
           doador_nome: formData.nome,
           doador_email: formData.email,
           doador_cpf: formData.cpf,
           diaVencimento: formData.diaVencimento,
-        }
+        })
       });
 
-      if (pixError) throw pixError;
+      const pixResponse = await pixHttpResponse.json();
+
+      if (!pixHttpResponse.ok) throw new Error(pixResponse?.error || `Erro HTTP ${pixHttpResponse.status}`);
       if (pixResponse?.error) throw new Error(pixResponse.error);
 
       // Enviar e-mail via FormSubmit (mantido para notificação da equipe)
@@ -394,25 +397,13 @@ const MonthlyDonation = () => {
                         )}
                       </div>
 
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Alguma dúvida ou comentário? (Opcional)</label>
-                        <textarea
-                          name="mensagem"
-                          value={formData.mensagem}
-                          onChange={handleChange}
-                          rows="3"
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-                          placeholder="Fale conosco..."
-                        ></textarea>
-                      </div>
-
                       <Button 
                         type="submit" 
                         variant="primary" 
                         className="w-full py-4 text-lg font-bold"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? 'ENVIANDO...' : 'QUERO SER UM DOADOR MENSAL'}
+                        {isSubmitting ? 'ENVIANDO...' : 'SER DOADOR MENSAL'}
                       </Button>
                       
                       <p className="text-center text-xs text-gray-400">
