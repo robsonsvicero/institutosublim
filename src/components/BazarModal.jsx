@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from 'react';
 
+const EXPIRATION_HOURS = 24; // Defina aqui quantas horas até o modal reaparecer
+
 export default function BazarModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Verifica se já foi exibido nesta sessão ou dispositivo
-    const hasSeen = localStorage.getItem('sublim_has_seen_bazar_modal');
+    const seenAt = localStorage.getItem('sublim_has_seen_bazar_modal');
 
-    if (!hasSeen) {
-      // Pequeno atraso para não aparecer imediatamente num piscar de olhos
+    let shouldShow = true;
+
+    if (seenAt) {
+      const seenTime = parseInt(seenAt, 10);
+      const now = Date.now();
+      const hoursPassed = (now - seenTime) / (1000 * 60 * 60);
+
+      // Só mostra novamente se já passou o tempo definido
+      if (hoursPassed < EXPIRATION_HOURS) {
+        shouldShow = false;
+      }
+    }
+
+    if (shouldShow) {
       const timer = setTimeout(() => {
         setIsOpen(true);
-        document.body.style.overflow = 'hidden'; // Bloqueia o scroll
+        document.body.style.overflow = 'hidden';
       }, 1000);
       return () => clearTimeout(timer);
     }
@@ -19,8 +32,9 @@ export default function BazarModal() {
 
   const handleClose = () => {
     setIsOpen(false);
-    document.body.style.overflow = 'auto'; // Restaura o scroll
-    localStorage.setItem('sublim_has_seen_bazar_modal', 'true');
+    document.body.style.overflow = 'auto';
+    // Salva o TIMESTAMP atual, não apenas 'true'
+    localStorage.setItem('sublim_has_seen_bazar_modal', String(Date.now()));
   };
 
   const handleWhatsApp = () => {
