@@ -137,10 +137,11 @@ export default function Footer() {
             <div className='flex flex-col justify-center item-center'>
               <p className='text-center'>Desenvolvido por</p>
               <a 
-              href="http://svicerostudio.com.br"
+              href="http://robsonsvicero.com.br"
               target="_blank"  
-              rel="noopener noreferrer">
-                <img src="/images/logo_svicerostudio.png" alt="Svicero Studio" className="h-14" />
+              rel="noopener noreferrer"
+              className='w-full flex justify-center items-center'>
+                <img src="/images/logo_robson.png" alt="Robson Svicero" className="h-12" />
               </a>
             </div>
           </div>

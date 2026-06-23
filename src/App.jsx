@@ -26,6 +26,7 @@ import MonthlyDonation from './pages/MonthlyDonation';
 import BazaarDonation from './pages/BazaarDonation';
 import ProtectedRoute from './components/ProtectedRoute';
 import EmergencyModal from './components/EmergencyModal';
+import BazarModal from './components/BazarModal'; // <--- Adicionado o BazarModal
 
 function AppContent() {
   const location = useLocation();
@@ -67,7 +68,13 @@ function AppContent() {
         <Route path="/admin/aprovacao-usuarios" element={<ProtectedRoute requireAdmin={true}><AdminAprovacaoUsuarios /></ProtectedRoute>} />
       </Routes>
       {!isCartao && !isAdminRoute && <Footer />}
-      {!isCartao && !isAdminRoute && !isAuthRoute && <EmergencyModal />}
+      
+      {/* 
+        Para alternar os modais que aparecem na tela inicial, 
+        basta comentar (//) um e descomentar o outro abaixo:
+      */}
+      {/* {!isCartao && !isAdminRoute && !isAuthRoute && <EmergencyModal />} */}
+      {!isCartao && !isAdminRoute && !isAuthRoute && <BazarModal />}
     </div>
   );
 }
