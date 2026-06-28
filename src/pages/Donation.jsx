@@ -349,25 +349,12 @@ const TransformLivesDonation = () => {
   };
 
   const urgentCases = [
-    // {
-    //   title: 'Criança Escala Profissional',
-    //   subtitle: 'R$ 50 por mês',
-    //   description: 'Ajuda a oferecer ao nosso instituto a pagar por 3 meses de bolsa de estudos',
-    //   progress: 85,
-    //   buttonText: 'AJUDAR AGORA'
-    // },
-    // {
-    //   title: 'Matheus Sarmêlo',
-    //   subtitle: 'R$ 100 por mês',
-    //   description: 'Ajuda a oferecer formação para uma pessoa que não tem condições de pagar',
-    //   progress: 70,
-    //   buttonText: 'AJUDAR AGORA'
-    // },
+    
     {
       title: 'Aluguel do Instituto',
-      subtitle: 'Meta: R$ 2.200 / mês',
+      subtitle: 'Meta: R$ 3.742 / mês',
       description: 'Ajude-nos a manter nossa sede aberta para continuar atendendo centenas de famílias.',
-      progress: 10,
+      progress: 0,
       buttonText: 'AJUDAR AGORA',
       value: null, // Valor aberto
       qrCode: '/images/qrcode-pix-aberto.png',
