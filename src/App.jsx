@@ -73,8 +73,8 @@ function AppContent() {
         Para alternar os modais que aparecem na tela inicial, 
         basta comentar (//) um e descomentar o outro abaixo:
       */}
-      {/* {!isCartao && !isAdminRoute && !isAuthRoute && <EmergencyModal />} */}
-      {!isCartao && !isAdminRoute && !isAuthRoute && <BazarModal />}
+      {!isCartao && !isAdminRoute && !isAuthRoute && <EmergencyModal />}
+      {/* {!isCartao && !isAdminRoute && !isAuthRoute && <BazarModal />} */}
     </div>
   );
 }
